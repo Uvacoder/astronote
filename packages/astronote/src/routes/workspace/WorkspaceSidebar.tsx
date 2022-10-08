@@ -20,6 +20,7 @@ import NotebookIcon from "../../components/notebook-icon";
 import { LocationGenerics } from "../../types/locationGenerics";
 import Note from "../../types/note";
 import Notebook from "../../types/notebook";
+import ContextMenu from "../../components/ContextMenu";
 
 const mainMenu = [
   {
@@ -170,30 +171,65 @@ const NotebookLink = ({
   return (
     <>
       <div className="relative">
-        <Link
-          to={`notebooks/${notebook.id}`}
-          className="group flex items-center gap-3 rounded-md py-1 pl-8 pr-3"
-          getActiveProps={() => ({
-            className: "bg-gray-100 dark:bg-gray-800",
-          })}
-          getInactiveProps={() => ({
-            className:
-              "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50",
-          })}
-          style={{
-            paddingLeft: `${(depth + 1.5) * 1}rem`,
-          }}
+        <ContextMenu
+          items={[
+            {
+              type: "button",
+              label: "New Note",
+            },
+            {
+              type: "button",
+              label: "New Notebook",
+            },
+            {
+              type: "separator",
+            },
+            {
+              type: "button",
+              label: "Copy Link",
+            },
+            {
+              type: "separator",
+            },
+            {
+              type: "button",
+              label: "Move to",
+            },
+            {
+              type: "button",
+              label: "Edit",
+            },
+            {
+              type: "button",
+              label: "Delete",
+            },
+          ]}
         >
-          <span className="flex h-5 w-5 items-center justify-center text-lg">
-            <NotebookIcon notebook={notebook} />
-          </span>
-          <p className="flex-1 truncate">{notebook.name}</p>
-          {childCount > 0 && (
-            <p className="text-sm text-gray-400 dark:text-gray-500">
-              {childCount}
-            </p>
-          )}
-        </Link>
+          <Link
+            to={`notebooks/${notebook.id}`}
+            className="group flex select-none items-center gap-3 rounded-md py-1 pl-8 pr-3"
+            getActiveProps={() => ({
+              className: "bg-gray-100 dark:bg-gray-800",
+            })}
+            getInactiveProps={() => ({
+              className:
+                "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50",
+            })}
+            style={{
+              paddingLeft: `${(depth + 1.5) * 1}rem`,
+            }}
+          >
+            <span className="flex h-5 w-5 items-center justify-center text-lg">
+              <NotebookIcon notebook={notebook} />
+            </span>
+            <p className="flex-1 truncate">{notebook.name}</p>
+            {childCount > 0 && (
+              <p className="text-sm text-gray-400 dark:text-gray-500">
+                {childCount}
+              </p>
+            )}
+          </Link>
+        </ContextMenu>
         {children.length > 0 && (
           <button
             className="absolute top-1/2 -translate-y-1/2"
@@ -225,24 +261,88 @@ const NotebookLink = ({
 
 const NoteLink = ({ note, depth = 0 }: { note: Note; depth?: number }) => {
   return (
-    <Link
-      to={`notes/${note.id}`}
-      className="flex items-center gap-3 rounded-md py-1 pl-8 pr-3 "
-      getActiveProps={() => ({
-        className: "bg-gray-100 dark:bg-gray-800",
-      })}
-      getInactiveProps={() => ({
-        className:
-          "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50",
-      })}
-      style={{
-        paddingLeft: `${(depth + 1.6) * 1}rem`,
-      }}
+    <ContextMenu
+      items={[
+        {
+          type: "button",
+          label: "Duplicate",
+        },
+        {
+          type: "button",
+          label: "Copy Link",
+        },
+        {
+          type: "sub",
+          label: "Copy as",
+          items: [
+            {
+              type: "button",
+              label: "Plain Text",
+            },
+            {
+              type: "button",
+              label: "Markdown",
+            },
+            {
+              type: "button",
+              label: "Html",
+            },
+            {
+              type: "button",
+              label: "Json",
+            },
+          ],
+        },
+        {
+          type: "separator",
+        },
+        {
+          type: "sub",
+          label: "Export as",
+          items: [
+            {
+              type: "button",
+              label: "Text File",
+            },
+            {
+              type: "button",
+              label: "Markdown File",
+            },
+            {
+              type: "button",
+              label: "Html File",
+            },
+            {
+              type: "button",
+              label: "Json File",
+            },
+          ],
+        },
+        {
+          type: "button",
+          label: "Delete",
+        },
+      ]}
     >
-      <span className="flex h-5 w-5 items-center justify-center text-lg">
-        <NoteIcon note={note} />
-      </span>
-      <p className="flex-1 truncate">{note.title || "Untitled"}</p>
-    </Link>
+      <Link
+        to={`notes/${note.id}`}
+        className="flex items-center gap-3 rounded-md py-1 pl-8 pr-3 "
+        getActiveProps={() => ({
+          className: "bg-gray-100 dark:bg-gray-800",
+        })}
+        getInactiveProps={() => ({
+          className:
+            "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50",
+        })}
+        style={{
+          paddingLeft: `${(depth + 1.6) * 1}rem`,
+        }}
+      >
+        <span className="flex h-5 w-5 items-center justify-center text-lg">
+          <NoteIcon note={note} />
+        </span>
+        <p className="flex-1 truncate">{note.title || "Untitled"}</p>
+      </Link>
+    </ContextMenu>
   );
 };

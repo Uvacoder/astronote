@@ -11,10 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "@astronote/core": "workspace:*",
-    "@astronote/ui": "workspace:*",
     "@astronote/editor": "workspace:*",
+    "@astronote/ui": "workspace:*",
     "@hookform/resolvers": "^2.9.8",
     "@radix-ui/react-avatar": "^1.0.0",
+    "@radix-ui/react-context-menu": "^1.0.0",
     "@radix-ui/react-dialog": "^1.0.0",
     "@radix-ui/react-dropdown-menu": "^1.0.0",
     "@radix-ui/react-popover": "^1.0.0",
