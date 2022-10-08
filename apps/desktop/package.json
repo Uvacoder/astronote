@@ -1,5 +1,5 @@
 {
-  "name": "@an/desktop",
+  "name": "@astronote/desktop",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,9 +11,9 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@an/core": "workspace:*",
-    "@an/interface": "workspace:*",
-    "@an/ui": "workspace:*",
+    "@astronote/core": "workspace:*",
+    "astronote": "workspace:*",
+    "@astronote/ui": "workspace:*",
     "@tauri-apps/api": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

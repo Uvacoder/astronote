@@ -1,5 +1,5 @@
 {
-  "name": "@an/interface",
+  "name": "astronote",
   "version": "0.0.0",
   "private": true,
   "main": "src/index.ts",
@@ -10,9 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@an/core": "workspace:*",
-    "@an/ui": "workspace:*",
-    "@an/editor": "workspace:*",
+    "@astronote/core": "workspace:*",
+    "@astronote/ui": "workspace:*",
+    "@astronote/editor": "workspace:*",
     "@hookform/resolvers": "^2.9.8",
     "@radix-ui/react-avatar": "^1.0.0",
     "@radix-ui/react-dialog": "^1.0.0",

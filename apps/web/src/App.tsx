@@ -1,4 +1,4 @@
-import AppInterface from "@an/interface";
+import AppInterface from "astronote";
 
 const App = () => {
   return <AppInterface />;

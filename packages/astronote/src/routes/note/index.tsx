@@ -1,4 +1,4 @@
-import AstronoteEditor from "@an/editor";
+import AstronoteEditor from "@astronote/editor";
 import {
   useCommands,
   useHelpers,

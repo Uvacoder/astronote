@@ -1,1 +1,1 @@
-module.exports = require("@an/ui/tailwind")("web");
+module.exports = require("@astronote/ui/tailwind")("web");

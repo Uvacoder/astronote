@@ -4,7 +4,7 @@ import { updateNoteAsync } from "../../api/noteApi";
 import { UpdateNoteInputs } from "../../types/forms";
 import Note from "../../types/note";
 
-import AstronoteEditor from "@an/editor";
+import AstronoteEditor from "@astronote/editor";
 import { useHelpers } from "@remirror/react";
 
 export interface EditorProps {
