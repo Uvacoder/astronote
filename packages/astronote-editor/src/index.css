@@ -21,8 +21,11 @@
 .ProseMirror .remirror-list-item-with-custom-mark > div {
   @apply m-0 !important;
 }
+.ProseMirror .remirror-list-item-checkbox {
+  @apply w-4 h-4 cursor-pointer !important;
+}
 
-.ProseMirror .remirror-list-item-with-custom-mark[data-checked] {
+.ProseMirror .remirror-list-item-with-custom-mark[data-checked] > div > p {
   @apply text-gray-400 dark:text-gray-500 line-through !important;
 }
 
@@ -45,8 +48,9 @@
 .ProseMirror .remirror-suggest-atom {
   @apply text-primary-500 dark:text-primary-400 !important;
 }
-.prose h1 {
-  @apply border-b border-gray-200 dark:border-gray-700 pb-2 !important;
+.prose h1,
+.prose h2 {
+  @apply border-b border-gray-100 dark:border-gray-800 pb-2 !important;
 }
 
 .remirror-floating-popover .remirror-mention-atom-popup-wrapper,

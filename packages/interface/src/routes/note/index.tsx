@@ -1,5 +1,10 @@
 import AstronoteEditor from "@an/editor";
-import { useCommands, useHelpers, useKeymap } from "@remirror/react";
+import {
+  useCommands,
+  useHelpers,
+  useKeymap,
+  useRemirrorContext,
+} from "@remirror/react";
 import { useMatch } from "@tanstack/react-location";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo } from "react";
@@ -31,9 +36,7 @@ const NotePage = () => {
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
       <AstronoteEditor
-        autoFocus
         placeholder="Start typing..."
-        initialContent={noteQuery.data?.content}
         tags={["react", "astronote", "tauri", "javascript", "typescript"]}
         users={[
           {
@@ -52,6 +55,8 @@ export default NotePage;
 
 const NoteEditorHeader = ({ note }: { note: Note }) => {
   const helpers = useHelpers();
+  const { setContent } = useRemirrorContext();
+
   const notebooksQuery = useQuery(["notebooks", note.workspaceId], () =>
     fetchAllNotebooks(note.workspaceId)
   );
@@ -126,20 +131,12 @@ const NoteEditorHeader = ({ note }: { note: Note }) => {
     [helpers, handleUpdateNote]
   );
 
-  // const handleEvent = useCallback((event) => {
-  //   console.log("Event triggered", event);
-
-  //   // Prevent other event handlers being run
-  //   // return true;
-
-  //   // Allow other event handlers to run
-  //   return false;
-  // }, []);
-
-  // useEditorEvent("textInput", handleEvent);
-
   useKeymap("Mod-s", handleSave);
   useKeymap("Mod-/", toggleCode.original());
+
+  useEffect(() => {
+    setContent(note.content);
+  }, [note.id, setContent]);
 
   return (
     <PageHeader broadCrumbs={broadCrumbs} activeId={note.id}>
