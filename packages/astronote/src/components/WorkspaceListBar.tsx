@@ -28,22 +28,22 @@ const WorkspaceListBar = () => {
   };
 
   return (
-    <aside className="h-full border-r border-gray-100 dark:border-gray-800 flex flex-col items-center">
-      <div className="flex-1 overflow-y-auto p-3 w-full">
-        <nav className="flex flex-col gap-3 items-center">
+    <aside className="flex h-full flex-col items-center border-r border-gray-100 dark:border-gray-800">
+      <div className="w-full flex-1 overflow-y-auto p-3">
+        <nav className="flex flex-col items-center gap-3">
           {workspacesQuery.isLoading ? (
             <>
-              <div className="w-10 h-10 rounded-md bg-gray-100 dark:bg-gray-800"></div>
-              <div className="w-10 h-10 rounded-md bg-gray-100 dark:bg-gray-800"></div>
-              <div className="w-10 h-10 rounded-md bg-gray-100 dark:bg-gray-800"></div>
-              <div className="w-10 h-10 rounded-md bg-gray-100 dark:bg-gray-800"></div>
+              <div className="h-10 w-10 rounded-md bg-gray-100 dark:bg-gray-800"></div>
+              <div className="h-10 w-10 rounded-md bg-gray-100 dark:bg-gray-800"></div>
+              <div className="h-10 w-10 rounded-md bg-gray-100 dark:bg-gray-800"></div>
+              <div className="h-10 w-10 rounded-md bg-gray-100 dark:bg-gray-800"></div>
             </>
           ) : (
             workspacesQuery.data?.map((item) => (
               <Link
                 key={item.id}
                 to={item.id}
-                className="w-10 h-10 rounded-lg flex items-center justify-center text-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900"
+                className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-900 text-xl text-white dark:bg-white dark:text-gray-900"
                 getActiveProps={() => ({
                   className:
                     "ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-900 ring-gray-900 dark:ring-white",
@@ -64,7 +64,7 @@ const WorkspaceListBar = () => {
             ))
           )}
           <CreateWorkspaceDialog>
-            <button className="w-10 h-10 rounded-md flex items-center justify-center text-2xl text-gray-900 dark:text-gray-50 bg-gray-100 dark:bg-gray-800">
+            <button className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 text-2xl text-gray-900 dark:bg-gray-800 dark:text-gray-50">
               <MdAdd />
             </button>
           </CreateWorkspaceDialog>
@@ -82,8 +82,8 @@ export default WorkspaceListBar;
 const PersonButton = () => {
   const buttonElement = useMemo(
     () => (
-      <button className="hover:bg-gray-50 dark:hover:bg-gray-800 rounded-md h-10 w-10 flex items-center justify-centerp justify-center">
-        <Avatar.Root className="w-8 h-8 rounded-full overflow-hidden relative flex items-center justify-center text-gray-900 dark:text-gray-50 bg-gray-200 dark:bg-gray-600">
+      <button className="justify-centerp flex h-10 w-10 items-center justify-center rounded-md hover:bg-gray-50 dark:hover:bg-gray-800">
+        <Avatar.Root className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-gray-200 text-gray-900 dark:bg-gray-600 dark:text-gray-50">
           <Avatar.Image></Avatar.Image>
           <Avatar.Fallback>
             <MdPerson className="text-2xl" />
@@ -101,11 +101,11 @@ const PersonButton = () => {
         <DM.Content
           align="end"
           side="right"
-          className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xl rounded-lg overflow-hidden p-1 w-64"
+          className="w-64 overflow-hidden rounded-lg border border-gray-100 bg-white p-1 shadow-xl dark:border-gray-800 dark:bg-gray-900"
         >
           <DM.Item asChild>
-            <button className="rounded-md w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-4 outline-none focus:bg-gray-100 dark:focus:bg-gray-800">
-              <Avatar.Root className="flex items-center justify-center w-12 h-12 relative rounded-full overflow-hidden text-gray-900 dark:text-gray-50 bg-gray-200 dark:bg-gray-600">
+            <button className="flex w-full items-center gap-4 rounded-md px-4 py-2 text-left outline-none hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-800 dark:focus:bg-gray-800">
+              <Avatar.Root className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-gray-200 text-gray-900 dark:bg-gray-600 dark:text-gray-50">
                 <Avatar.Image></Avatar.Image>
                 <Avatar.Fallback>
                   <MdPerson className="text-3xl" />
@@ -120,23 +120,23 @@ const PersonButton = () => {
             </button>
           </DM.Item>
           <DM.Item asChild>
-            <button className="rounded-md w-full text-left px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-3 outline-none focus:bg-gray-100 dark:focus:bg-gray-800">
+            <button className="flex w-full items-center gap-3 rounded-md px-3 py-1.5 text-left outline-none hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-800 dark:focus:bg-gray-800">
               <FiSettings className="text-xl" />
               <p className="flex-1 truncate">Settings</p>
             </button>
           </DM.Item>
-          <DM.Separator className="h-px bg-gray-200 dark:bg-gray-800 my-2" />
-          <div className="rounded-md w-full text-left px-3 py-1.5 flex items-center gap-3 outline-none">
+          <DM.Separator className="my-2 h-px bg-gray-200 dark:bg-gray-800" />
+          <div className="flex w-full items-center gap-3 rounded-md px-3 py-1.5 text-left outline-none">
             <MdFilterBAndW className="text-xl" />
             <p className="flex-1 truncate">Theme</p>
             <DM.Item asChild>
               <ThemeSwitch />
             </DM.Item>
           </div>
-          <DM.Separator className="h-px bg-gray-200 dark:bg-gray-800 my-2" />
+          <DM.Separator className="my-2 h-px bg-gray-200 dark:bg-gray-800" />
           <DM.Group>
             <DM.Item asChild>
-              <button className="rounded-md w-full text-left px-3 py-1.5 hover:bg-red-500/5 flex items-center gap-3 outline-none focus:bg-red-500/5 hover:text-red-500 focus:text-red-500">
+              <button className="flex w-full items-center gap-3 rounded-md px-3 py-1.5 text-left outline-none hover:bg-red-500/5 hover:text-red-500 focus:bg-red-500/5 focus:text-red-500">
                 <FiLogOut className="text-xl" />
                 <p className="flex-1 truncate">Sign Out</p>
               </button>
@@ -174,7 +174,7 @@ const ThemeSwitch = () => {
         }
       }}
     >
-      <Select.Trigger className="outline-none gap-2 px-2 rounded-md py-1 flex items-center hover:bg-gray-100 dark:hover:bg-gray-800 focus:bg-gray-100 dark:focus:bg-gray-800 border border-gray-100 dark:border-gray-800">
+      <Select.Trigger className="flex items-center gap-2 rounded-md border border-gray-100 px-2 py-1 outline-none hover:bg-gray-100 focus:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800 dark:focus:bg-gray-800">
         <Select.Icon asChild>
           {mode === ColorMode.Auto ? (
             <FiTablet className="text-xl" />
@@ -194,10 +194,10 @@ const ThemeSwitch = () => {
         <MdExpandMore className="text-lg" />
       </Select.Trigger>
       <Select.Portal>
-        <Select.Content className="bg-white dark:bg-gray-900 p-1 rounded-lg border border-gray-100 dark:border-gray-800 shadow-xl">
+        <Select.Content className="rounded-lg border border-gray-100 bg-white p-1 shadow-xl dark:border-gray-800 dark:bg-gray-900">
           <Select.Viewport>
             <Select.Item value="auto" asChild>
-              <button className="outline-none gap-2 px-2 rounded-md py-1 flex items-center w-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:bg-gray-100 dark:focus:bg-gray-800">
+              <button className="flex w-full items-center gap-2 rounded-md px-2 py-1 outline-none hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-800 dark:focus:bg-gray-800">
                 <FiTablet className="text-xl" />
                 <Select.ItemText>Auto</Select.ItemText>
                 <Select.ItemIndicator>
@@ -206,7 +206,7 @@ const ThemeSwitch = () => {
               </button>
             </Select.Item>
             <Select.Item value="light" asChild>
-              <button className="outline-none gap-2 px-2 rounded-md py-1 flex items-center w-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:bg-gray-100 dark:focus:bg-gray-800">
+              <button className="flex w-full items-center gap-2 rounded-md px-2 py-1 outline-none hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-800 dark:focus:bg-gray-800">
                 <FiSun className="text-xl" />
                 <Select.ItemText>Light</Select.ItemText>
                 <Select.ItemIndicator>
@@ -215,7 +215,7 @@ const ThemeSwitch = () => {
               </button>
             </Select.Item>
             <Select.Item value="dark" asChild>
-              <button className="outline-none gap-2 px-2 rounded-md py-1 flex items-center w-full hover:bg-gray-100 dark:hover:bg-gray-800 focus:bg-gray-100 dark:focus:bg-gray-800">
+              <button className="flex w-full items-center gap-2 rounded-md px-2 py-1 outline-none hover:bg-gray-100 focus:bg-gray-100 dark:hover:bg-gray-800 dark:focus:bg-gray-800">
                 <FiMoon className="text-xl" />
                 <Select.ItemText>Dark</Select.ItemText>
                 <Select.ItemIndicator>

@@ -2,9 +2,9 @@ import { Link, Outlet } from "@tanstack/react-location";
 
 const Workspaces = () => {
   return (
-    <div className="w-screen h-screen flex-1 flex">
+    <div className="flex h-screen w-screen flex-1">
       <div className="h-full w-16 border-r border-gray-100 dark:border-gray-800">
-        <nav className="flex items-center flex-col">
+        <nav className="flex flex-col items-center">
           <Link
             to="1"
             getActiveProps={() => ({

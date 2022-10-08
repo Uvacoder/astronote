@@ -3,7 +3,7 @@ import WorkspaceSidebar from "./WorkspaceSidebar";
 
 const Workspace = () => {
   return (
-    <div className="flex-1 w-full h-full flex">
+    <div className="flex h-full w-full flex-1">
       <WorkspaceSidebar />
       <Outlet />
     </div>

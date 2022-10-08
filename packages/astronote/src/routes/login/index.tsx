@@ -39,13 +39,13 @@ const LogIn = () => {
   );
 
   return (
-    <div className="w-full max-w-lg mx-auto px-6 my-16">
+    <div className="mx-auto my-16 w-full max-w-lg px-6">
       <header className="mb-8">
         <h1 className="text-3xl font-semibold">Log In</h1>
       </header>
 
       {logInMut.isError && (
-        <div className="w-full p-4 bg-red-500/20 mb-6">
+        <div className="mb-6 w-full bg-red-500/20 p-4">
           <p className="text-red-500 dark:text-red-400">
             {(logInMut.error as AxiosError).response?.status === 403
               ? "Invalid Credentials"
@@ -79,7 +79,7 @@ const LogIn = () => {
           Don&apos;t have an account?{" "}
           <Link
             to="/signup"
-            className="text-indigo-500 font-medium hover:text-indigo-600 dark:hover:text-indigo-400"
+            className="font-medium text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400"
           >
             Sign Up
           </Link>

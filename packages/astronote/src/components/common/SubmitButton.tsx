@@ -19,11 +19,11 @@ const SubmitButton = forwardRef<HTMLButtonElement, SubmitButtonProps>(
         ref={ref}
         type="submit"
         className={clsx(
-          "px-4 h-10 rounded-md flex items-center justify-center mt-6 mb-4",
+          "mt-6 mb-4 flex h-10 items-center justify-center rounded-md px-4",
           {
-            "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed":
+            "cursor-not-allowed bg-gray-200 text-gray-400 dark:bg-gray-700 dark:text-gray-500":
               disabled,
-            "bg-indigo-500 hover:bg-indigo-600 dark:hover:bg-indigo-400 text-white":
+            "bg-indigo-500 text-white hover:bg-indigo-600 dark:hover:bg-indigo-400":
               !disabled,
           },
           className

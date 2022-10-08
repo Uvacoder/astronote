@@ -17,25 +17,25 @@ const NotesAndFoldersTable: FC<NotesAndFoldersTableProps> = (props) => {
   const { notes, notebooks, linkPrefix } = props;
   return (
     <div>
-      <div className="px-8 grid grid-cols-5 gap-4 items-center h-8 border-b border-gray-100 dark:border-gray-800">
-        <button className="col-span-3 text-left h-full text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50 flex items-center gap-2">
-          <p className="truncate flex-1">Name</p>
+      <div className="grid h-8 grid-cols-5 items-center gap-4 border-b border-gray-100 px-8 dark:border-gray-800">
+        <button className="col-span-3 flex h-full items-center gap-2 text-left text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50">
+          <p className="flex-1 truncate">Name</p>
           <FiChevronDown />
         </button>
-        <button className="col-span-1 text-left h-full text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50 flex items-center gap-2">
-          <p className="truncate flex-1">Updated</p>
+        <button className="col-span-1 flex h-full items-center gap-2 text-left text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50">
+          <p className="flex-1 truncate">Updated</p>
           {/* <FiChevronDown /> */}
         </button>
-        <button className="col-span-1 text-left h-full text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50 flex items-center gap-2">
-          <p className="truncate flex-1">Created</p>
+        <button className="col-span-1 flex h-full items-center gap-2 text-left text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-50">
+          <p className="flex-1 truncate">Created</p>
           {/* <FiChevronDown /> */}
         </button>
       </div>
-      <div className="p-4 space-y-4">
+      <div className="space-y-4 p-4">
         {notebooks && notebooks.length > 0 && (
           <section>
             {notes && notes.length > 0 && (
-              <div className="px-4 mb-2">
+              <div className="mb-2 px-4">
                 <p className="text-sm text-gray-600 dark:text-gray-300">
                   Notebooks
                 </p>
@@ -46,7 +46,7 @@ const NotesAndFoldersTable: FC<NotesAndFoldersTableProps> = (props) => {
                 <Link
                   to={`${linkPrefix}/notebooks/${notebook.id}`}
                   key={notebook.id}
-                  className="grid grid-cols-5 hover:bg-gray-100 dark:hover:bg-gray-800 items-center gap-4 px-4 py-2 rounded-md"
+                  className="grid grid-cols-5 items-center gap-4 rounded-md px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   <div className="col-span-3 flex items-center gap-4">
                     <span className="text-2xl">
@@ -54,20 +54,20 @@ const NotesAndFoldersTable: FC<NotesAndFoldersTableProps> = (props) => {
                     </span>
                     <div className="flex-1 overflow-hidden">
                       <p className="truncate font-medium">{notebook.name}</p>
-                      <p className="text-sm font-light truncate text-gray-600 dark:text-gray-300">
+                      <p className="truncate text-sm font-light text-gray-600 dark:text-gray-300">
                         0 items
                       </p>
                     </div>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 truncate">
+                    <p className="truncate text-sm text-gray-600 dark:text-gray-300">
                       {formatDistanceToNow(new Date(notebook.updatedAt), {
                         addSuffix: true,
                       })}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 truncate">
+                    <p className="truncate text-sm text-gray-600 dark:text-gray-300">
                       {formatDistanceToNow(new Date(notebook.createdAt), {
                         addSuffix: true,
                       })}
@@ -81,7 +81,7 @@ const NotesAndFoldersTable: FC<NotesAndFoldersTableProps> = (props) => {
         {notes && notes.length > 0 && (
           <section>
             {notebooks && notebooks.length > 0 && (
-              <div className="px-4 mb-2">
+              <div className="mb-2 px-4">
                 <p className="text-sm text-gray-600 dark:text-gray-300">
                   Notes
                 </p>
@@ -92,7 +92,7 @@ const NotesAndFoldersTable: FC<NotesAndFoldersTableProps> = (props) => {
                 <Link
                   to={`${linkPrefix}/notes/${note.id}`}
                   key={note.id}
-                  className="grid grid-cols-5 hover:bg-gray-100 dark:hover:bg-gray-800 items-center gap-4 px-4 py-2 rounded-md"
+                  className="grid grid-cols-5 items-center gap-4 rounded-md px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   <div className="col-span-3 flex items-center gap-4">
                     <span className="text-2xl">
@@ -102,20 +102,20 @@ const NotesAndFoldersTable: FC<NotesAndFoldersTableProps> = (props) => {
                       <p className="truncate font-medium">
                         {note.title || "Untitled"}
                       </p>
-                      <p className="text-sm font-light truncate text-gray-600 dark:text-gray-300">
+                      <p className="truncate text-sm font-light text-gray-600 dark:text-gray-300">
                         {note.description || "No Content"}
                       </p>
                     </div>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 truncate">
+                    <p className="truncate text-sm text-gray-600 dark:text-gray-300">
                       {formatDistanceToNow(new Date(note.updatedAt), {
                         addSuffix: true,
                       })}
                     </p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 truncate">
+                    <p className="truncate text-sm text-gray-600 dark:text-gray-300">
                       {formatDistanceToNow(new Date(note.createdAt), {
                         addSuffix: true,
                       })}

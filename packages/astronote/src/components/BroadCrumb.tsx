@@ -11,18 +11,18 @@ export interface BroadCrumb {
 const BroadCrumb: FC<BroadCrumb> = (props) => {
   const { items, activeId } = props;
   return (
-    <div className="flex items-center w-full">
+    <div className="flex w-full items-center">
       {items.map((item, i) => (
         <Fragment key={item.to}>
           {i !== 0 && (
             <FiChevronRight className="text-gray-500 dark:text-gray-400" />
           )}
           {item.id === activeId ? (
-            <p className="px-2 py-0.5 truncate flex-1">{item.label}</p>
+            <p className="flex-1 truncate px-2 py-0.5">{item.label}</p>
           ) : (
             <Link
               to={item.to}
-              className="px-2 py-0.5 rounded truncate flex"
+              className="flex truncate rounded px-2 py-0.5"
               getActiveProps={() => ({
                 className: "text-gray-900 dark:text-gray-50",
               })}

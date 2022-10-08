@@ -22,7 +22,7 @@ const AppLayout = () => {
   }
 
   return (
-    <div className="w-full h-screen flex overflow-hidden">
+    <div className="flex h-screen w-full overflow-hidden">
       <WorkspaceListBar />
       <Outlet />
     </div>

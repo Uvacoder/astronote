@@ -55,7 +55,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
       {!!errorText ? (
         <p
           className={clsx(
-            "text-red-500 dark:text-red-400 text-sm mt-1",
+            "mt-1 text-sm text-red-500 dark:text-red-400",
             errorTextClassName
           )}
         >
@@ -64,7 +64,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>((props, ref) => {
       ) : !!hintText ? (
         <p
           className={clsx(
-            "text-gray-500 dark:text-gray-400 text-sm mt-1",
+            "mt-1 text-sm text-gray-500 dark:text-gray-400",
             hintTextClassName
           )}
         >

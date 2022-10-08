@@ -35,7 +35,7 @@ const WorkspaceHome = () => {
   }, [createNoteMut, workspaceId, navigate, queryClient]);
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="flex flex-1 flex-col">
       <PageHeader
         activeId="all"
         broadCrumbs={[
@@ -47,12 +47,12 @@ const WorkspaceHome = () => {
         ]}
       >
         <button
-          className="hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center text-xl w-8 h-8 rounded-md"
+          className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800"
           onClick={handleCreateNote}
         >
           <FiPlus />
         </button>
-        <button className="hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center text-xl w-8 h-8 rounded-md">
+        <button className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
           <FiMoreHorizontal />
         </button>
       </PageHeader>

@@ -5,9 +5,11 @@ importers:
   .:
     specifiers:
       prettier: latest
+      prettier-plugin-tailwindcss: ^0.1.13
       turbo: latest
     devDependencies:
       prettier: 2.7.1
+      prettier-plugin-tailwindcss: 0.1.13_prettier@2.7.1
       turbo: 1.5.5
 
   apps/desktop:
@@ -8353,6 +8355,15 @@ packages:
     engines: {node: '>=6.0.0'}
     dependencies:
       fast-diff: 1.2.0
+    dev: true
+
+  /prettier-plugin-tailwindcss/0.1.13_prettier@2.7.1:
+    resolution: {integrity: sha512-/EKQURUrxLu66CMUg4+1LwGdxnz8of7IDvrSLqEtDqhLH61SAlNNUSr90UTvZaemujgl3OH/VHg+fyGltrNixw==}
+    engines: {node: '>=12.17.0'}
+    peerDependencies:
+      prettier: '>=2.2.0'
+    dependencies:
+      prettier: 2.7.1
     dev: true
 
   /prettier/2.7.1:

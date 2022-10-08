@@ -18,7 +18,7 @@ export const TopToolbar: FC = () => {
   const chain = useChainedCommands();
 
   return (
-    <div className="px-4 h-12 gap-4 flex items-center border-b border-gray-100 dark:border-gray-800">
+    <div className="flex h-12 items-center gap-4 border-b border-gray-100 px-4 dark:border-gray-800">
       <ButtonGroup>
         <IconButton
           onClick={() => {
@@ -145,9 +145,9 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         {...rest}
         ref={ref}
         disabled={disabled}
-        className={clsx("w-9 h-9 flex items-center justify-center text-xl", {
+        className={clsx("flex h-9 w-9 items-center justify-center text-xl", {
           "bg-gray-200 dark:bg-gray-700": active && !disabled,
-          "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50 hover:bg-gray-100 dark:hover:bg-gray-800":
+          "text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50":
             !active && !disabled,
           "text-gray-300 dark:text-gray-600": disabled,
         })}
@@ -158,7 +158,7 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 
 const ButtonGroup: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <div className="flex items-center rounded-md border border-gray-100 dark:border-gray-800 overflow-hidden">
+    <div className="flex items-center overflow-hidden rounded-md border border-gray-100 dark:border-gray-800">
       {children}
     </div>
   );

@@ -14,7 +14,7 @@ const WorkspaceTrash = () => {
           },
         ]}
       >
-        <button className="hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center text-xl w-8 h-8 rounded-md">
+        <button className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
           <FiMoreHorizontal />
         </button>
       </PageHeader>

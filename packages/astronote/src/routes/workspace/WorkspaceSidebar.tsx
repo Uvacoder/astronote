@@ -54,27 +54,27 @@ const WorkspaceSidebar = () => {
   );
 
   return (
-    <aside className="h-full w-72 border-r border-gray-100 dark:border-gray-800 flex flex-col workspace-sidebar">
-      <header className="h-12 w-full px-4 flex items-center border-b border-gray-100 dark:border-gray-800">
-        <div className="flex items-center flex-1">
+    <aside className="workspace-sidebar flex h-full w-72 flex-col border-r border-gray-100 dark:border-gray-800">
+      <header className="flex h-12 w-full items-center border-b border-gray-100 px-4 dark:border-gray-800">
+        <div className="flex flex-1 items-center">
           {workspaceQuery.data?.emoji && (
-            <span className="text-xl mr-2">{workspaceQuery.data?.emoji}</span>
+            <span className="mr-2 text-xl">{workspaceQuery.data?.emoji}</span>
           )}
           <p className="flex-1">{workspaceQuery.data?.name}</p>
         </div>
-        <button className="hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center text-xl w-8 h-8 rounded-md">
+        <button className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
           <FiSettings />
         </button>
       </header>
 
-      <div className="flex-1 overflow-y-auto pt-2 pb-32 space-y-8">
+      <div className="flex-1 space-y-8 overflow-y-auto pt-2 pb-32">
         <section id="main-menu">
           <nav className="px-2">
             {mainMenu.map((item, i) => (
               <Link
                 key={i}
                 to={item.to}
-                className="flex items-center gap-3 px-3 py-1.5 rounded-md "
+                className="flex items-center gap-3 rounded-md px-3 py-1.5 "
                 getActiveProps={() => ({
                   className: "bg-gray-100 dark:bg-gray-800",
                 })}
@@ -83,7 +83,7 @@ const WorkspaceSidebar = () => {
                     "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50",
                 })}
               >
-                <span className="text-xl w-6 h-6 flex items-center justify-center">
+                <span className="flex h-6 w-6 items-center justify-center text-xl">
                   {item.icon}
                 </span>
                 {item.label}
@@ -93,12 +93,12 @@ const WorkspaceSidebar = () => {
         </section>
 
         <section id="folders" className="my-8">
-          <div className="flex items-center mb-2 px-4">
+          <div className="mb-2 flex items-center px-4">
             <p className="flex-1 truncate text-sm text-gray-500 dark:text-gray-400">
               Notebooks
             </p>
             <CreateNotebookDialog workspaceId={workspaceId}>
-              <button className="hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center w-6 h-6 rounded-md text-lg">
+              <button className="flex h-6 w-6 items-center justify-center rounded-md text-lg hover:bg-gray-100 dark:hover:bg-gray-800">
                 <FiPlus />
               </button>
             </CreateNotebookDialog>
@@ -172,7 +172,7 @@ const NotebookLink = ({
       <div className="relative">
         <Link
           to={`notebooks/${notebook.id}`}
-          className="flex items-center gap-3 pl-8 pr-3 py-1 rounded-md group"
+          className="group flex items-center gap-3 rounded-md py-1 pl-8 pr-3"
           getActiveProps={() => ({
             className: "bg-gray-100 dark:bg-gray-800",
           })}
@@ -184,7 +184,7 @@ const NotebookLink = ({
             paddingLeft: `${(depth + 1.5) * 1}rem`,
           }}
         >
-          <span className="text-lg w-5 h-5 flex items-center justify-center">
+          <span className="flex h-5 w-5 items-center justify-center text-lg">
             <NotebookIcon notebook={notebook} />
           </span>
           <p className="flex-1 truncate">{notebook.name}</p>
@@ -227,7 +227,7 @@ const NoteLink = ({ note, depth = 0 }: { note: Note; depth?: number }) => {
   return (
     <Link
       to={`notes/${note.id}`}
-      className="flex items-center gap-3 pl-8 pr-3 py-1 rounded-md "
+      className="flex items-center gap-3 rounded-md py-1 pl-8 pr-3 "
       getActiveProps={() => ({
         className: "bg-gray-100 dark:bg-gray-800",
       })}
@@ -239,10 +239,10 @@ const NoteLink = ({ note, depth = 0 }: { note: Note; depth?: number }) => {
         paddingLeft: `${(depth + 1.6) * 1}rem`,
       }}
     >
-      <span className="text-lg w-5 h-5 flex items-center justify-center">
+      <span className="flex h-5 w-5 items-center justify-center text-lg">
         <NoteIcon note={note} />
       </span>
-      <p className="truncate flex-1">{note.title || "Untitled"}</p>
+      <p className="flex-1 truncate">{note.title || "Untitled"}</p>
     </Link>
   );
 };

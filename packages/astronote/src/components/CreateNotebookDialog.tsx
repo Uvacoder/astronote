@@ -59,12 +59,12 @@ const CreateNotebookDialog: FC<CreateNotebookDialogProps> = (props) => {
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-        <Dialog.Content className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 fixed left-1/2 top-20 shadow-2xl rounded-xl max-w-[380px] w-screen -translate-x-1/2">
-          <header className="px-4 h-14 flex items-center gap-2 border-b border-gray-100 dark:border-gray-800 w-full">
-            <Dialog.Title className="text-lg font-medium flex-1 truncate">
+        <Dialog.Content className="fixed left-1/2 top-20 w-screen max-w-[380px] -translate-x-1/2 rounded-xl border border-gray-100 bg-white shadow-2xl dark:border-gray-800 dark:bg-gray-900">
+          <header className="flex h-14 w-full items-center gap-2 border-b border-gray-100 px-4 dark:border-gray-800">
+            <Dialog.Title className="flex-1 truncate text-lg font-medium">
               Create Notebook
             </Dialog.Title>
-            <Dialog.Close className="hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center justify-center text-xl w-8 h-8 rounded-md">
+            <Dialog.Close className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
               <FiX />
             </Dialog.Close>
           </header>
@@ -76,9 +76,9 @@ const CreateNotebookDialog: FC<CreateNotebookDialogProps> = (props) => {
               errorText={form.formState.errors.name?.message}
               autoFocus
             />
-            <div className="flex gap-4 mb-4">
+            <div className="mb-4 flex gap-4">
               <div className="flex-1">
-                <label className="text-gray-600 dark:text-gray-300 mb-2 inline-block">
+                <label className="mb-2 inline-block text-gray-600 dark:text-gray-300">
                   Emoji
                 </label>
                 <div className="relative">
@@ -87,7 +87,7 @@ const CreateNotebookDialog: FC<CreateNotebookDialogProps> = (props) => {
                       if (emoji) form.setValue("emoji", emoji.emoji);
                     }}
                   >
-                    <button className="w-full h-10 rounded-md bg-gray-50 dark:bg-gray-800 border-gray-100 dark:border-gray-700 border text-left px-2 flex items-center gap-2">
+                    <button className="flex h-10 w-full items-center gap-2 rounded-md border border-gray-100 bg-gray-50 px-2 text-left dark:border-gray-700 dark:bg-gray-800">
                       <span className="text-2xl">
                         {form.watch("emoji") || <FiSmile />}
                       </span>
@@ -96,7 +96,7 @@ const CreateNotebookDialog: FC<CreateNotebookDialogProps> = (props) => {
                   </EmojiPicker>
                   {form.watch("emoji") && (
                     <button
-                      className="absolute top-1/2 right-2 -translate-y-1/2 w-6 h-6 flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md"
+                      className="absolute top-1/2 right-2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
                       onClick={() => form.setValue("emoji", undefined)}
                     >
                       <FiX />

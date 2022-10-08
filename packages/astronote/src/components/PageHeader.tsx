@@ -11,8 +11,8 @@ const PageHeader: FC<PageHeaderProps> = (props) => {
   const { broadCrumbs, activeId, children } = props;
 
   return (
-    <header className="h-12 border-b border-gray-100 dark:border-gray-800 flex px-4 items-center gap-2">
-      <div className="flex-1 flex items-center gap-4 overflow-hidden">
+    <header className="flex h-12 items-center gap-2 border-b border-gray-100 px-4 dark:border-gray-800">
+      <div className="flex flex-1 items-center gap-4 overflow-hidden">
         <BroadCrumb items={broadCrumbs} activeId={activeId} />
       </div>
       {children}
