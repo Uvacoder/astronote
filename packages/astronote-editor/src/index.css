@@ -1,0 +1,102 @@
+.remirror-editor-wrapper {
+  @apply p-0 overflow-y-auto flex-1 !important;
+  --rmr-color-text: theme(colors.gray.900);
+  --rmr-space-6: calc(100vh - 3rem);
+  height: var(--rmr-space-6);
+}
+
+.dark .remirror-editor-wrapper {
+  --rmr-color-text: theme(colors.gray.50);
+}
+
+.ProseMirror {
+  @apply p-4 outline-none shadow-none overflow-y-auto !important;
+}
+
+.ProseMirror:focus {
+  @apply shadow-none !important;
+}
+
+.ProseMirror .remirror-list-item-with-custom-mark > label,
+.ProseMirror .remirror-list-item-with-custom-mark > div {
+  @apply m-0 !important;
+}
+
+.ProseMirror .remirror-list-item-with-custom-mark[data-checked] {
+  @apply text-gray-400 dark:text-gray-500 line-through !important;
+}
+
+.ProseMirror .remirror-collapsible-list-item-button,
+.ProseMirror .remirror-collapsible-list-item-button.disabled,
+.ProseMirror .remirror-collapsible-list-item-button.disabled:hover {
+  @apply bg-gray-300 dark:bg-gray-400 !important;
+}
+
+.ProseMirror
+  .remirror-collapsible-list-item-closed
+  .remirror-collapsible-list-item-button,
+.ProseMirror .remirror-collapsible-list-item-button:hover {
+  @apply bg-primary-500 dark:bg-primary-500 !important;
+}
+.ProseMirror .remirror-list-spine {
+  @apply border-gray-300 dark:border-gray-400 hover:border-primary-500 dark:hover:border-primary-400 !important;
+}
+
+.ProseMirror .remirror-suggest-atom {
+  @apply text-primary-500 dark:text-primary-400 !important;
+}
+.prose h1 {
+  @apply border-b border-gray-200 dark:border-gray-700 pb-2 !important;
+}
+
+.remirror-floating-popover .remirror-mention-atom-popup-wrapper,
+.remirror-floating-popover .remirror-emoji-popup-wrapper {
+  @apply overflow-y-auto bg-white dark:bg-gray-900 rounded-md border border-gray-100 dark:border-gray-800 shadow-xl p-2 !important;
+}
+
+.remirror-emoji-popup-item {
+  @apply flex items-center rounded-md cursor-pointer gap-2 w-full !important;
+}
+.remirror-emoji-popup-item .remirror-emoji-popup-char {
+  @apply pr-0 !important;
+}
+.remirror-emoji-popup-item.remirror-emoji-popup-hovered {
+  @apply bg-gray-100 dark:bg-gray-800 !important;
+}
+.remirror-emoji-popup-item.remirror-emoji-popup-highlight {
+  @apply bg-gray-200 dark:bg-gray-700 !important;
+}
+.remirror-emoji-popup-item .remirror-emoji-popup-name {
+  @apply flex-1 truncate text-gray-600 dark:text-gray-300 !important;
+}
+.remirror-emoji-popup-item.remirror-emoji-popup-highlight
+  .remirror-emoji-popup-name {
+  @apply text-gray-900 dark:text-gray-50 !important;
+}
+
+.remirror-floating-popover .remirror-mention-atom-zero-items {
+  @apply text-gray-500 dark:text-gray-400 px-4 !important;
+}
+
+.remirror-theme .ProseMirror p,
+.remirror-theme .ProseMirror h1,
+.remirror-theme .ProseMirror h2,
+.remirror-theme .ProseMirror h3,
+.remirror-theme .ProseMirror h4,
+.remirror-theme .ProseMirror h4,
+.remirror-theme .ProseMirror h5,
+.remirror-theme .ProseMirror h6,
+.remirror-theme .ProseMirror span {
+  @apply my-5 !important;
+}
+
+.remirror-theme .ProseMirror li p {
+  @apply my-0 !important;
+}
+
+.ProseMirror .ProseMirror-gapcursor::after {
+  @apply border-gray-900 dark:border-white !important;
+}
+.ProseMirror a {
+  cursor: pointer;
+}

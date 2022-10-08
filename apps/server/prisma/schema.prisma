@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  EDITOR
+  ADMIN
+}
+
+model User {
+  id         String      @id @default(cuid())
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt()
+  username   String      @unique
+  email      String      @unique
+  password   String
+  name       String
+  role       UserRole    @default(USER)
+  profile    Profile?
+  notes      Note[]
+  notebooks  Notebook[]
+  workspaces Workspace[]
+
+  @@unique([id, email, name, username])
+}
+
+model Profile {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+  username  String   @unique
+  email     String   @unique
+  name      String
+  bio       String?
+  user      User     @relation(fields: [userId, email, name, username], references: [id, email, name, username], onDelete: Cascade)
+  userId    String   @unique
+
+  @@unique([userId, email, name, username])
+}
+
+model Workspace {
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt()
+  name        String
+  color       String?
+  emoji       String?
+  description String?
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  notes       Note[]
+  notebooks   Notebook[]
+}
+
+model Notebook {
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt()
+  name        String
+  description String?
+  emoji       String?
+  user        User       @relation(fields: [userId], references: [id])
+  userId      String
+  notes       Note[]
+  parentId    String?
+  parent      Notebook?  @relation("NotebookParent", fields: [parentId], references: [id], onDelete: Cascade)
+  notebooks   Notebook[] @relation("NotebookParent")
+  workspace   Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+}
+
+model Note {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt()
+  title       String?
+  description String?
+  content     Json?
+  meta        Json?
+  isFavorite  Boolean   @default(false)
+  isPinned    Boolean   @default(false)
+  isDeleted   Boolean   @default(false)
+  notebook    Notebook? @relation(fields: [notebookId], references: [id], onDelete: Cascade)
+  notebookId  String?
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspaceId String
+}

@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.dark {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-50 overflow-hidden h-screen w-screen;
+}
+
+/* Chrome Pciekr */
+.chrome-picker {
+  color-scheme: light;
+}
+
+/* Emoji Pciker */
+.EmojiPickerReact {
+  --epr-preview-height: 3rem;
+}
+.EmojiPickerReact .epr-header-overlay,
+.EmojiPickerReact .epr-category-nav {
+  @apply p-2 !important;
+}
+.EmojiPickerReact .epr-icn-search {
+  font-size: 1.5rem !important;
+}
+.EmojiPickerReact .epr-body {
+  @apply overflow-y-auto !important;
+}
+.EmojiPickerReact .epr-preview {
+}
+.EmojiPickerReact .epr-preview .epr-emoji-img {
+  @apply w-8 h-8 !important;
+}
