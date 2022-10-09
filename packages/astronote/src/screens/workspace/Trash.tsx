@@ -1,9 +1,9 @@
 import { FiMoreHorizontal } from "react-icons/fi";
-import PageHeader from "../components/PageHeader";
+import PageHeader from "../../components/PageHeader";
 
-const WorkspaceTrash = () => {
+export default function TrashScreen() {
   return (
-    <div className="flex-1">
+    <div className="h-full w-full">
       <PageHeader
         activeId="trash"
         broadCrumbs={[
@@ -20,6 +20,4 @@ const WorkspaceTrash = () => {
       </PageHeader>
     </div>
   );
-};
-
-export default WorkspaceTrash;
+}

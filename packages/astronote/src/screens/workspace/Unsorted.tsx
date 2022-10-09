@@ -1,9 +1,9 @@
 import { FiPlus, FiMoreHorizontal } from "react-icons/fi";
-import PageHeader from "../components/PageHeader";
+import PageHeader from "../../components/PageHeader";
 
-const WorkspaceUnsorted = () => {
+export default function UnsortedScreen() {
   return (
-    <div className="flex-1">
+    <div className="h-full w-full">
       <PageHeader
         activeId="unsorted"
         broadCrumbs={[
@@ -23,6 +23,4 @@ const WorkspaceUnsorted = () => {
       </PageHeader>
     </div>
   );
-};
-
-export default WorkspaceUnsorted;
+}

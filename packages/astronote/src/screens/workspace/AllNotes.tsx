@@ -1,14 +1,15 @@
 import { useMatch, useNavigate } from "@tanstack/react-location";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { FiMoreHorizontal, FiPlus } from "react-icons/fi";
-import { createNoteAsync, getAllNotesAsync } from "../api/noteApi";
-import { LocationGenerics } from "../types/locationGenerics";
-import NotesAndFoldersTable from "../components/NotesAndFoldersTable";
-import PageHeader from "../components/PageHeader";
-import { useCallback } from "react";
-import newNoteDefaultContent from "../data/newNoteDefaultContent";
+import { FiFilePlus, FiFolderPlus, FiMoreHorizontal } from "react-icons/fi";
+import { createNoteAsync, getAllNotesAsync } from "../../api/noteApi";
+import { LocationGenerics } from "../../types/locationGenerics";
+import NotesAndFoldersTable from "../../components/NotesAndFoldersTable";
+import PageHeader from "../../components/PageHeader";
+import { useCallback, useMemo } from "react";
+import newNoteDefaultContent from "../../data/newNoteDefaultContent";
+import CreateNotebookDialog from "../../components/CreateNotebookDialog";
 
-const WorkspaceHome = () => {
+export default function AllNotesScreen() {
   const {
     params: { workspaceId },
   } = useMatch<LocationGenerics>();
@@ -16,8 +17,13 @@ const WorkspaceHome = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const notesQuery = useQuery(["notes", workspaceId], () =>
+  const { data: allNotes = [] } = useQuery(["notes", workspaceId], () =>
     getAllNotesAsync(workspaceId)
+  );
+
+  const notes = useMemo(
+    () => allNotes.filter((note) => !note.isDeleted),
+    [allNotes]
   );
 
   const createNoteMut = useMutation(createNoteAsync);
@@ -30,12 +36,11 @@ const WorkspaceHome = () => {
     queryClient.invalidateQueries(["notes", workspaceId]);
     navigate({
       to: `../notes/${note.id}`,
-      replace: true,
     });
   }, [createNoteMut, workspaceId, navigate, queryClient]);
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex h-full w-full flex-col">
       <PageHeader
         activeId="all"
         broadCrumbs={[
@@ -46,21 +51,24 @@ const WorkspaceHome = () => {
           },
         ]}
       >
+        <CreateNotebookDialog workspaceId={workspaceId} linkPrefix="../">
+          <button className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+            <FiFolderPlus />
+          </button>
+        </CreateNotebookDialog>
         <button
           className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800"
           onClick={handleCreateNote}
         >
-          <FiPlus />
+          <FiFilePlus />
         </button>
         <button className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
           <FiMoreHorizontal />
         </button>
       </PageHeader>
-      <div className="flex-1 overflow-y-auto pb-32">
-        <NotesAndFoldersTable notes={notesQuery.data} linkPrefix="../" />
+      <div className="flex-1 overflow-y-auto">
+        <NotesAndFoldersTable notes={notes} linkPrefix="../" />
       </div>
     </div>
   );
-};
-
-export default WorkspaceHome;
+}

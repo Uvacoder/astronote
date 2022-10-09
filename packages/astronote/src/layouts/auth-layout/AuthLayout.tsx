@@ -1,6 +1,6 @@
 import { Link, Navigate, Outlet } from "@tanstack/react-location";
 import { useQuery } from "@tanstack/react-query";
-import { getCurrentUserAsync } from "../api/userApi";
+import { getCurrentUserAsync } from "../../api/userApi";
 
 const AuthLayout = () => {
   const userQuery = useQuery(["current-user"], getCurrentUserAsync, {

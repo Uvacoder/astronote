@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "@tanstack/react-location";
 import { useQuery } from "@tanstack/react-query";
-import { getCurrentUserAsync } from "../api/userApi";
-import WorkspaceListBar from "../components/WorkspaceListBar";
+import { getCurrentUserAsync } from "../../api/userApi";
+import AppSidebar from "./AppSidebar";
 
 const AppLayout = () => {
   const userQuery = useQuery(["current-user"], getCurrentUserAsync, {
@@ -22,9 +22,11 @@ const AppLayout = () => {
   }
 
   return (
-    <div className="flex h-screen w-full overflow-hidden">
-      <WorkspaceListBar />
-      <Outlet />
+    <div className="flex h-screen w-screen overflow-hidden">
+      <AppSidebar />
+      <div className="flex-1 overflow-hidden">
+        <Outlet />
+      </div>
     </div>
   );
 };

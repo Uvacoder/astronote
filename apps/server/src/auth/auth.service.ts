@@ -6,6 +6,9 @@ import * as argon from "argon2";
 import { PrismaService } from "src/globals/prisma/prisma.service";
 import { UsersService } from "src/users/users.service";
 import { ProfilesService } from "src/profiles/profiles.service";
+import { WorkspacesService } from "src/workspaces/workspaces.service";
+import * as Color from "color";
+import getRandomNumberBetwen from "src/utils/getRandomNumberBetwen";
 
 @Injectable()
 export class AuthService {
@@ -13,7 +16,8 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
-    private readonly profilesService: ProfilesService
+    private readonly profilesService: ProfilesService,
+    private readonly workspacesService: WorkspacesService
   ) {}
 
   async logIn(logInDto: LogInDto) {
@@ -61,10 +65,21 @@ export class AuthService {
       throw new ForbiddenException("Failed to create user");
     }
 
-    const profile = await this.profilesService.create({}, user);
-    if (!profile) {
-      throw new ForbiddenException("Failed to create profile");
-    }
+    // Creating default profile for this new user
+    await this.profilesService.create({}, user);
+    // Creating default workspace for this new user
+    const color = Color.rgb(
+      getRandomNumberBetwen(100, 160),
+      getRandomNumberBetwen(100, 160),
+      getRandomNumberBetwen(100, 160)
+    ).hex();
+    await this.workspacesService.create(
+      {
+        name: `${signUpDto.name}'s Workspace`,
+        color,
+      },
+      user
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: p, ...data } = user;

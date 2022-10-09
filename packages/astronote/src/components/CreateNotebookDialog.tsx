@@ -10,11 +10,13 @@ import { FiSmile, FiX } from "react-icons/fi";
 import EmojiPicker from "./EmojiPicker";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNotebookAsync } from "../api/notebookApi";
+import { useNavigate } from "@tanstack/react-location";
 
 interface CreateNotebookDialogProps {
   children: ReactNode;
   parentId?: string;
   workspaceId: string;
+  linkPrefix: string;
 }
 
 const createNotebookSchema = yup
@@ -25,7 +27,8 @@ const createNotebookSchema = yup
   .required();
 
 const CreateNotebookDialog: FC<CreateNotebookDialogProps> = (props) => {
-  const { children, parentId, workspaceId } = props;
+  const { children, parentId, workspaceId, linkPrefix } = props;
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const form = useForm<CreateNotebookInputs>({
@@ -37,15 +40,18 @@ const CreateNotebookDialog: FC<CreateNotebookDialogProps> = (props) => {
 
   const onSubmit = useCallback(
     async (value: CreateNotebookInputs) => {
-      await createNotebookMut.mutateAsync({
+      const notebook = await createNotebookMut.mutateAsync({
         ...value,
         workspaceId,
         parentId,
       });
       queryClient.invalidateQueries(["notebooks", workspaceId]);
       setOpen(false);
+      navigate({
+        to: `${linkPrefix}notebooks/${notebook.id}`,
+      });
     },
-    [createNotebookMut, workspaceId, parentId]
+    [createNotebookMut, workspaceId, parentId, navigate, linkPrefix]
   );
 
   return (

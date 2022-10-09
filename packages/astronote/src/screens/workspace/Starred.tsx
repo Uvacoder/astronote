@@ -1,9 +1,9 @@
 import { FiPlus, FiMoreHorizontal } from "react-icons/fi";
-import PageHeader from "../components/PageHeader";
+import PageHeader from "../../components/PageHeader";
 
-const WorkspcaeStarred = () => {
+export default function StarredScreen() {
   return (
-    <div className="flex-1">
+    <div className="h-full w-full">
       <PageHeader
         activeId="starred"
         broadCrumbs={[
@@ -23,6 +23,4 @@ const WorkspcaeStarred = () => {
       </PageHeader>
     </div>
   );
-};
-
-export default WorkspcaeStarred;
+}

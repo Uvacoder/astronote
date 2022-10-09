@@ -1,83 +1,77 @@
 import { Link } from "@tanstack/react-location";
-import { useQuery } from "@tanstack/react-query";
 import {
   MdAdd,
   MdCheck,
   MdExpandMore,
   MdFilterBAndW,
   MdPerson,
+  MdSettings,
 } from "react-icons/md";
-import { getAllWorkspacesAsync } from "../api/workspaceApi";
 import * as DM from "@radix-ui/react-dropdown-menu";
 import * as Avatar from "@radix-ui/react-avatar";
 import * as Select from "@radix-ui/react-select";
 import color from "color";
 import { useMemo } from "react";
-import { useTheme, ColorMode } from "../contexts/themeContext";
+import { useTheme, ColorMode } from "../../contexts/themeContext";
 import { FiLogOut, FiMoon, FiSettings, FiSun, FiTablet } from "react-icons/fi";
-import CreateWorkspaceDialog from "./CreateWorkspaceDialog";
+import CreateWorkspaceDialog from "../../components/CreateWorkspaceDialog";
+import useWorkspacesQuery from "../../hooks/useWorkspacesQuery";
+import getSortName from "../../utils/getSortName";
 
-const WorkspaceListBar = () => {
-  const workspacesQuery = useQuery(["workspaces"], getAllWorkspacesAsync);
-  const getName = (name: string) => {
-    return name
-      .split(" ")
-      .map((item) => item[0])
-      .join("")
-      .slice(0, 2);
-  };
+export default function AppSidebar() {
+  const workspacesQuery = useWorkspacesQuery();
 
   return (
-    <aside className="flex h-full flex-col items-center border-r border-gray-100 dark:border-gray-800">
-      <div className="w-full flex-1 overflow-y-auto p-3">
-        <nav className="flex flex-col items-center gap-3">
-          {workspacesQuery.isLoading ? (
-            <>
-              <div className="h-10 w-10 rounded-md bg-gray-100 dark:bg-gray-800"></div>
-              <div className="h-10 w-10 rounded-md bg-gray-100 dark:bg-gray-800"></div>
-              <div className="h-10 w-10 rounded-md bg-gray-100 dark:bg-gray-800"></div>
-              <div className="h-10 w-10 rounded-md bg-gray-100 dark:bg-gray-800"></div>
-            </>
-          ) : (
-            workspacesQuery.data?.map((item) => (
-              <Link
-                key={item.id}
-                to={item.id}
-                className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-900 text-xl text-white dark:bg-white dark:text-gray-900"
-                getActiveProps={() => ({
-                  className:
-                    "ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-900 ring-gray-900 dark:ring-white",
-                })}
-                style={{
-                  backgroundColor: item.color
-                    ? color(item.color).hex()
-                    : undefined,
-                  color: item.color
-                    ? color(item.color).isDark()
-                      ? "#fff"
-                      : "#000"
-                    : undefined,
-                }}
-              >
-                {item.emoji || getName(item.name)}
-              </Link>
-            ))
-          )}
-          <CreateWorkspaceDialog>
-            <button className="flex h-10 w-10 items-center justify-center rounded-md bg-gray-100 text-2xl text-gray-900 dark:bg-gray-800 dark:text-gray-50">
-              <MdAdd />
-            </button>
-          </CreateWorkspaceDialog>
-        </nav>
-      </div>
-      <div className="p-3">
-        <PersonButton />
-      </div>
+    <aside className="flex h-full flex-col items-center overflow-y-auto border-r border-gray-100 p-3 dark:border-gray-800">
+      <nav className="flex flex-col items-center gap-3">
+        {workspacesQuery.isLoading ? (
+          <>
+            <div className="h-10 w-10 rounded-3xl bg-gray-100 dark:bg-gray-800"></div>
+            <div className="h-10 w-10 rounded-3xl bg-gray-100 dark:bg-gray-800"></div>
+            <div className="h-10 w-10 rounded-3xl bg-gray-100 dark:bg-gray-800"></div>
+            <div className="h-10 w-10 rounded-3xl bg-gray-100 dark:bg-gray-800"></div>
+          </>
+        ) : (
+          workspacesQuery.data?.map((item) => (
+            <Link
+              key={item.id}
+              to={item.id}
+              className="flex h-10 w-10 items-center justify-center rounded-3xl bg-gray-900 text-lg font-medium text-white transition-all duration-150 ease-in-out hover:rounded-xl dark:bg-white dark:text-gray-900"
+              getActiveProps={() => ({
+                className:
+                  "ring-2 ring-offset-2 ring-offset-white dark:ring-offset-gray-900 ring-gray-900 dark:ring-white",
+              })}
+              style={{
+                backgroundColor: item.color
+                  ? color(item.color).hex()
+                  : undefined,
+                color: item.color
+                  ? color(item.color).isDark()
+                    ? "#fff"
+                    : "#000"
+                  : undefined,
+              }}
+            >
+              {item.emoji ? (
+                <span className="text-2xl">{item.emoji}</span>
+              ) : (
+                getSortName(item.name)
+              )}
+            </Link>
+          ))
+        )}
+        <CreateWorkspaceDialog>
+          <button className="flex h-10 w-10 items-center justify-center rounded-3xl bg-gray-100 text-2xl text-gray-900 transition-all ease-in-out hover:rounded-xl hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-50 dark:hover:bg-gray-700">
+            <MdAdd />
+          </button>
+        </CreateWorkspaceDialog>
+        <button className="flex h-10 w-10 items-center justify-center rounded-3xl bg-gray-100 text-2xl text-gray-900 transition-all ease-in-out hover:rounded-xl hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-50 dark:hover:bg-gray-700">
+          <MdSettings />
+        </button>
+      </nav>
     </aside>
   );
-};
-
-export default WorkspaceListBar;
+}
 
 const PersonButton = () => {
   const buttonElement = useMemo(
@@ -99,8 +93,8 @@ const PersonButton = () => {
       <DM.Trigger asChild>{buttonElement}</DM.Trigger>
       <DM.Portal>
         <DM.Content
-          align="end"
-          side="right"
+          align="start"
+          side="top"
           className="w-64 overflow-hidden rounded-lg border border-gray-100 bg-white p-1 shadow-xl dark:border-gray-800 dark:bg-gray-900"
         >
           <DM.Item asChild>

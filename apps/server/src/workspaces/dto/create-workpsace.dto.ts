@@ -8,7 +8,7 @@ export class CreateWorkspaceDto {
   @IsOptional()
   @IsString()
   @MaxLength(300)
-  description: string;
+  description?: string;
 
   @IsOptional()
   @IsString()

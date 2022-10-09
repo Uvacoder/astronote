@@ -6,10 +6,12 @@ import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { JwtStrategy } from "./strategies/jwt.strategy";
 import { ProfilesModule } from "src/profiles/profiles.module";
+import { WorkspacesModule } from "src/workspaces/workspaces.module";
 
 @Module({
   imports: [
     UsersModule,
+    WorkspacesModule,
     ProfilesModule,
     PassportModule,
     JwtModule.register({

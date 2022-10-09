@@ -1,47 +1,54 @@
-import { Link } from "@tanstack/react-location";
-import { useCallback } from "react";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { Link } from "@tanstack/react-location";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { LogInInputs } from "../../types/forms";
-import { logInAsync } from "../../api/authApi";
+import { useCallback } from "react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { signUpAsync } from "../../api/authApi";
 import InputField from "../../components/common/InputField";
 import SubmitButton from "../../components/common/SubmitButton";
+import { SignUpInputs } from "../../types/forms";
 
-const logInSchema = yup
+const signUpSchema = yup
   .object()
   .shape({
+    username: yup.string().required().label("Username"),
+    name: yup.string().required().label("Name"),
     email: yup.string().required().email().label("Email"),
     password: yup.string().required().label("Password"),
   })
   .required();
 
-const LogIn = () => {
-  const form = useForm<LogInInputs>({
-    resolver: yupResolver(logInSchema),
+const SignUpScreen = () => {
+  const form = useForm<SignUpInputs>({
+    resolver: yupResolver(signUpSchema),
   });
-  const logInMut = useMutation(logInAsync);
+  const logInMut = useMutation(signUpAsync);
   const queryClient = useQueryClient();
 
   const onSubmit = useCallback(
-    async (params: LogInInputs) => {
-      const { email, password } = params;
+    async (params: SignUpInputs) => {
+      const { email, password, name, username } = params;
       const { user, accessToken } = await logInMut.mutateAsync({
         email,
         password,
+        name,
+        username,
       });
+
       localStorage.setItem("access-token", accessToken);
+
       queryClient.setQueriesData(["current-user"], user);
     },
+
     [logInMut, queryClient]
   );
 
   return (
     <div className="mx-auto my-16 w-full max-w-lg px-6">
       <header className="mb-8">
-        <h1 className="text-3xl font-semibold">Log In</h1>
+        <h1 className="text-3xl font-semibold">Create Account</h1>
       </header>
 
       {logInMut.isError && (
@@ -55,6 +62,22 @@ const LogIn = () => {
       )}
 
       <form onSubmit={form.handleSubmit(onSubmit)}>
+        <InputField
+          {...form.register("username")}
+          type="text"
+          placeholder="johndoe123"
+          errorText={form.formState.errors.username?.message}
+          label="Username"
+        />
+
+        <InputField
+          {...form.register("name")}
+          type="text"
+          placeholder="John Doe"
+          errorText={form.formState.errors.name?.message}
+          label="Name"
+        />
+
         <InputField
           {...form.register("email")}
           type="email"
@@ -72,16 +95,16 @@ const LogIn = () => {
         />
 
         <SubmitButton loading={form.formState.isSubmitting}>
-          Log In
+          Sign Up
         </SubmitButton>
 
         <p className="text-gray-600 dark:text-gray-300">
-          Don&apos;t have an account?{" "}
+          Already have an account?{" "}
           <Link
-            to="/signup"
+            to="/login"
             className="font-medium text-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400"
           >
-            Sign Up
+            Log In
           </Link>
         </p>
       </form>
@@ -89,4 +112,4 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export default SignUpScreen;

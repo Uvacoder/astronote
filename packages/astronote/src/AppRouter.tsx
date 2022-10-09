@@ -6,18 +6,18 @@ import {
   Router,
 } from "@tanstack/react-location";
 import { useMemo } from "react";
-import AuthLayout from "./layouts/AuthLayout";
-import LogIn from "./routes/login";
-import SignUp from "./routes/signup";
-import Workspace from "./routes/workspace";
+import AuthLayout from "./layouts/auth-layout";
+import WorkspaceLayout from "./layouts/workspace-layout";
+import AppLayout from "./layouts/app-layout";
 import { LocationGenerics } from "./types/locationGenerics";
-import NotePage from "./routes/note";
-import NotebookPage from "./routes/notebook";
-import AppLayout from "./layouts/AppLayout";
-import WorkspaceHome from "./routes/WorkspaceHome";
-import WorkspcaeStarred from "./routes/WorkspcaeStarred";
-import WorkspaceTrash from "./routes/WorkspaceTrash";
-import WorkspaceUnsorted from "./routes/WorkspaceUnsorted";
+import AllNotesScreen from "./screens/workspace/AllNotes";
+import StarredScreen from "./screens/workspace/Starred";
+import UnsortedScreen from "./screens/workspace/Unsorted";
+import SignUpScreen from "./screens/auth/SignUp";
+import LogInScreen from "./screens/auth/LogIn";
+import TrashScreen from "./screens/workspace/Trash";
+import NoteScreen from "./screens/Note";
+import NotebookScreen from "./screens/Notebook";
 
 const history = createBrowserHistory();
 
@@ -34,7 +34,7 @@ const AppRouter = () => {
         children: [
           {
             path: "/",
-            element: <LogIn />,
+            element: <LogInScreen />,
           },
         ],
       },
@@ -44,7 +44,7 @@ const AppRouter = () => {
         children: [
           {
             path: "/",
-            element: <SignUp />,
+            element: <SignUpScreen />,
           },
         ],
       },
@@ -54,7 +54,7 @@ const AppRouter = () => {
         children: [
           {
             path: ":workspaceId",
-            element: <Workspace />,
+            element: <WorkspaceLayout />,
             children: [
               {
                 path: "/",
@@ -62,27 +62,27 @@ const AppRouter = () => {
               },
               {
                 path: "all",
-                element: <WorkspaceHome />,
+                element: <AllNotesScreen />,
               },
               {
                 path: "starred",
-                element: <WorkspcaeStarred />,
+                element: <StarredScreen />,
               },
               {
                 path: "unsorted",
-                element: <WorkspaceUnsorted />,
+                element: <UnsortedScreen />,
               },
               {
                 path: "trash",
-                element: <WorkspaceTrash />,
+                element: <TrashScreen />,
               },
               {
                 path: "notebooks/:notebookId",
-                element: <NotebookPage />,
+                element: <NotebookScreen />,
               },
               {
                 path: "notes/:noteId",
-                element: <NotePage />,
+                element: <NoteScreen />,
               },
               {
                 path: "*",

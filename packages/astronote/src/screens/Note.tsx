@@ -1,26 +1,32 @@
 import AstronoteEditor from "@astronote/editor";
 import {
-  useCommands,
   useHelpers,
-  useKeymap,
   useRemirrorContext,
+  useCommands,
+  useKeymap,
 } from "@remirror/react";
 import { useMatch } from "@tanstack/react-location";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useCallback, useEffect, useMemo } from "react";
-import { FiCopy, FiSidebar, FiStar } from "react-icons/fi";
-import { MdStar, MdStarOutline } from "react-icons/md";
-import { KeyBindingProps, updateMark } from "remirror";
-import { getNoteAsync, updateNoteAsync } from "../../api/noteApi";
-import { fetchAllNotebooks } from "../../api/notebookApi";
-import PageHeader from "../../components/PageHeader";
-import iBroadCrumb from "../../types/broadCrumb";
-import { UpdateNoteInputs } from "../../types/forms";
-import { LocationGenerics } from "../../types/locationGenerics";
-import Note from "../../types/note";
-import Notebook from "../../types/notebook";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { useCallback, useMemo, useEffect } from "react";
+import { FiCopy, FiSidebar } from "react-icons/fi";
+import {
+  MdMoreHoriz,
+  MdOutlinePushPin,
+  MdPushPin,
+  MdStar,
+  MdStarOutline,
+} from "react-icons/md";
+import { KeyBindingProps } from "remirror";
+import { getNoteAsync, updateNoteAsync } from "../api/noteApi";
+import { fetchAllNotebooks } from "../api/notebookApi";
+import PageHeader from "../components/PageHeader";
+import iBroadCrumb from "../types/broadCrumb";
+import { UpdateNoteInputs } from "../types/forms";
+import { LocationGenerics } from "../types/locationGenerics";
+import Note from "../types/note";
+import Notebook from "../types/notebook";
 
-const NotePage = () => {
+export default function NoteScreen() {
   const {
     params: { workspaceId, noteId },
   } = useMatch<LocationGenerics>();
@@ -34,7 +40,7 @@ const NotePage = () => {
   if (noteQuery.isError) return <div>Error</div>;
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden">
+    <div className="flex h-full w-full flex-col">
       <AstronoteEditor
         placeholder="Start typing..."
         tags={["react", "astronote", "tauri", "javascript", "typescript"]}
@@ -49,9 +55,7 @@ const NotePage = () => {
       </AstronoteEditor>
     </div>
   );
-};
-
-export default NotePage;
+}
 
 const NoteEditorHeader = ({ note }: { note: Note }) => {
   const helpers = useHelpers();
@@ -135,7 +139,9 @@ const NoteEditorHeader = ({ note }: { note: Note }) => {
   useKeymap("Mod-/", toggleCode.original());
 
   useEffect(() => {
-    setContent(note.content);
+    if (note.content) {
+      setContent(note.content);
+    }
   }, [note.id, setContent]);
 
   return (
@@ -151,22 +157,24 @@ const NoteEditorHeader = ({ note }: { note: Note }) => {
         className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800"
         onClick={() =>
           handleUpdateNote({
+            isPinned: !note.isPinned,
+          })
+        }
+      >
+        {note.isPinned ? <MdPushPin /> : <MdOutlinePushPin />}
+      </button>
+      <button
+        className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+        onClick={() =>
+          handleUpdateNote({
             isFavorite: !note.isFavorite,
           })
         }
       >
         {note.isFavorite ? <MdStar /> : <MdStarOutline />}
       </button>
-      <button
-        className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800"
-        onClick={() => {
-          window.navigator.clipboard.writeText(helpers.getMarkdown());
-        }}
-      >
-        <FiCopy />
-      </button>
       <button className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-        <FiSidebar className="rotate-180" />
+        <MdMoreHoriz className="rotate-180" />
       </button>
     </PageHeader>
   );
