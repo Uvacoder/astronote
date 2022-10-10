@@ -5,7 +5,11 @@ import {
 } from "@nestjs/common";
 import { Notebook, User } from "@prisma/client";
 import { PrismaService } from "src/globals/prisma/prisma.service";
-import { CreateNotebookDto, UpdateNotebookDto } from "./dto";
+import {
+  CreateNotebookDto,
+  GetNotebooksFilterDto,
+  UpdateNotebookDto,
+} from "./dto";
 
 @Injectable()
 export class NotebooksService {
@@ -24,23 +28,20 @@ export class NotebooksService {
     return notebook;
   }
 
-  async findAll(workspaceId: string, user: User): Promise<Notebook[]> {
+  async findAll(
+    user: User,
+    filters: GetNotebooksFilterDto
+  ): Promise<Notebook[]> {
     return this.prisma.notebook.findMany({
       where: {
-        user: {
-          id: user.id,
-        },
-        workspace: {
-          id: workspaceId,
-        },
-      },
-      include: {
-        _count: {
-          select: {
-            notebooks: true,
-            notes: true,
+        AND: [
+          { user: { id: user.id } },
+          {
+            OR: {
+              ...filters,
+            },
           },
-        },
+        ],
       },
     });
   }

@@ -37,9 +37,11 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.36.1",
     "react-icons": "^4.4.0",
+    "react-spinners": "^0.13.6",
     "refractor": "^4.8.0",
     "remirror": "^2.0.9",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zustand": "^4.1.2"
   },
   "devDependencies": {
     "@types/color": "^3.0.3",

@@ -9,11 +9,10 @@ import {
   UseGuards,
   Request,
   Query,
-  ForbiddenException,
 } from "@nestjs/common";
 import { NotesService } from "./notes.service";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
-import { CreateNoteDto, UpdateNoteDto } from "./dto";
+import { CreateNoteDto, GetNotesFilterDto, UpdateNoteDto } from "./dto";
 
 @Controller("notes")
 export class NotesController {
@@ -27,10 +26,8 @@ export class NotesController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  findAll(@Request() req, @Query("workspaceId") workspaceId: string | null) {
-    if (!workspaceId)
-      throw new ForbiddenException("Workspace id query is required");
-    return this.notesService.findAll(workspaceId, req.user);
+  getNotes(@Request() req, @Query() filters: GetNotesFilterDto) {
+    return this.notesService.findAll(req.user, filters);
   }
 
   @Get(":id")

@@ -1,43 +1,37 @@
 import { useMatch, useNavigate } from "@tanstack/react-location";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { FiFilePlus, FiFolderPlus, FiMoreHorizontal } from "react-icons/fi";
-import { createNoteAsync, getAllNotesAsync } from "../../api/noteApi";
 import { LocationGenerics } from "../../types/locationGenerics";
 import NotesAndFoldersTable from "../../components/NotesAndFoldersTable";
 import PageHeader from "../../components/PageHeader";
 import { useCallback, useMemo } from "react";
 import newNoteDefaultContent from "../../data/newNoteDefaultContent";
 import CreateNotebookDialog from "../../components/CreateNotebookDialog";
+import useNotes from "../../store/useNotes";
 
 export default function AllNotesScreen() {
   const {
     params: { workspaceId },
   } = useMatch<LocationGenerics>();
+  const notes = useNotes((state) =>
+    state.notes
+      .filter((note) => note.workspaceId === workspaceId && !note.isDeleted)
+      .sort((a, b) =>
+        (a.title || "Untitled").localeCompare(b.title || "Untitled")
+      )
+  );
+  const createNote = useNotes((state) => state.createNote);
 
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
-  const { data: allNotes = [] } = useQuery(["notes", workspaceId], () =>
-    getAllNotesAsync(workspaceId)
-  );
-
-  const notes = useMemo(
-    () => allNotes.filter((note) => !note.isDeleted),
-    [allNotes]
-  );
-
-  const createNoteMut = useMutation(createNoteAsync);
 
   const handleCreateNote = useCallback(async () => {
-    const note = await createNoteMut.mutateAsync({
+    const note = await createNote({
       workspaceId,
       content: newNoteDefaultContent,
     });
-    queryClient.invalidateQueries(["notes", workspaceId]);
     navigate({
-      to: `../notes/${note.id}`,
+      to: `/${note.workspaceId}/notes/${note.id}`,
     });
-  }, [createNoteMut, workspaceId, navigate, queryClient]);
+  }, [createNote, workspaceId, navigate]);
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -51,7 +45,7 @@ export default function AllNotesScreen() {
           },
         ]}
       >
-        <CreateNotebookDialog workspaceId={workspaceId} linkPrefix="../">
+        <CreateNotebookDialog workspaceId={workspaceId}>
           <button className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
             <FiFolderPlus />
           </button>
@@ -67,7 +61,7 @@ export default function AllNotesScreen() {
         </button>
       </PageHeader>
       <div className="flex-1 overflow-y-auto">
-        <NotesAndFoldersTable notes={notes} linkPrefix="../" />
+        <NotesAndFoldersTable notes={notes} />
       </div>
     </div>
   );

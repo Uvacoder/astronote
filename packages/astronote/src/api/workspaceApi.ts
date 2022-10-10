@@ -1,35 +1,46 @@
-import axios from "axios";
-import { API_URL } from "../constants";
-import { CreateWorkspaceInputs } from "../types/forms";
+import { axiosClient, getDefaultHeaders } from "../libs/axiosClient";
+import { CreateWorkspaceInputs, UpdateWorkspaceInputs } from "../types/forms";
 import { Workspcae } from "../types/workspace";
 
-export const getAllWorkspacesAsync = async (): Promise<Workspcae[]> => {
-  const accessToken = localStorage.getItem("access-token");
-
-  const { data } = await axios.get<Workspcae[]>(`${API_URL}/workspaces`, {
+export const getWorkspacesAsync = async () => {
+  const { data } = await axiosClient.get<Workspcae[]>(`/workspaces`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      ...getDefaultHeaders(),
     },
   });
   return data;
 };
 
-export const getWorkspaceAsync = async (id: string): Promise<Workspcae> => {
-  const accessToken = localStorage.getItem("access-token");
-  const { data } = await axios.get<Workspcae>(`${API_URL}/workspaces/${id}`, {
+export const getWorkspaceAsync = async (id: string) => {
+  const { data } = await axiosClient.get<Workspcae>(`/workspaces/${id}`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      ...getDefaultHeaders(),
     },
   });
   return data;
 };
 
 export const createWorkspaceAsync = async (body: CreateWorkspaceInputs) => {
-  const accessToken = localStorage.getItem("access-token");
-  const { data } = await axios.post(`${API_URL}/workspaces`, body, {
+  const { data } = await axiosClient.post<Workspcae>(`/workspaces`, body, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      ...getDefaultHeaders(),
     },
   });
+  return data;
+};
+
+export const updateWorkspaceAsync = async (
+  id: string,
+  body: UpdateWorkspaceInputs
+) => {
+  const { data } = await axiosClient.patch<Workspcae>(
+    `/workspaces/${id}`,
+    body,
+    {
+      headers: {
+        ...getDefaultHeaders(),
+      },
+    }
+  );
   return data;
 };

@@ -1,26 +1,41 @@
 import { Link } from "@tanstack/react-location";
 import { formatDistanceToNow } from "date-fns";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import Note from "../types/note";
 import Notebook from "../types/notebook";
-import getNotebookChildCount from "../utils/getNotebookChildCount";
 import NoteIcon from "./NoteIcon";
 import NotebookIcon from "./NotebookIcon";
 import ContextMenu from "./ContextMenu";
 import useNotebookContextMenu from "../hooks/useNotebookContextMenu";
 import useNoteContextMenu from "../hooks/useNoteContextMenu";
+import useNotebooks from "../store/useNotebooks";
+import useNotes from "../store/useNotes";
 
 export interface NotesAndFoldersTableProps {
   notes?: Note[];
   notebooks?: Notebook[];
-  linkPrefix: string;
 }
 
 const NotesAndFoldersTable: FC<NotesAndFoldersTableProps> = (props) => {
-  const { notes, notebooks, linkPrefix } = props;
+  const { notes, notebooks } = props;
   const { getItems: getNotebookMenuItems } = useNotebookContextMenu();
   const { getMenuItems: getNoteMenuItems } = useNoteContextMenu();
+  const allNotebooks = useNotebooks((state) => state.notebooks);
+  const allNotes = useNotes((state) => state.notes);
+
+  const getChildCount = useCallback(
+    (notebook: Notebook) => {
+      return [
+        ...allNotebooks.filter((item) => item.parentId === notebook.id),
+        ...allNotes.filter(
+          (item) => !item.isDeleted && item.notebookId === notebook.id
+        ),
+      ].length;
+    },
+    [allNotebooks, allNotes]
+  );
+
   return (
     <div>
       <div className="sticky top-0 grid h-8 grid-cols-5 items-center gap-4 border-b border-gray-100 bg-white px-8 dark:border-gray-800 dark:bg-gray-900">
@@ -54,7 +69,7 @@ const NotesAndFoldersTable: FC<NotesAndFoldersTableProps> = (props) => {
                   key={notebook.id}
                 >
                   <Link
-                    to={`${linkPrefix}/notebooks/${notebook.id}`}
+                    to={`/${notebook.workspaceId}/notebooks/${notebook.id}`}
                     className="grid grid-cols-5 items-center gap-4 rounded-md px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
                   >
                     <div className="col-span-3 flex items-center gap-4">
@@ -64,7 +79,7 @@ const NotesAndFoldersTable: FC<NotesAndFoldersTableProps> = (props) => {
                       <div className="flex-1 overflow-hidden">
                         <p className="truncate">{notebook.name}</p>
                         <p className="truncate text-sm font-light text-gray-600 dark:text-gray-300">
-                          {getNotebookChildCount(notebook)} items
+                          {getChildCount(notebook)} items
                         </p>
                       </div>
                     </div>
@@ -101,7 +116,7 @@ const NotesAndFoldersTable: FC<NotesAndFoldersTableProps> = (props) => {
               {notes?.map((note) => (
                 <ContextMenu items={getNoteMenuItems(note)} key={note.id}>
                   <Link
-                    to={`${linkPrefix}/notes/${note.id}`}
+                    to={`/${note.workspaceId}/notes/${note.id}`}
                     className="grid grid-cols-5 items-center gap-4 rounded-md px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
                   >
                     <div className="col-span-3 flex items-center gap-4">

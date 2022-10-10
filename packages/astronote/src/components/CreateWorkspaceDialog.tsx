@@ -9,8 +9,8 @@ import { CreateWorkspaceInputs } from "../types/forms";
 import { FiSmile, FiX } from "react-icons/fi";
 import EmojiPicker from "./EmojiPicker";
 import ColorPicker from "./ColorPicker";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createWorkspaceAsync } from "../api/workspaceApi";
+import useWroksapces from "../store/useWorkspaces";
+import { useNavigate } from "@tanstack/react-location";
 
 interface CreateWorkspaceDialogProps {
   children: ReactNode;
@@ -35,17 +35,20 @@ const CreateWorkspaceDialog: FC<CreateWorkspaceDialogProps> = (props) => {
       color: "#6366f1",
     },
   });
-  const createWorkspaceMut = useMutation(createWorkspaceAsync);
-  const queryClient = useQueryClient();
+  const addWorkspace = useWroksapces((state) => state.createWrokspace);
+  const navigate = useNavigate();
   const color = form.watch("color");
 
   const onSubmit = useCallback(
     async (value: CreateWorkspaceInputs) => {
-      await createWorkspaceMut.mutateAsync(value);
-      queryClient.invalidateQueries(["workspaces"]);
+      const worksapce = await addWorkspace(value);
       setOpen(false);
+      form.reset();
+      navigate({
+        to: `/${worksapce.id}`,
+      });
     },
-    [createWorkspaceMut]
+    [addWorkspace, navigate]
   );
 
   return (

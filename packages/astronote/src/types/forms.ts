@@ -15,9 +15,22 @@ export interface CreateWorkspaceInputs {
   emoji?: string;
   color?: string;
 }
+export interface UpdateWorkspaceInputs {
+  name?: string;
+  description?: string;
+  emoji?: string;
+  color?: string;
+}
 export interface CreateNotebookInputs {
   workspaceId: string;
   name: string;
+  description?: string;
+  emoji?: string;
+  parentId?: string;
+}
+export interface UpdateNotebookInputs {
+  workspaceId?: string;
+  name?: string;
   description?: string;
   emoji?: string;
   parentId?: string;

@@ -1,12 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
-import { updateNoteAsync } from "../api/noteApi";
 import { MenuItem } from "../components/ContextMenu";
+import useNotes from "../store/useNotes";
 import Note from "../types/note";
 
 export default function useNoteContextMenu() {
-  const updateMut = useMutation(updateNoteAsync);
-  const queryClient = useQueryClient();
+  const updateNote = useNotes((state) => state.updateNote);
 
   const duplicateNote = useCallback((note: Note) => {
     alert("TODO: Duplicate Note");
@@ -32,41 +30,29 @@ export default function useNoteContextMenu() {
 
   const toggleDeleted = useCallback(
     async (note: Note) => {
-      await updateMut.mutateAsync({
-        id: note.id,
-        body: {
-          isDeleted: !note.isDeleted,
-        },
+      updateNote(note.id, {
+        isDeleted: !note.isDeleted,
       });
-      queryClient.invalidateQueries(["notes", note.workspaceId]);
     },
-    [updateMut, queryClient]
+    [updateNote]
   );
 
   const toggleFavorite = useCallback(
     async (note: Note) => {
-      await updateMut.mutateAsync({
-        id: note.id,
-        body: {
-          isFavorite: !note.isFavorite,
-        },
+      updateNote(note.id, {
+        isFavorite: !note.isFavorite,
       });
-      queryClient.invalidateQueries(["notes", note.workspaceId]);
     },
-    [updateMut, queryClient]
+    [updateNote]
   );
 
   const togglePinned = useCallback(
     async (note: Note) => {
-      await updateMut.mutateAsync({
-        id: note.id,
-        body: {
-          isPinned: !note.isPinned,
-        },
+      updateNote(note.id, {
+        isPinned: !note.isPinned,
       });
-      queryClient.invalidateQueries(["notes", note.workspaceId]);
     },
-    [updateMut, queryClient]
+    [updateNote]
   );
 
   const getMenuItems = useCallback(
@@ -170,5 +156,6 @@ export default function useNoteContextMenu() {
     exportNote,
     duplicateNote,
     toggleFavorite,
+    togglePinned,
   };
 }

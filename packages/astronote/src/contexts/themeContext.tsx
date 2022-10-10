@@ -15,6 +15,7 @@ export enum ColorMode {
 
 export interface ThemeContext {
   mode: ColorMode;
+  isDark: boolean;
   setMode: (mode: ColorMode) => void;
   toggleMode: () => void;
 }
@@ -29,6 +30,8 @@ export interface ThemeProviderProps {
 
 export const ThemeProvider = (props: ThemeProviderProps) => {
   const { children, defaultMode = ColorMode.Auto } = props;
+  const [isDark, setIsDark] = useState(false);
+
   const [mode, setMode] = useState(defaultMode);
   const [initialized, setInitialized] = useState(false);
 
@@ -51,7 +54,7 @@ export const ThemeProvider = (props: ThemeProviderProps) => {
       (mode === ColorMode.Auto &&
         window.matchMedia("(prefers-color-scheme: dark)").matches);
     document.documentElement.classList.toggle("dark", isDark);
-    console.log("THEME APPLIED", isDark);
+    setIsDark(isDark);
   }, [mode]);
 
   useEffect(() => {
@@ -115,6 +118,7 @@ export const ThemeProvider = (props: ThemeProviderProps) => {
         mode,
         setMode,
         toggleMode,
+        isDark,
       }}
     >
       {children}

@@ -5,7 +5,7 @@ import {
 } from "@nestjs/common";
 import { Note, User } from "@prisma/client";
 import { PrismaService } from "src/globals/prisma/prisma.service";
-import { CreateNoteDto, UpdateNoteDto } from "./dto";
+import { CreateNoteDto, GetNotesFilterDto, UpdateNoteDto } from "./dto";
 
 @Injectable()
 export class NotesService {
@@ -50,9 +50,18 @@ export class NotesService {
     });
   }
 
-  findAll(workspaceId: string, user: User): Promise<Note[]> {
+  async findAll(user: User, filters?: GetNotesFilterDto): Promise<Note[]> {
     return this.prisma.note.findMany({
-      where: { AND: [{ userId: user.id }, { workspaceId }] },
+      where: {
+        AND: [
+          { userId: user.id },
+          {
+            OR: {
+              ...filters,
+            },
+          },
+        ],
+      },
     });
   }
 

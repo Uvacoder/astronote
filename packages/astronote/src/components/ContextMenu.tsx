@@ -43,7 +43,7 @@ export const ContextMenu: FC<ContextMenuWrapperProps> = (props) => {
     <CM.Root>
       <CM.Trigger asChild>{children}</CM.Trigger>
       <CM.Portal>
-        <CM.Content className="max-w-xs rounded-md border border-gray-100 bg-white p-1 shadow-xl dark:border-gray-800 dark:bg-gray-900">
+        <CM.Content className="max-w-xs rounded-md border border-gray-100 bg-white p-1 shadow-xl dark:border-gray-700 dark:bg-gray-800">
           <ContextMenuItems items={items} />
         </CM.Content>
       </CM.Portal>
@@ -87,7 +87,7 @@ export const ContextMenuSub: FC<MenuSub> = (props) => {
           <FiChevronRight className="text-lg" />
         </ItemButton>
       </CM.SubTrigger>
-      <CM.SubContent className="max-w-xs rounded-md border border-gray-100 bg-white p-1 shadow-xl dark:border-gray-800 dark:bg-gray-900">
+      <CM.SubContent className="max-w-xs rounded-md border border-gray-100 bg-white p-1 shadow-xl dark:border-gray-700 dark:bg-gray-800">
         <ContextMenuItems items={items} />
       </CM.SubContent>
     </CM.Sub>
@@ -104,7 +104,7 @@ export const ContextMenuGroup: FC<MenuGroup> = (props) => {
 };
 
 export const ContextMenuSeparator: FC<MenuSeparator> = (props) => (
-  <CM.Separator className="my-2 h-px w-full bg-gray-100 dark:bg-gray-800" />
+  <CM.Separator className="my-2 h-px w-full bg-gray-100 dark:bg-gray-700" />
 );
 
 export const ContextMenuButton: FC<MenuButtonItem> = (props) => {
@@ -134,7 +134,7 @@ export const ItemButton = forwardRef<HTMLButtonElement, ItemButtonProps>(
     return (
       <button
         className={clsx(
-          "flex w-full items-center gap-3 truncate rounded px-3 py-1 text-left text-gray-600 outline-none hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50",
+          "flex w-full items-center gap-3 truncate rounded px-3 py-1 text-left text-gray-600 outline-none hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-gray-50 dark:focus:bg-gray-700 dark:focus:text-gray-50",
           className
         )}
         {...rest}

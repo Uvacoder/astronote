@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Delete,
-  ForbiddenException,
   Get,
   Param,
   Patch,
@@ -13,7 +12,11 @@ import {
 } from "@nestjs/common";
 import { Notebook } from "@prisma/client";
 import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
-import { CreateNotebookDto, UpdateNotebookDto } from "./dto";
+import {
+  CreateNotebookDto,
+  GetNotebooksFilterDto,
+  UpdateNotebookDto,
+} from "./dto";
 import { NotebooksService } from "./notebooks.service";
 
 @Controller("notebooks")
@@ -28,13 +31,11 @@ export class NotebooksController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll(
+  getNotebooks(
     @Request() req,
-    @Query("workspaceId") workspaceId: string
+    @Query() filter: GetNotebooksFilterDto
   ): Promise<Notebook[]> {
-    if (!workspaceId)
-      throw new ForbiddenException("Workspace id query is required");
-    return this.notebooksService.findAll(workspaceId, req.user);
+    return this.notebooksService.findAll(req.user, filter);
   }
 
   @UseGuards(JwtAuthGuard)

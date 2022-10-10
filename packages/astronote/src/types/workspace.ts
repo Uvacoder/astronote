@@ -8,3 +8,5 @@ export interface Workspcae {
   description: string | null;
   userId: string;
 }
+
+export default Workspcae;

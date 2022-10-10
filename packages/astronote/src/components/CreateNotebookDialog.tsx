@@ -1,4 +1,4 @@
-import { FC, ReactNode, useCallback, useEffect, useState } from "react";
+import { FC, ReactNode, useCallback, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import InputField from "./common/InputField";
 import SubmitButton from "./common/SubmitButton";
@@ -8,15 +8,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { CreateNotebookInputs } from "../types/forms";
 import { FiSmile, FiX } from "react-icons/fi";
 import EmojiPicker from "./EmojiPicker";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNotebookAsync } from "../api/notebookApi";
 import { useNavigate } from "@tanstack/react-location";
+import useNotebooks from "../store/useNotebooks";
 
 interface CreateNotebookDialogProps {
   children: ReactNode;
-  parentId?: string;
   workspaceId: string;
-  linkPrefix: string;
+  parentId?: string;
 }
 
 const createNotebookSchema = yup
@@ -27,31 +25,29 @@ const createNotebookSchema = yup
   .required();
 
 const CreateNotebookDialog: FC<CreateNotebookDialogProps> = (props) => {
-  const { children, parentId, workspaceId, linkPrefix } = props;
+  const { children, parentId, workspaceId } = props;
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const createNotebook = useNotebooks((state) => state.createNotebook);
 
   const form = useForm<CreateNotebookInputs>({
     resolver: yupResolver(createNotebookSchema),
   });
 
-  const createNotebookMut = useMutation(createNotebookAsync);
-  const queryClient = useQueryClient();
-
   const onSubmit = useCallback(
     async (value: CreateNotebookInputs) => {
-      const notebook = await createNotebookMut.mutateAsync({
+      const notebook = await createNotebook({
         ...value,
         workspaceId,
         parentId,
       });
-      queryClient.invalidateQueries(["notebooks", workspaceId]);
-      setOpen(false);
       navigate({
-        to: `${linkPrefix}notebooks/${notebook.id}`,
+        to: `/${workspaceId}/notebooks/${notebook.id}`,
       });
+      form.reset();
+      setOpen(false);
     },
-    [createNotebookMut, workspaceId, parentId, navigate, linkPrefix]
+    [workspaceId, parentId, navigate, createNotebook]
   );
 
   return (
@@ -59,7 +55,6 @@ const CreateNotebookDialog: FC<CreateNotebookDialogProps> = (props) => {
       open={open}
       onOpenChange={(value) => {
         setOpen(value);
-        form.reset();
       }}
     >
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>

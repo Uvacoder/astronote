@@ -1,32 +1,48 @@
 import { useMatch, useNavigate } from "@tanstack/react-location";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useMemo, useCallback } from "react";
 import { FiFolderPlus, FiFilePlus, FiMoreHorizontal } from "react-icons/fi";
-import { createNoteAsync } from "../api/noteApi";
 import CreateNotebookDialog from "../components/CreateNotebookDialog";
 import NotesAndFoldersTable from "../components/NotesAndFoldersTable";
 import PageHeader from "../components/PageHeader";
 import newNoteDefaultContent from "../data/newNoteDefaultContent";
-import useNotebooksQuery from "../hooks/useNotebooksQuery";
-import useNotesQuery from "../hooks/useNotesQuery";
+import useNotebooks from "../store/useNotebooks";
+import useNotes from "../store/useNotes";
 import iBroadCrumb from "../types/broadCrumb";
 import { LocationGenerics } from "../types/locationGenerics";
 import Notebook from "../types/notebook";
 
 export default function NotebookScreen() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const {
     params: { workspaceId, notebookId },
   } = useMatch<LocationGenerics>();
-  const { data: allNotebooks = [] } = useNotebooksQuery();
-  const { data: allNotes = [] } = useNotesQuery();
-  const createNoteMut = useMutation(createNoteAsync);
-
-  const notebook = useMemo(
-    () => allNotebooks.find((item) => item.id === notebookId),
-    [allNotebooks, notebookId]
+  const notebook = useNotebooks((state) =>
+    state.notebooks.find((item) => item.id === notebookId)
   );
+  const notes = useNotes((state) =>
+    state.notes
+      .filter(
+        (item) =>
+          item.workspaceId === workspaceId &&
+          !item.isDeleted &&
+          item.notebookId === notebookId
+      )
+      .sort((a, b) =>
+        (a.title || "Untitled").localeCompare(b.title || "Untitled")
+      )
+  );
+  const notebooks = useNotebooks((state) =>
+    state.notebooks
+      .filter(
+        (item) =>
+          item.workspaceId === workspaceId && item.parentId === notebookId
+      )
+      .sort((a, b) => a.name.localeCompare(b.name))
+  );
+  const allNotebooks = useNotebooks((state) =>
+    state.notebooks.filter((item) => item.workspaceId === workspaceId)
+  );
+  const createNote = useNotes((state) => state.createNote);
 
   const broadCrumbs = useMemo(() => {
     const getParenNotebook = (file: Notebook): iBroadCrumb[] => {
@@ -35,7 +51,7 @@ export default function NotebookScreen() {
         {
           id: file.id,
           label: `${file.emoji ? `${file.emoji} ` : ""}${file.name}`,
-          to: `../../notebooks/${file.id}`,
+          to: `/${file.workspaceId}/notebooks/${file.id}`,
         },
         ...(!parent
           ? []
@@ -47,7 +63,7 @@ export default function NotebookScreen() {
                 label: `${parent.emoji ? `${parent.emoji} ` : ""}${
                   parent.name
                 }`,
-                to: `../../notebooks/${parent.id}`,
+                to: `/${parent.workspaceId}/notebooks/${parent.id}`,
               },
             ]),
       ];
@@ -56,28 +72,17 @@ export default function NotebookScreen() {
     else return [];
   }, [allNotebooks, notebook]);
 
-  const notes = useMemo(
-    () => allNotes.filter((note) => note.notebookId === notebookId),
-    [notebookId, allNotes]
-  );
-  const notebooks = useMemo(
-    () => allNotebooks.filter((note) => note.parentId === notebookId),
-    [notebookId, allNotebooks]
-  );
-
   const handleCreateNote = useCallback(async () => {
     if (!notebook) return;
-    const note = await createNoteMut.mutateAsync({
-      workspaceId: notebook?.workspaceId,
-      notebookId: notebook?.id,
+    const note = await createNote({
+      workspaceId: notebook.workspaceId,
+      notebookId: notebook.id,
       content: newNoteDefaultContent,
     });
-    queryClient.invalidateQueries(["notes", workspaceId]);
     navigate({
-      to: `../../notes/${note.id}`,
-      replace: true,
+      to: `/${note.workspaceId}/notes/${note.id}`,
     });
-  }, [createNoteMut, notebook, navigate, queryClient]);
+  }, [createNote, notebook, navigate]);
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -99,11 +104,7 @@ export default function NotebookScreen() {
         </button>
       </PageHeader>
       <div className="flex-1 overflow-y-auto">
-        <NotesAndFoldersTable
-          notes={notes}
-          notebooks={notebooks}
-          linkPrefix="../../"
-        />
+        <NotesAndFoldersTable notes={notes} notebooks={notebooks} />
       </div>
     </div>
   );

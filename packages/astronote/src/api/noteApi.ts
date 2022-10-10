@@ -1,76 +1,50 @@
-import axios from "axios";
-import { API_URL } from "../constants";
+import { axiosClient, getDefaultHeaders } from "../libs/axiosClient";
 import { CreateNoteInputs, UpdateNoteInputs } from "../types/forms";
 import Note from "../types/note";
 
-export const getAllNotesAsync = async (
-  workspaceId: string
-): Promise<Note[]> => {
-  const accessToken = localStorage.getItem("access-token");
-
-  const { data } = await axios.get<Note[]>(
-    `${API_URL}/notes?workspaceId=${workspaceId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
-
-  return data.map((item) => ({ ...item, _type: "note" }));
-};
-
-export const getNoteAsync = async (
-  workspaceId: string,
-  noteId: string
-): Promise<Note> => {
-  const accessToken = localStorage.getItem("access-token");
-
-  const { data } = await axios.get<Note>(
-    `${API_URL}/notes/${noteId}?workspaceId=${workspaceId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
-
-  return { ...data, _type: "note" };
-};
-
-export const createNoteAsync = async (
-  body: CreateNoteInputs
-): Promise<Note> => {
-  const accessToken = localStorage.getItem("access-token");
-  const { data } = await axios.post(`${API_URL}/notes`, body, {
+export const getNotesAsync = async (
+  workspaceId?: string,
+  notebookId?: string
+) => {
+  const { data } = await axiosClient.get<Note[]>(`/notes`, {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      ...getDefaultHeaders(),
+    },
+    params: {
+      workspaceId,
+      notebookId,
     },
   });
 
-  return {
-    ...data,
-    _type: "note",
-  };
+  return data;
 };
 
-export const updateNoteAsync = async (props: {
-  id: string;
-  body: UpdateNoteInputs;
-}): Promise<Note> => {
-  const accessToken = localStorage.getItem("access-token");
-  const { data } = await axios.patch(
-    `${API_URL}/notes/${props.id}`,
-    props.body,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
+export const getNoteAsync = async (noteId: string) => {
+  const { data } = await axiosClient.get<Note>(`/notes/${noteId}`, {
+    headers: {
+      ...getDefaultHeaders(),
+    },
+  });
 
-  return {
-    ...data,
-    _type: "note",
-  };
+  return data;
+};
+
+export const createNoteAsync = async (body: CreateNoteInputs) => {
+  const { data } = await axiosClient.post<Note>(`/notes`, body, {
+    headers: {
+      ...getDefaultHeaders(),
+    },
+  });
+
+  return data;
+};
+
+export const updateNoteAsync = async (id: string, body: UpdateNoteInputs) => {
+  const { data } = await axiosClient.patch<Note>(`/notes/${id}`, body, {
+    headers: {
+      ...getDefaultHeaders(),
+    },
+  });
+
+  return data;
 };

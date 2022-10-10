@@ -12,7 +12,6 @@ import AppLayout from "./layouts/app-layout";
 import { LocationGenerics } from "./types/locationGenerics";
 import AllNotesScreen from "./screens/workspace/AllNotes";
 import StarredScreen from "./screens/workspace/Starred";
-import UnsortedScreen from "./screens/workspace/Unsorted";
 import SignUpScreen from "./screens/auth/SignUp";
 import LogInScreen from "./screens/auth/LogIn";
 import TrashScreen from "./screens/workspace/Trash";
@@ -67,10 +66,6 @@ const AppRouter = () => {
               {
                 path: "starred",
                 element: <StarredScreen />,
-              },
-              {
-                path: "unsorted",
-                element: <UnsortedScreen />,
               },
               {
                 path: "trash",

@@ -6,9 +6,7 @@ import {
   useKeymap,
 } from "@remirror/react";
 import { useMatch } from "@tanstack/react-location";
-import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { useCallback, useMemo, useEffect } from "react";
-import { FiCopy, FiSidebar } from "react-icons/fi";
 import {
   MdMoreHoriz,
   MdOutlinePushPin,
@@ -17,11 +15,12 @@ import {
   MdStarOutline,
 } from "react-icons/md";
 import { KeyBindingProps } from "remirror";
-import { getNoteAsync, updateNoteAsync } from "../api/noteApi";
-import { fetchAllNotebooks } from "../api/notebookApi";
 import PageHeader from "../components/PageHeader";
+import newNoteDefaultContent from "../data/newNoteDefaultContent";
+import useNoteContextMenu from "../hooks/useNoteContextMenu";
+import useNotebooks from "../store/useNotebooks";
+import useNotes from "../store/useNotes";
 import iBroadCrumb from "../types/broadCrumb";
-import { UpdateNoteInputs } from "../types/forms";
 import { LocationGenerics } from "../types/locationGenerics";
 import Note from "../types/note";
 import Notebook from "../types/notebook";
@@ -31,17 +30,20 @@ export default function NoteScreen() {
     params: { workspaceId, noteId },
   } = useMatch<LocationGenerics>();
 
-  const noteQuery = useQuery(["note", workspaceId, noteId], () =>
-    getNoteAsync(workspaceId, noteId)
+  const note = useNotes((state) =>
+    state.notes.find(
+      (item) => item.workspaceId === workspaceId && item.id === noteId
+    )
   );
 
-  if (noteQuery.isLoading) return <div>Loading...</div>;
-
-  if (noteQuery.isError) return <div>Error</div>;
+  if (!note) {
+    return <div>Note not found!</div>;
+  }
 
   return (
     <div className="flex h-full w-full flex-col">
       <AstronoteEditor
+        autoFocus
         placeholder="Start typing..."
         tags={["react", "astronote", "tauri", "javascript", "typescript"]}
         users={[
@@ -51,7 +53,7 @@ export default function NoteScreen() {
           },
         ]}
       >
-        <NoteEditorHeader note={noteQuery.data} />
+        <NoteEditorHeader note={note} />
       </AstronoteEditor>
     </div>
   );
@@ -60,44 +62,21 @@ export default function NoteScreen() {
 const NoteEditorHeader = ({ note }: { note: Note }) => {
   const helpers = useHelpers();
   const { setContent } = useRemirrorContext();
-
-  const notebooksQuery = useQuery(["notebooks", note.workspaceId], () =>
-    fetchAllNotebooks(note.workspaceId)
+  const notebooks = useNotebooks((state) =>
+    state.notebooks.filter((item) => item.workspaceId === note.workspaceId)
   );
-  const queryClient = useQueryClient();
-  const updateNoteMut = useMutation(updateNoteAsync);
+  const updateNote = useNotes((state) => state.updateNote);
   const { toggleCode } = useCommands();
+  const { togglePinned, toggleFavorite } = useNoteContextMenu();
 
-  const handleUpdateNote = useCallback(
-    async (value: UpdateNoteInputs) => {
-      await updateNoteMut.mutateAsync({
-        id: note.id,
-        body: value,
-      });
-      queryClient.invalidateQueries(["note", note.workspaceId, note.id]);
-      queryClient.invalidateQueries(["notes", note.workspaceId]);
-    },
-    [updateNoteMut, note, queryClient]
-  );
-
-  const broadCrumbs = useMemo(() => {
-    const notebooks = notebooksQuery.data || [];
-    const getParenNotebook = (file: Notebook | Note): iBroadCrumb[] => {
-      const parent = notebooks.find((item) =>
-        file._type === "note"
-          ? item.id === file.notebookId
-          : item.id === file.parentId
-      );
-      const linkPrefix = "../../";
+  const broadCrumbs = useMemo((): iBroadCrumb[] => {
+    const getParenNotebook = (file: Notebook): iBroadCrumb[] => {
+      const parent = notebooks.find((item) => item.id === file.parentId);
       return [
         {
           id: file.id,
-          label: `${
-            file._type === "note" ? file.title || "Untitled" : file.name
-          }`,
-          to: `${linkPrefix}/${file._type === "note" ? "notes" : "notebooks"}/${
-            file.id
-          }`,
+          label: `${file.emoji ? `${file.emoji} ` : ""}${file.name}`,
+          to: `/${file.workspaceId}/notebooks/${file.id}`,
         },
         ...(!parent
           ? []
@@ -109,14 +88,22 @@ const NoteEditorHeader = ({ note }: { note: Note }) => {
                 label: `${parent.emoji ? `${parent.emoji} ` : ""}${
                   parent.name
                 }`,
-                to: `${linkPrefix}/notebooks/${parent.id}`,
+                to: `/${parent.workspaceId}/notebooks/${parent.id}`,
               },
             ]),
       ];
     };
-
-    return getParenNotebook(note).reverse();
-  }, [notebooksQuery, note]);
+    const noteBroadCrumbItem = {
+      id: note.id,
+      label: `${note.title || "Untitled"}`,
+      to: `/${note.workspaceId}/notes/${note.id}`,
+    };
+    const parent = notebooks.find((item) => item.id === note.notebookId);
+    if (!parent) {
+      return [noteBroadCrumbItem];
+    }
+    return [noteBroadCrumbItem, ...getParenNotebook(parent)].reverse();
+  }, [notebooks, note]);
 
   const handleSave = useCallback(
     ({ state }: KeyBindingProps) => {
@@ -125,51 +112,34 @@ const NoteEditorHeader = ({ note }: { note: Note }) => {
       const lines = docText.split(/\n/).filter(Boolean);
       const title = (lines[0] || "").trim().slice(0, 100);
       const description = lines.slice(1).join(" ").trim().slice(0, 300);
-      handleUpdateNote({
+      updateNote(note.id, {
         content,
         title,
         description,
       });
       return true;
     },
-    [helpers, handleUpdateNote]
+    [helpers, updateNote, note]
   );
 
   useKeymap("Mod-s", handleSave);
   useKeymap("Mod-/", toggleCode.original());
 
   useEffect(() => {
-    if (note.content) {
-      setContent(note.content);
-    }
+    setContent(note.content || newNoteDefaultContent);
   }, [note.id, setContent]);
 
   return (
     <PageHeader broadCrumbs={broadCrumbs} activeId={note.id}>
-      {updateNoteMut.isIdle
-        ? "idle"
-        : updateNoteMut.isError
-        ? "Error"
-        : updateNoteMut.isLoading
-        ? "Loading..."
-        : "Saved"}
       <button
         className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800"
-        onClick={() =>
-          handleUpdateNote({
-            isPinned: !note.isPinned,
-          })
-        }
+        onClick={() => togglePinned(note)}
       >
         {note.isPinned ? <MdPushPin /> : <MdOutlinePushPin />}
       </button>
       <button
         className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800"
-        onClick={() =>
-          handleUpdateNote({
-            isFavorite: !note.isFavorite,
-          })
-        }
+        onClick={() => toggleFavorite(note)}
       >
         {note.isFavorite ? <MdStar /> : <MdStarOutline />}
       </button>

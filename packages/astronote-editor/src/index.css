@@ -1,5 +1,5 @@
 .remirror-editor-wrapper {
-  @apply p-0 overflow-y-auto flex-1 !important;
+  @apply flex-1 overflow-y-auto p-0 !important;
   --rmr-color-text: theme(colors.gray.900);
   --rmr-space-6: calc(100vh - 3rem);
   height: var(--rmr-space-6);
@@ -10,7 +10,7 @@
 }
 
 .ProseMirror {
-  @apply p-4 outline-none shadow-none overflow-y-auto !important;
+  @apply overflow-y-auto p-4 shadow-none outline-none !important;
 }
 
 .ProseMirror:focus {
@@ -22,11 +22,11 @@
   @apply m-0 !important;
 }
 .ProseMirror .remirror-list-item-checkbox {
-  @apply w-4 h-4 cursor-pointer !important;
+  @apply h-4 w-4 cursor-pointer !important;
 }
 
 .ProseMirror .remirror-list-item-with-custom-mark[data-checked] > div > p {
-  @apply text-gray-400 dark:text-gray-500 line-through !important;
+  @apply text-gray-400 line-through dark:text-gray-500 !important;
 }
 
 .ProseMirror .remirror-collapsible-list-item-button,
@@ -42,7 +42,7 @@
   @apply bg-primary-500 dark:bg-primary-500 !important;
 }
 .ProseMirror .remirror-list-spine {
-  @apply border-gray-300 dark:border-gray-400 hover:border-primary-500 dark:hover:border-primary-400 !important;
+  @apply hover:border-primary-500 dark:hover:border-primary-400 border-gray-300 dark:border-gray-400 !important;
 }
 
 .ProseMirror .remirror-suggest-atom {
@@ -50,16 +50,16 @@
 }
 .prose h1,
 .prose h2 {
-  @apply border-b border-gray-100 dark:border-gray-800 pb-2 !important;
+  @apply border-b border-gray-100 pb-2 dark:border-gray-800 !important;
 }
 
 .remirror-floating-popover .remirror-mention-atom-popup-wrapper,
 .remirror-floating-popover .remirror-emoji-popup-wrapper {
-  @apply overflow-y-auto bg-white dark:bg-gray-900 rounded-md border border-gray-100 dark:border-gray-800 shadow-xl p-2 !important;
+  @apply overflow-y-auto rounded-md border border-gray-100 bg-white p-2 shadow-xl dark:border-gray-800 dark:bg-gray-900 !important;
 }
 
 .remirror-emoji-popup-item {
-  @apply flex items-center rounded-md cursor-pointer gap-2 w-full !important;
+  @apply flex w-full cursor-pointer items-center gap-2 rounded-md !important;
 }
 .remirror-emoji-popup-item .remirror-emoji-popup-char {
   @apply pr-0 !important;
@@ -79,7 +79,7 @@
 }
 
 .remirror-floating-popover .remirror-mention-atom-zero-items {
-  @apply text-gray-500 dark:text-gray-400 px-4 !important;
+  @apply px-4 text-gray-500 dark:text-gray-400 !important;
 }
 
 .remirror-theme .ProseMirror p,
@@ -103,4 +103,8 @@
 }
 .ProseMirror a {
   cursor: pointer;
+}
+
+.ProseMirror .remirror-list-item-checkbox {
+  @apply mt-1.5 h-4 w-4 !important;
 }

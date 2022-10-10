@@ -1,5 +1,4 @@
-import axios from "axios";
-import { API_URL } from "../constants";
+import { axiosClient } from "../libs/axiosClient";
 import User from "../types/user";
 
 export type LogInDto = {
@@ -11,7 +10,7 @@ export type LogInResult = {
   accessToken: string;
 };
 export async function logInAsync(dto: LogInDto) {
-  const { data } = await axios.post<LogInResult>(`${API_URL}/auth/login`, dto);
+  const { data } = await axiosClient.post<LogInResult>(`/auth/login`, dto);
   return data;
 }
 
@@ -26,9 +25,6 @@ export type SignUpResult = {
   accessToken: string;
 };
 export async function signUpAsync(dto: SignUpDto) {
-  const { data } = await axios.post<SignUpResult>(
-    `${API_URL}/auth/signup`,
-    dto
-  );
+  const { data } = await axiosClient.post<SignUpResult>(`/auth/signup`, dto);
   return data;
 }
