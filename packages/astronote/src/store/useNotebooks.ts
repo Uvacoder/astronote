@@ -9,6 +9,8 @@ import Notebook from "../types/notebook";
 
 interface NotebooksStore {
   notebooks: Notebook[];
+  selectedId: string | null;
+  setSelectedId: (id: string | null) => void;
   fetch: () => Promise<void>;
   createNotebook: (value: CreateNotebookInputs) => Promise<Notebook>;
   updateNotebook: (
@@ -19,6 +21,7 @@ interface NotebooksStore {
 
 const useNotebooks = create<NotebooksStore>((set, get) => ({
   notebooks: [],
+  selectedId: null,
   fetch: async () => {
     try {
       const notebooks = await getNotebooksAsync();
@@ -30,6 +33,12 @@ const useNotebooks = create<NotebooksStore>((set, get) => ({
     } catch (e) {
       console.log("FAILED TO FETCH NOTEBOOKS", e);
     }
+  },
+  setSelectedId: (id: string | null) => {
+    set((state) => ({
+      ...state,
+      selectedId: id,
+    }));
   },
   createNotebook: async (value: CreateNotebookInputs) => {
     const notebook = await createNotebookAsync(value);

@@ -9,6 +9,8 @@ import Note from "../types/note";
 
 interface NotesStore {
   notes: Note[];
+  selectedId: string | null;
+  setSelectedId: (id: string | null) => void;
   fetch: () => Promise<void>;
   createNote: (value: CreateNoteInputs) => Promise<Note>;
   updateNote: (id: string, value: UpdateNoteInputs) => Promise<Note | false>;
@@ -16,6 +18,7 @@ interface NotesStore {
 
 const useNotes = create<NotesStore>((set, get) => ({
   notes: [],
+  selectedId: null,
   fetch: async () => {
     try {
       const notes = await getNotesAsync();
@@ -27,6 +30,12 @@ const useNotes = create<NotesStore>((set, get) => ({
     } catch (e) {
       console.log("FAILED TO FETCH NOTES", e);
     }
+  },
+  setSelectedId: (id: string | null) => {
+    set((state) => ({
+      ...state,
+      selectedId: id,
+    }));
   },
   createNote: async (value) => {
     const note = await createNoteAsync(value);

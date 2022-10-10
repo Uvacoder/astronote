@@ -1,5 +1,5 @@
 import { useMatch, useNavigate } from "@tanstack/react-location";
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useEffect } from "react";
 import { FiFolderPlus, FiFilePlus, FiMoreHorizontal } from "react-icons/fi";
 import CreateNotebookDialog from "../components/CreateNotebookDialog";
 import NotesAndFoldersTable from "../components/NotesAndFoldersTable";
@@ -19,6 +19,7 @@ export default function NotebookScreen() {
   const notebook = useNotebooks((state) =>
     state.notebooks.find((item) => item.id === notebookId)
   );
+  const setSelectedNotebookId = useNotebooks((state) => state.setSelectedId);
   const notes = useNotes((state) =>
     state.notes
       .filter(
@@ -83,6 +84,13 @@ export default function NotebookScreen() {
       to: `/${note.workspaceId}/notes/${note.id}`,
     });
   }, [createNote, notebook, navigate]);
+
+  useEffect(() => {
+    setSelectedNotebookId(notebookId);
+    return () => {
+      setSelectedNotebookId(null);
+    };
+  }, [notebookId, setSelectedNotebookId]);
 
   return (
     <div className="flex h-full w-full flex-col">

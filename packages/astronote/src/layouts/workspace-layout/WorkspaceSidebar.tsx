@@ -1,5 +1,12 @@
 import { Link, useMatch, useNavigate } from "@tanstack/react-location";
-import { FC, PropsWithChildren, useCallback, useMemo, useState } from "react";
+import {
+  FC,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   FiList,
   FiStar,
@@ -211,6 +218,12 @@ const NotebookLink = (props: NotebookLinkProps) => {
   const {
     params: { workspaceId },
   } = useMatch<LocationGenerics>();
+  const selectedNotebook = useNotebooks((state) =>
+    state.notebooks.find((item) => item.id === state.selectedId)
+  );
+  const selectedNote = useNotes((state) =>
+    state.notes.find((item) => item.id === state.selectedId)
+  );
   const notes = useNotes((state) =>
     state.notes
       .filter(
@@ -236,6 +249,53 @@ const NotebookLink = (props: NotebookLinkProps) => {
     () => [...notebooks, ...notes].length,
     [notebooks, notes]
   );
+
+  const allNotebooks = useNotebooks((state) => state.notebooks);
+
+  const getNotebookParentId = useCallback(
+    (id: string): string[] => {
+      const notebook = allNotebooks.find((item) => item.id === id);
+      if (!notebook) return [];
+      if (!notebook.parentId) return [notebook.id];
+      return [
+        notebook.id,
+        notebook.parentId,
+        ...getNotebookParentId(notebook.parentId),
+      ];
+    },
+    [allNotebooks]
+  );
+
+  const isThisNoteMyChild = useCallback(
+    (selNote: Note) => {
+      if (!selNote.notebookId) return false;
+      const parentIds = getNotebookParentId(selNote.notebookId);
+      return parentIds.includes(notebook.id);
+    },
+    [notebook, allNotebooks, getNotebookParentId]
+  );
+  const isThisNotebookMyChild = useCallback(
+    (selNotebook: Notebook) => {
+      if (!selNotebook.parentId) return false;
+      const parentIds = getNotebookParentId(selNotebook.parentId);
+      return parentIds.includes(notebook.id);
+    },
+    [notebook, allNotebooks, getNotebookParentId]
+  );
+
+  useEffect(() => {
+    if (selectedNote && isThisNoteMyChild(selectedNote)) {
+      setExpand(true);
+    }
+    if (selectedNotebook && isThisNotebookMyChild(selectedNotebook)) {
+      setExpand(true);
+    }
+  }, [
+    selectedNote,
+    selectedNotebook,
+    isThisNoteMyChild,
+    isThisNotebookMyChild,
+  ]);
 
   return (
     <>

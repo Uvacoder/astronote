@@ -9,6 +9,8 @@ import Workspcae from "../types/workspace";
 
 interface WorkspacesStore {
   workspaces: Workspcae[];
+  selectedId: string | null;
+  setSelectedId: (id: string | null) => void;
   fetch: () => Promise<void>;
   createWrokspace: (body: CreateWorkspaceInputs) => Promise<Workspcae>;
   updateWorkspace: (
@@ -19,6 +21,7 @@ interface WorkspacesStore {
 
 const useWroksapces = create<WorkspacesStore>((set, get) => ({
   workspaces: [],
+  selectedId: null,
   fetch: async () => {
     try {
       const workspaces = await getWorkspacesAsync();
@@ -30,6 +33,12 @@ const useWroksapces = create<WorkspacesStore>((set, get) => ({
     } catch (e) {
       console.log("FAILED TO FETCH WORKSPACES", e);
     }
+  },
+  setSelectedId: (id: string | null) => {
+    set((state) => ({
+      ...state,
+      selectedId: id,
+    }));
   },
   createWrokspace: async (body) => {
     const workspace = await createWorkspaceAsync(body);

@@ -29,16 +29,23 @@ export default function NoteScreen() {
   const {
     params: { workspaceId, noteId },
   } = useMatch<LocationGenerics>();
-
   const note = useNotes((state) =>
     state.notes.find(
       (item) => item.workspaceId === workspaceId && item.id === noteId
     )
   );
+  const setSelectedNoteId = useNotes((state) => state.setSelectedId);
 
   if (!note) {
     return <div>Note not found!</div>;
   }
+
+  useEffect(() => {
+    setSelectedNoteId(noteId);
+    return () => {
+      setSelectedNoteId(null);
+    };
+  }, [noteId, setSelectedNoteId]);
 
   return (
     <div className="flex h-full w-full flex-col">
