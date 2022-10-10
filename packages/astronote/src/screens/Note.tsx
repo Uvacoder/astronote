@@ -17,7 +17,6 @@ import {
 import { KeyBindingProps } from "remirror";
 import PageHeader from "../components/PageHeader";
 import newNoteDefaultContent from "../data/newNoteDefaultContent";
-import useNoteContextMenu from "../hooks/useNoteContextMenu";
 import useNotebooks from "../store/useNotebooks";
 import useNotes from "../store/useNotes";
 import iBroadCrumb from "../types/broadCrumb";
@@ -76,6 +75,22 @@ const NoteEditorHeader = ({ note }: { note: Note }) => {
   const { toggleCode } = useCommands();
 
   const broadCrumbs = useMemo((): iBroadCrumb[] => {
+    const noteBroadCrumbItem = {
+      id: note.id,
+      label: `${note.title || "Untitled"}`,
+      to: `/${note.workspaceId}/notes/${note.id}`,
+    };
+
+    if (note.isDeleted) {
+      return [
+        {
+          id: "trash",
+          label: "Trash",
+          to: `/${note.workspaceId}/trash`,
+        },
+        noteBroadCrumbItem,
+      ];
+    }
     const getParenNotebook = (file: Notebook): iBroadCrumb[] => {
       const parent = notebooks.find((item) => item.id === file.parentId);
       return [
@@ -98,11 +113,6 @@ const NoteEditorHeader = ({ note }: { note: Note }) => {
               },
             ]),
       ];
-    };
-    const noteBroadCrumbItem = {
-      id: note.id,
-      label: `${note.title || "Untitled"}`,
-      to: `/${note.workspaceId}/notes/${note.id}`,
     };
     const parent = notebooks.find((item) => item.id === note.notebookId);
     if (!parent) {
@@ -137,11 +147,6 @@ const NoteEditorHeader = ({ note }: { note: Note }) => {
 
   return (
     <PageHeader broadCrumbs={broadCrumbs} activeId={note.id}>
-      {note.isDeleted && (
-        <div className="rounded-full bg-red-500 px-3 py-1.5 text-sm font-medium text-white">
-          Deleted
-        </div>
-      )}
       <button
         className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800"
         onClick={() =>

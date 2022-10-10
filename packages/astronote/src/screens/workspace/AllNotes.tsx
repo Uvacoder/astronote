@@ -1,10 +1,9 @@
 import { useMatch, useNavigate } from "@tanstack/react-location";
-import { FiFilePlus, FiFolderPlus, FiMoreHorizontal } from "react-icons/fi";
+import { FiMoreHorizontal, FiPlus } from "react-icons/fi";
 import { LocationGenerics } from "../../types/locationGenerics";
 import NotesAndFoldersTable from "../../components/NotesAndFoldersTable";
 import PageHeader from "../../components/PageHeader";
 import { useCallback } from "react";
-import CreateNotebookDialog from "../../components/CreateNotebookDialog";
 import useNotes from "../../store/useNotes";
 
 export default function AllNotesScreen() {
@@ -43,16 +42,11 @@ export default function AllNotesScreen() {
           },
         ]}
       >
-        <CreateNotebookDialog workspaceId={workspaceId}>
-          <button className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-            <FiFolderPlus />
-          </button>
-        </CreateNotebookDialog>
         <button
           className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800"
           onClick={handleCreateNote}
         >
-          <FiFilePlus />
+          <FiPlus />
         </button>
         <button className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
           <FiMoreHorizontal />

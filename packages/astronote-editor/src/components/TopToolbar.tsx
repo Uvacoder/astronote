@@ -5,8 +5,6 @@ import {
   MdContentCut,
   MdContentCopy,
   MdContentPaste,
-  MdYoutubeSearchedFor,
-  MdVideoCall,
   MdVideocam,
 } from "react-icons/md";
 import { FC, forwardRef, PropsWithChildren } from "react";

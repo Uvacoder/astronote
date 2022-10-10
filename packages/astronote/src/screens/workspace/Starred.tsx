@@ -1,6 +1,6 @@
 import { useMatch, useNavigate } from "@tanstack/react-location";
 import { useCallback } from "react";
-import { FiMoreHorizontal, FiFilePlus } from "react-icons/fi";
+import { FiMoreHorizontal, FiPlus } from "react-icons/fi";
 import NotesAndFoldersTable from "../../components/NotesAndFoldersTable";
 import PageHeader from "../../components/PageHeader";
 import useNotes from "../../store/useNotes";
@@ -49,7 +49,7 @@ export default function StarredScreen() {
           onClick={handleCreateNote}
           className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800"
         >
-          <FiFilePlus />
+          <FiPlus />
         </button>
         <button className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
           <FiMoreHorizontal />

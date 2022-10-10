@@ -1,6 +1,7 @@
 import { useNavigate } from "@tanstack/react-location";
 import { useCallback } from "react";
 import { MenuItem } from "../components/ContextMenu";
+import { useAlert } from "../contexts/alertContext";
 import useNotebooks from "../store/useNotebooks";
 import useNotes from "../store/useNotes";
 import Notebook from "../types/notebook";
@@ -10,6 +11,7 @@ export default function useNotebookContextMenu() {
   const createNotebook = useNotebooks((state) => state.createNotebook);
   const deleteNotebook = useNotebooks((state) => state.deleteNotebook);
   const navigate = useNavigate();
+  const alert = useAlert();
 
   const handleCreateNote = useCallback(
     async (parent: Notebook) => {
@@ -38,13 +40,9 @@ export default function useNotebookContextMenu() {
     [createNotebook, navigate]
   );
 
-  const editNotebook = useCallback((notebook: Notebook) => {
-    alert("TODO: Edit Notebook link");
-  }, []);
+  const editNotebook = useCallback((notebook: Notebook) => {}, []);
 
-  const copyLink = useCallback((notebook: Notebook) => {
-    alert("TODO: Copy Notebook link");
-  }, []);
+  const copyLink = useCallback((notebook: Notebook) => {}, []);
 
   const getItems = useCallback(
     (notebook: Notebook): MenuItem[] => [
@@ -78,7 +76,22 @@ export default function useNotebookContextMenu() {
         type: "button",
         label: "Delete",
         onClick: () => {
-          deleteNotebook(notebook.id);
+          alert.showAlert({
+            title: `Delete "${notebook.name}"?`,
+            message: "Notes inside this will not be deleted",
+            actions: [
+              {
+                style: "cancel",
+              },
+              {
+                style: "destructive",
+                label: "Delete Notebook",
+                onClick: () => {
+                  deleteNotebook(notebook.id);
+                },
+              },
+            ],
+          });
         },
       },
     ],
@@ -88,6 +101,7 @@ export default function useNotebookContextMenu() {
       deleteNotebook,
       editNotebook,
       copyLink,
+      alert,
     ]
   );
 

@@ -14,9 +14,9 @@ import {
   FiSettings,
   FiChevronDown,
   FiChevronRight,
-  FiFolderPlus,
-  FiFilePlus,
   FiInbox,
+  FiEdit,
+  FiPlus,
 } from "react-icons/fi";
 import CreateNotebookDialog from "../../components/CreateNotebookDialog";
 import NoteIcon from "../../components/NoteIcon";
@@ -27,7 +27,6 @@ import Notebook from "../../types/notebook";
 import ContextMenu from "../../components/ContextMenu";
 import useNoteContextMenu from "../../hooks/useNoteContextMenu";
 import useNotebookContextMenu from "../../hooks/useNotebookContextMenu";
-import newNoteDefaultContent from "../../data/newNoteDefaultContent";
 import useWroksapces from "../../store/useWorkspaces";
 import useNotes from "../../store/useNotes";
 import useNotebooks from "../../store/useNotebooks";
@@ -63,14 +62,25 @@ export default function WorkspaceSidebar() {
   const worksapce = useWroksapces((state) =>
     state.workspaces.find((item) => item.id === workspaceId)
   );
+  const createNote = useNotes((state) => state.createNote);
+  const navigate = useNavigate();
 
   if (!worksapce) {
     return <div>Workspace not found</div>;
   }
 
+  const handleCreateQucikNote = useCallback(async () => {
+    const note = await createNote({
+      workspaceId,
+    });
+    navigate({
+      to: `/${workspaceId}/notes/${note.id}`,
+    });
+  }, [createNote, workspaceId]);
+
   return (
     <aside className="workspace-sidebar h-full w-72 overflow-y-auto border-r border-gray-100 dark:border-gray-800">
-      <header className="sticky top-0 z-20 flex h-12 w-full items-center bg-white px-4 dark:bg-gray-900">
+      <header className="sticky top-0 z-20 flex h-12 w-full items-center gap-2 bg-white px-4 dark:bg-gray-900">
         <div className="flex flex-1 items-center">
           {worksapce.emoji && (
             <span className="mr-2 text-xl">{worksapce.emoji}</span>
@@ -80,9 +90,15 @@ export default function WorkspaceSidebar() {
         <button className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
           <FiSettings />
         </button>
+        <button
+          className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800"
+          onClick={handleCreateQucikNote}
+        >
+          <FiEdit />
+        </button>
       </header>
 
-      <div className="space-y-8 py-4">
+      <div className="space-y-8 pt-4 pb-16">
         <nav className="space-y-px px-2">
           {mainMenu.map((item, i) => (
             <Link
@@ -169,15 +185,23 @@ const Notebooks = () => {
       <SectionTitleBar title="Notebooks">
         <CreateNotebookDialog workspaceId={workspaceId}>
           <button className="flex h-8 w-8 items-center justify-center rounded-md text-lg hover:bg-gray-100 dark:hover:bg-gray-800">
-            <FiFolderPlus />
+            <FiPlus />
           </button>
         </CreateNotebookDialog>
       </SectionTitleBar>
 
       <nav className="space-y-px px-2">
-        {notebooks.map((item) => (
-          <NotebookLink key={item.id} notebook={item} depth={0} />
-        ))}
+        {notebooks.length ? (
+          notebooks.map((item) => (
+            <NotebookLink key={item.id} notebook={item} depth={0} />
+          ))
+        ) : (
+          <div className="px-2">
+            <p className="text-center text-sm text-gray-500 dark:text-gray-400">
+              Use <b>Notebooks</b> to organize <b>Notes</b>
+            </p>
+          </div>
+        )}
       </nav>
     </section>
   );

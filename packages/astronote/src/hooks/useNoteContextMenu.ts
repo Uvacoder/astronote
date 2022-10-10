@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { MenuItem } from "../components/ContextMenu";
+import { useAlert } from "../contexts/alertContext";
 import useNotes from "../store/useNotes";
 import Note from "../types/note";
 
@@ -7,6 +8,7 @@ export default function useNoteContextMenu() {
   const updateNote = useNotes((state) => state.updateNote);
   const createNote = useNotes((state) => state.createNote);
   const deleteNote = useNotes((state) => state.deleteNote);
+  const alert = useAlert();
 
   const getMenuItems = useCallback(
     (note: Note): MenuItem[] =>
@@ -25,7 +27,22 @@ export default function useNoteContextMenu() {
               type: "button",
               label: "Delete",
               onClick: () => {
-                deleteNote(note.id);
+                alert.showAlert({
+                  title: `Delete "${note.title || "Untitled"}"`,
+                  message: "Are you sure? This cannot be undone.",
+                  actions: [
+                    {
+                      style: "cancel",
+                    },
+                    {
+                      style: "destructive",
+                      label: "Delete Note",
+                      onClick: () => {
+                        deleteNote(note.id);
+                      },
+                    },
+                  ],
+                });
               },
             },
           ]
@@ -134,7 +151,7 @@ export default function useNoteContextMenu() {
               },
             },
           ],
-    [createNote, updateNote, deleteNote]
+    [createNote, updateNote, deleteNote, alert]
   );
 
   return {
