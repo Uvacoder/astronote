@@ -1,5 +1,5 @@
 {
-  "name": "@astronote/server",
+  "name": "@an/server",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -19,8 +19,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+    "dev": "pnpm start:dev",
+    "prisma:push": "prisma db push",
     "prisma:migrate": "prisma migrate",
-    "dev": "pnpm start:dev"
+    "prisma:studio": "prisma studio"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

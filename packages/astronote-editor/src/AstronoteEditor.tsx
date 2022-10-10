@@ -99,7 +99,7 @@ const AstronoteEditor: FC<PropsWithChildren<AstronoteEditorProps>> = (
       new BulletListExtension({ enableSpine: true }),
       new OrderedListExtension(),
       new TaskListExtension(),
-      new MarkdownExtension({ copyAsMarkdown: false }),
+      new MarkdownExtension({ copyAsMarkdown: true }),
       ...wysiwygPreset({
         openLinkOnClick: true,
         defaultTarget: "_blank",

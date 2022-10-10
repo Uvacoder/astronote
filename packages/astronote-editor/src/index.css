@@ -108,3 +108,7 @@
 .ProseMirror .remirror-list-item-checkbox {
   @apply mt-1.5 h-4 w-4 !important;
 }
+
+.ProseMirror .remirror-list-item-with-custom-mark ul {
+  @apply my-2 !important;
+}

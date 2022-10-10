@@ -18,7 +18,7 @@ const AuthLayout = () => {
   }
 
   if (userQuery.status === "success" && userQuery.data) {
-    return <Navigate to="/workspaces" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return (

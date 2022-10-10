@@ -24,16 +24,15 @@ export interface UpdateWorkspaceInputs {
 export interface CreateNotebookInputs {
   workspaceId: string;
   name: string;
-  description?: string;
-  emoji?: string;
-  parentId?: string;
+  description?: string | null;
+  emoji?: string | null;
+  parentId?: string | null;
 }
 export interface UpdateNotebookInputs {
-  workspaceId?: string;
   name?: string;
-  description?: string;
-  emoji?: string;
-  parentId?: string;
+  description?: string | null;
+  emoji?: string | null;
+  parentId?: string | null;
 }
 
 export interface CreateNoteInputs {

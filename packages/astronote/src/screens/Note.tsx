@@ -1,4 +1,4 @@
-import AstronoteEditor from "@astronote/editor";
+import AstronoteEditor from "@an/editor";
 import {
   useHelpers,
   useRemirrorContext,

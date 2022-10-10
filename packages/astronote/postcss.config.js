@@ -1,1 +1,1 @@
-module.exports = require("@astronote/ui/postcss");
+module.exports = require("@an/ui/postcss");

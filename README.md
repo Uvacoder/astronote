@@ -1,8 +1,8 @@
 # Astronote
 
-A markdwon based note taking plus productivity app for writers and developers.
+A markdown based note taking plus productivity app for writers and developers.
 
-## Instalation
+## Installation
 
 ### Step 1
 
@@ -14,7 +14,7 @@ git clone https://github.com/rohid2d/astronote
 
 ### Step 2
 
-Move inside the project folder and install npm dependencies. I'm using `pnpm`. So make sure you have `pnpm` installed globaly in your system.
+Move inside the project folder and install npm dependencies. I'm using `pnpm`. So make sure you have `pnpm` installed globally in your system.
 
 ```bash
 cd astronote

@@ -1,6 +1,7 @@
 import {
   createBrowserHistory,
   Navigate,
+  Outlet,
   ReactLocation,
   Route,
   Router,
@@ -18,6 +19,8 @@ import TrashScreen from "./screens/workspace/Trash";
 import NoteScreen from "./screens/Note";
 import NotebookScreen from "./screens/Notebook";
 import UnsortedScreen from "./screens/workspace/Unsorted";
+import AlertProvider from "./contexts/alertContext";
+import DialogsProvider from "./contexts/dialogContext";
 
 const history = createBrowserHistory();
 
@@ -100,7 +103,15 @@ const AppRouter = () => {
     []
   );
 
-  return <Router location={location} routes={routes} />;
+  return (
+    <Router location={location} routes={routes}>
+      <AlertProvider>
+        <DialogsProvider>
+          <Outlet />
+        </DialogsProvider>
+      </AlertProvider>
+    </Router>
+  );
 };
 
 export default AppRouter;

@@ -1,7 +1,7 @@
 import { useMatch, useNavigate } from "@tanstack/react-location";
 import { useMemo, useCallback, useEffect } from "react";
 import { FiFolderPlus, FiFilePlus, FiMoreHorizontal } from "react-icons/fi";
-import CreateNotebookDialog from "../components/CreateNotebookDialog";
+import CreateOrUpdateNotebookDialog from "../components/CreateOrUpdateNotebookDialog";
 import NotesAndFoldersTable from "../components/NotesAndFoldersTable";
 import PageHeader from "../components/PageHeader";
 import useNotebooks from "../store/useNotebooks";
@@ -97,11 +97,9 @@ export default function NotebookScreen() {
   return (
     <div className="flex h-full w-full flex-col">
       <PageHeader broadCrumbs={broadCrumbs} activeId={notebookId}>
-        <CreateNotebookDialog workspaceId={workspaceId} parentId={notebookId}>
-          <button className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-            <FiFolderPlus />
-          </button>
-        </CreateNotebookDialog>
+        <button className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
+          <FiFolderPlus />
+        </button>
 
         <button
           className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800"

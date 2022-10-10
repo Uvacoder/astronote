@@ -1,7 +1,9 @@
 import { useNavigate } from "@tanstack/react-location";
 import { useCallback } from "react";
 import { MenuItem } from "../components/ContextMenu";
+import CreateOrUpdateNotebookDialog from "../components/CreateOrUpdateNotebookDialog";
 import { useAlert } from "../contexts/alertContext";
+import { useDialogs } from "../contexts/dialogContext";
 import useNotebooks from "../store/useNotebooks";
 import useNotes from "../store/useNotes";
 import Notebook from "../types/notebook";
@@ -12,6 +14,7 @@ export default function useNotebookContextMenu() {
   const deleteNotebook = useNotebooks((state) => state.deleteNotebook);
   const navigate = useNavigate();
   const alert = useAlert();
+  const dialog = useDialogs();
 
   const handleCreateNote = useCallback(
     async (parent: Notebook) => {
@@ -39,9 +42,7 @@ export default function useNotebookContextMenu() {
     },
     [createNotebook, navigate]
   );
-
   const editNotebook = useCallback((notebook: Notebook) => {}, []);
-
   const copyLink = useCallback((notebook: Notebook) => {}, []);
 
   const getItems = useCallback(
@@ -54,7 +55,18 @@ export default function useNotebookContextMenu() {
       {
         type: "button",
         label: "New Notebook",
-        onClick: () => handleCreateNotebook(notebook),
+        onClick: () => {
+          dialog.showDialog({
+            title: "Create Notebook",
+            content: (
+              <CreateOrUpdateNotebookDialog
+                type="create"
+                parentId={notebook.id}
+                workspaceId={notebook.workspaceId}
+              />
+            ),
+          });
+        },
       },
       {
         type: "separator",
@@ -70,7 +82,14 @@ export default function useNotebookContextMenu() {
       {
         type: "button",
         label: "Edit",
-        onClick: () => editNotebook(notebook),
+        onClick: () => {
+          dialog.showDialog({
+            title: "Update Notebook",
+            content: (
+              <CreateOrUpdateNotebookDialog type="update" notebook={notebook} />
+            ),
+          });
+        },
       },
       {
         type: "button",
@@ -102,6 +121,7 @@ export default function useNotebookContextMenu() {
       editNotebook,
       copyLink,
       alert,
+      dialog,
     ]
   );
 

@@ -18,7 +18,7 @@ import {
   FiEdit,
   FiPlus,
 } from "react-icons/fi";
-import CreateNotebookDialog from "../../components/CreateNotebookDialog";
+import CreateOrUpdateNotebookDialog from "../../components/CreateOrUpdateNotebookDialog";
 import NoteIcon from "../../components/NoteIcon";
 import NotebookIcon from "../../components/NotebookIcon";
 import { LocationGenerics } from "../../types/locationGenerics";
@@ -31,6 +31,7 @@ import useWroksapces from "../../store/useWorkspaces";
 import useNotes from "../../store/useNotes";
 import useNotebooks from "../../store/useNotebooks";
 import clsx from "clsx";
+import { useDialogs } from "../../contexts/dialogContext";
 
 const mainMenu = [
   {
@@ -179,15 +180,25 @@ const Notebooks = () => {
       .filter((item) => item.workspaceId === workspaceId && !item.parentId)
       .sort((a, b) => a.name.localeCompare(b.name))
   );
+  const dialog = useDialogs();
+  const handleCreateNotebook = useCallback(() => {
+    dialog.showDialog({
+      title: "Create Notebook",
+      content: (
+        <CreateOrUpdateNotebookDialog type="create" workspaceId={workspaceId} />
+      ),
+    });
+  }, [dialog, workspaceId]);
 
   return (
     <section id="folders" className="my-8">
       <SectionTitleBar title="Notebooks">
-        <CreateNotebookDialog workspaceId={workspaceId}>
-          <button className="flex h-8 w-8 items-center justify-center rounded-md text-lg hover:bg-gray-100 dark:hover:bg-gray-800">
-            <FiPlus />
-          </button>
-        </CreateNotebookDialog>
+        <button
+          className="flex h-8 w-8 items-center justify-center rounded-md text-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+          onClick={handleCreateNotebook}
+        >
+          <FiPlus />
+        </button>
       </SectionTitleBar>
 
       <nav className="space-y-px px-2">

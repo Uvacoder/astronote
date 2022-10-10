@@ -10,9 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@astronote/core": "workspace:*",
-    "@astronote/editor": "workspace:*",
-    "@astronote/ui": "workspace:*",
+    "@an/core": "workspace:*",
+    "@an/editor": "workspace:*",
+    "@an/ui": "workspace:*",
     "@hookform/resolvers": "^2.9.8",
     "@radix-ui/react-alert-dialog": "^1.0.0",
     "@radix-ui/react-avatar": "^1.0.0",

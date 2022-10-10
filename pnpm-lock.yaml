@@ -14,8 +14,8 @@ importers:
 
   apps/desktop:
     specifiers:
-      '@astronote/core': workspace:*
-      '@astronote/ui': workspace:*
+      '@an/core': workspace:*
+      '@an/ui': workspace:*
       '@tauri-apps/api': ^1.1.0
       '@tauri-apps/cli': ^1.1.0
       '@types/node': ^18.7.10
@@ -32,8 +32,8 @@ importers:
       vite: ^3.0.2
       vite-tsconfig-paths: ^3.5.1
     dependencies:
-      '@astronote/core': link:../../packages/astronote-core
-      '@astronote/ui': link:../../packages/astronote-ui
+      '@an/core': link:../../packages/astronote-core
+      '@an/ui': link:../../packages/astronote-ui
       '@tauri-apps/api': 1.1.0
       astronote: link:../../packages/astronote
       react: 18.2.0
@@ -171,8 +171,8 @@ importers:
 
   apps/web:
     specifiers:
-      '@astronote/core': workspace:*
-      '@astronote/ui': workspace:*
+      '@an/core': workspace:*
+      '@an/ui': workspace:*
       '@types/react': ^18.0.17
       '@types/react-dom': ^18.0.6
       '@vitejs/plugin-react': ^2.1.0
@@ -186,8 +186,8 @@ importers:
       vite: ^3.1.0
       vite-tsconfig-paths: ^3.5.1
     dependencies:
-      '@astronote/core': link:../../packages/astronote-core
-      '@astronote/ui': link:../../packages/astronote-ui
+      '@an/core': link:../../packages/astronote-core
+      '@an/ui': link:../../packages/astronote-ui
       astronote: link:../../packages/astronote
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -204,9 +204,9 @@ importers:
 
   packages/astronote:
     specifiers:
-      '@astronote/core': workspace:*
-      '@astronote/editor': workspace:*
-      '@astronote/ui': workspace:*
+      '@an/core': workspace:*
+      '@an/editor': workspace:*
+      '@an/ui': workspace:*
       '@hookform/resolvers': ^2.9.8
       '@radix-ui/react-alert-dialog': ^1.0.0
       '@radix-ui/react-avatar': ^1.0.0
@@ -246,9 +246,9 @@ importers:
       yup: ^0.32.11
       zustand: ^4.1.2
     dependencies:
-      '@astronote/core': link:../astronote-core
-      '@astronote/editor': link:../astronote-editor
-      '@astronote/ui': link:../astronote-ui
+      '@an/core': link:../astronote-core
+      '@an/editor': link:../astronote-editor
+      '@an/ui': link:../astronote-ui
       '@hookform/resolvers': 2.9.8_react-hook-form@7.36.1
       '@radix-ui/react-alert-dialog': 1.0.0_rj7ozvcq3uehdlnj3cbwzbi5ce
       '@radix-ui/react-avatar': 1.0.0_biqbaboplfbrettd7655fr4n2y
@@ -310,7 +310,7 @@ importers:
 
   packages/astronote-editor:
     specifiers:
-      '@astronote/core': workspace:*
+      '@an/core': workspace:*
       '@emotion/react': ^11.10.4
       '@emotion/styled': ^11.10.4
       '@remirror/extension-react-tables': ^2.0.9
@@ -332,7 +332,7 @@ importers:
       tailwindcss: ^3.1.8
       typescript: ^4.8.4
     dependencies:
-      '@astronote/core': link:../astronote-core
+      '@an/core': link:../astronote-core
       '@emotion/react': 11.10.4_iapumuv4e6jcjznwuxpf4tt22e
       '@emotion/styled': 11.10.4_g3tud4ene45llglqap74b5kkse
       '@remirror/extension-react-tables': 2.0.9_jtezt7nspkxnyaos7mqgmbbs7u

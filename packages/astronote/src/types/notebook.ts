@@ -4,6 +4,7 @@ interface Notebook {
   createdAt: string;
   updatedAt: string;
   name: string;
+  description: string | null;
   emoji: string | null;
   workspaceId: string;
   parentId: string | null;
