@@ -1,11 +1,13 @@
 import create from "zustand";
 import {
   createNotebookAsync,
+  deleteNotebookAsync,
   getNotebooksAsync,
   updateNotebookAsync,
 } from "../api/notebookApi";
 import { CreateNotebookInputs, UpdateNotebookInputs } from "../types/forms";
 import Notebook from "../types/notebook";
+import useNotes from "./useNotes";
 
 interface NotebooksStore {
   notebooks: Notebook[];
@@ -17,6 +19,7 @@ interface NotebooksStore {
     id: string,
     value: UpdateNotebookInputs
   ) => Promise<Notebook | null>;
+  deleteNotebook: (id: string) => Promise<Notebook | null>;
 }
 
 const useNotebooks = create<NotebooksStore>((set, get) => ({
@@ -78,6 +81,28 @@ const useNotebooks = create<NotebooksStore>((set, get) => ({
         notebooks: state.notebooks.map((item) =>
           item.id === id ? actualNotebook : item
         ),
+      }));
+      return null;
+    }
+  },
+  deleteNotebook: async (id) => {
+    const actualNotebook = get().notebooks.find((item) => item.id === id);
+    if (!actualNotebook) return null;
+    set((state) => ({
+      ...state,
+      notebooks: state.notebooks.filter((item) => item.id !== id),
+    }));
+    try {
+      const deletedNote = await deleteNotebookAsync(id);
+      await get().fetch();
+      await useNotes.getState().fetch();
+      return deletedNote;
+    } catch (e) {
+      console.log("FAILED TO DELETE NOTEBOOK", e);
+      // Putting back the original notebook
+      set((state) => ({
+        ...state,
+        notes: [...state.notebooks, actualNotebook],
       }));
       return null;
     }

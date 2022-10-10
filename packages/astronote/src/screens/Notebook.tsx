@@ -4,7 +4,6 @@ import { FiFolderPlus, FiFilePlus, FiMoreHorizontal } from "react-icons/fi";
 import CreateNotebookDialog from "../components/CreateNotebookDialog";
 import NotesAndFoldersTable from "../components/NotesAndFoldersTable";
 import PageHeader from "../components/PageHeader";
-import newNoteDefaultContent from "../data/newNoteDefaultContent";
 import useNotebooks from "../store/useNotebooks";
 import useNotes from "../store/useNotes";
 import iBroadCrumb from "../types/broadCrumb";
@@ -78,7 +77,6 @@ export default function NotebookScreen() {
     const note = await createNote({
       workspaceId: notebook.workspaceId,
       notebookId: notebook.id,
-      content: newNoteDefaultContent,
     });
     navigate({
       to: `/${note.workspaceId}/notes/${note.id}`,
@@ -91,6 +89,10 @@ export default function NotebookScreen() {
       setSelectedNotebookId(null);
     };
   }, [notebookId, setSelectedNotebookId]);
+
+  if (!notebook) {
+    return <div>Notebook not found</div>;
+  }
 
   return (
     <div className="flex h-full w-full flex-col">

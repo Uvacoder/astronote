@@ -59,8 +59,8 @@ const CreateNotebookDialog: FC<CreateNotebookDialogProps> = (props) => {
     >
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-        <Dialog.Content className="fixed left-1/2 top-20 w-screen max-w-[380px] -translate-x-1/2 rounded-xl border border-gray-100 bg-white shadow-2xl dark:border-gray-800 dark:bg-gray-900">
+        <Dialog.Overlay className="fixed inset-0 z-30 bg-black/50" />
+        <Dialog.Content className="fixed left-1/2 top-20 z-40 w-screen max-w-[380px] -translate-x-1/2 rounded-xl border border-gray-100 bg-white shadow-2xl dark:border-gray-800 dark:bg-gray-900">
           <header className="flex h-14 w-full items-center gap-2 border-b border-gray-100 px-4 dark:border-gray-800">
             <Dialog.Title className="flex-1 truncate text-lg font-medium">
               Create Notebook

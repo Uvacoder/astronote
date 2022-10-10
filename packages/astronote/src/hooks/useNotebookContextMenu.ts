@@ -1,7 +1,6 @@
 import { useNavigate } from "@tanstack/react-location";
 import { useCallback } from "react";
 import { MenuItem } from "../components/ContextMenu";
-import newNoteDefaultContent from "../data/newNoteDefaultContent";
 import useNotebooks from "../store/useNotebooks";
 import useNotes from "../store/useNotes";
 import Notebook from "../types/notebook";
@@ -9,6 +8,7 @@ import Notebook from "../types/notebook";
 export default function useNotebookContextMenu() {
   const createNote = useNotes((state) => state.createNote);
   const createNotebook = useNotebooks((state) => state.createNotebook);
+  const deleteNotebook = useNotebooks((state) => state.deleteNotebook);
   const navigate = useNavigate();
 
   const handleCreateNote = useCallback(
@@ -16,7 +16,6 @@ export default function useNotebookContextMenu() {
       const note = await createNote({
         workspaceId: parent.workspaceId,
         notebookId: parent.id,
-        content: newNoteDefaultContent,
       });
       navigate({
         to: `/${parent.workspaceId}/notes/${note.id}`,
@@ -38,10 +37,6 @@ export default function useNotebookContextMenu() {
     },
     [createNotebook, navigate]
   );
-
-  const deleteNotebook = useCallback((notebook: Notebook) => {
-    alert("TODO: Delete Notebook link");
-  }, []);
 
   const editNotebook = useCallback((notebook: Notebook) => {
     alert("TODO: Edit Notebook link");
@@ -82,7 +77,9 @@ export default function useNotebookContextMenu() {
       {
         type: "button",
         label: "Delete",
-        onClick: () => deleteNotebook(notebook),
+        onClick: () => {
+          deleteNotebook(notebook.id);
+        },
       },
     ],
     [

@@ -16,7 +16,7 @@ const EmojiPicker: FC<EmojiPickerProps> = (props) => {
     <Popover.Root>
       <Popover.Trigger asChild>{children}</Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content sideOffset={8}>
+        <Popover.Content sideOffset={8} className="z-40">
           <EmojiPickerReact
             autoFocusSearch
             width={320}

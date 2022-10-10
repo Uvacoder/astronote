@@ -1,6 +1,7 @@
 import create from "zustand";
 import {
   createNoteAsync,
+  deleteNoteAsync,
   getNotesAsync,
   updateNoteAsync,
 } from "../api/noteApi";
@@ -13,7 +14,8 @@ interface NotesStore {
   setSelectedId: (id: string | null) => void;
   fetch: () => Promise<void>;
   createNote: (value: CreateNoteInputs) => Promise<Note>;
-  updateNote: (id: string, value: UpdateNoteInputs) => Promise<Note | false>;
+  updateNote: (id: string, value: UpdateNoteInputs) => Promise<Note | null>;
+  deleteNote: (id: string) => Promise<Note | null>;
 }
 
 const useNotes = create<NotesStore>((set, get) => ({
@@ -47,7 +49,7 @@ const useNotes = create<NotesStore>((set, get) => ({
   },
   updateNote: async (id, value) => {
     const actualNote = get().notes.find((item) => item.id === id);
-    if (!actualNote) return false;
+    if (!actualNote) return null;
 
     // Updating the state right way
     set((state) => ({
@@ -78,7 +80,28 @@ const useNotes = create<NotesStore>((set, get) => ({
         ...state,
         notes: state.notes.map((item) => (item.id === id ? actualNote : item)),
       }));
-      return false;
+      return null;
+    }
+  },
+  deleteNote: async (id) => {
+    const actualNote = get().notes.find((item) => item.id === id);
+    if (!actualNote) return null;
+    set((state) => ({
+      ...state,
+      notes: state.notes.filter((item) => item.id !== id),
+    }));
+    try {
+      const deletedNote = await deleteNoteAsync(id);
+      return deletedNote;
+    } catch (e) {
+      console.log("FAILED TO DELETE NOTE", e);
+
+      // Putting back the original note
+      set((state) => ({
+        ...state,
+        notes: [...state.notes, actualNote],
+      }));
+      return null;
     }
   },
 }));

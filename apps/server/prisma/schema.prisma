@@ -89,7 +89,7 @@ model Note {
   isFavorite  Boolean   @default(false)
   isPinned    Boolean   @default(false)
   isDeleted   Boolean   @default(false)
-  notebook    Notebook? @relation(fields: [notebookId], references: [id], onDelete: Cascade)
+  notebook    Notebook? @relation(fields: [notebookId], references: [id])
   notebookId  String?
   user        User      @relation(fields: [userId], references: [id])
   userId      String

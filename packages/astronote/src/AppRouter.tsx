@@ -17,6 +17,7 @@ import LogInScreen from "./screens/auth/LogIn";
 import TrashScreen from "./screens/workspace/Trash";
 import NoteScreen from "./screens/Note";
 import NotebookScreen from "./screens/Notebook";
+import UnsortedScreen from "./screens/workspace/Unsorted";
 
 const history = createBrowserHistory();
 
@@ -62,6 +63,10 @@ const AppRouter = () => {
               {
                 path: "all",
                 element: <AllNotesScreen />,
+              },
+              {
+                path: "unsorted",
+                element: <UnsortedScreen />,
               },
               {
                 path: "starred",

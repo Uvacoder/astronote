@@ -74,7 +74,6 @@ const NoteEditorHeader = ({ note }: { note: Note }) => {
   );
   const updateNote = useNotes((state) => state.updateNote);
   const { toggleCode } = useCommands();
-  const { togglePinned, toggleFavorite } = useNoteContextMenu();
 
   const broadCrumbs = useMemo((): iBroadCrumb[] => {
     const getParenNotebook = (file: Notebook): iBroadCrumb[] => {
@@ -138,15 +137,28 @@ const NoteEditorHeader = ({ note }: { note: Note }) => {
 
   return (
     <PageHeader broadCrumbs={broadCrumbs} activeId={note.id}>
+      {note.isDeleted && (
+        <div className="rounded-full bg-red-500 px-3 py-1.5 text-sm font-medium text-white">
+          Deleted
+        </div>
+      )}
       <button
         className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800"
-        onClick={() => togglePinned(note)}
+        onClick={() =>
+          updateNote(note.id, {
+            isPinned: !note.isPinned,
+          })
+        }
       >
         {note.isPinned ? <MdPushPin /> : <MdOutlinePushPin />}
       </button>
       <button
         className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800"
-        onClick={() => toggleFavorite(note)}
+        onClick={() =>
+          updateNote(note.id, {
+            isFavorite: !note.isFavorite,
+          })
+        }
       >
         {note.isFavorite ? <MdStar /> : <MdStarOutline />}
       </button>

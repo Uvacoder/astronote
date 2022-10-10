@@ -16,6 +16,7 @@ import {
   FiChevronRight,
   FiFolderPlus,
   FiFilePlus,
+  FiInbox,
 } from "react-icons/fi";
 import CreateNotebookDialog from "../../components/CreateNotebookDialog";
 import NoteIcon from "../../components/NoteIcon";
@@ -37,6 +38,11 @@ const mainMenu = [
     to: "all",
     label: "All Notes",
     icon: <FiList />,
+  },
+  {
+    to: "unsorted",
+    label: "Unsorted",
+    icon: <FiInbox />,
   },
   {
     to: "starred",
@@ -64,7 +70,7 @@ export default function WorkspaceSidebar() {
 
   return (
     <aside className="workspace-sidebar h-full w-72 overflow-y-auto border-r border-gray-100 dark:border-gray-800">
-      <header className="sticky top-0 flex h-12 w-full items-center bg-white px-4 dark:bg-gray-900">
+      <header className="sticky top-0 z-20 flex h-12 w-full items-center bg-white px-4 dark:bg-gray-900">
         <div className="flex flex-1 items-center">
           {worksapce.emoji && (
             <span className="mr-2 text-xl">{worksapce.emoji}</span>
@@ -122,10 +128,14 @@ const PinnedNotes = () => {
     params: { workspaceId },
   } = useMatch<LocationGenerics>();
   const pinnedNotes = useNotes((state) =>
-    state.notes.filter(
-      (note) =>
-        !note.isDeleted && note.workspaceId === workspaceId && note.isPinned
-    )
+    state.notes
+      .filter(
+        (note) =>
+          !note.isDeleted && note.workspaceId === workspaceId && note.isPinned
+      )
+      .sort((a, b) =>
+        (a.title || "Untitled").localeCompare(b.title || "Untitled")
+      )
   );
 
   if (pinnedNotes.length === 0) {
@@ -135,7 +145,7 @@ const PinnedNotes = () => {
   return (
     <section id="folders" className="my-8">
       <SectionTitleBar title="Pinned" />
-      <nav className="px-2">
+      <nav className="space-y-px px-2">
         {pinnedNotes.map((note) => (
           <NoteLink note={note} />
         ))}
@@ -148,35 +158,11 @@ const Notebooks = () => {
   const {
     params: { workspaceId },
   } = useMatch<LocationGenerics>();
-  const notes = useNotes((state) =>
-    state.notes
-      .filter(
-        (note) =>
-          note.workspaceId === workspaceId &&
-          !note.isDeleted &&
-          !note.notebookId
-      )
-      .sort((a, b) =>
-        (a.title || "Untitled").localeCompare(b.title || "Untitled")
-      )
-  );
   const notebooks = useNotebooks((state) =>
     state.notebooks
       .filter((item) => item.workspaceId === workspaceId && !item.parentId)
       .sort((a, b) => a.name.localeCompare(b.name))
   );
-  const createNote = useNotes((state) => state.createNote);
-  const navigate = useNavigate();
-
-  const handleCreateNote = useCallback(async () => {
-    const note = await createNote({
-      workspaceId,
-      content: newNoteDefaultContent,
-    });
-    navigate({
-      to: `/${note.workspaceId}/notes/${note.id}`,
-    });
-  }, [createNote, navigate]);
 
   return (
     <section id="folders" className="my-8">
@@ -186,20 +172,11 @@ const Notebooks = () => {
             <FiFolderPlus />
           </button>
         </CreateNotebookDialog>
-        <button
-          className="flex h-8 w-8 items-center justify-center rounded-md text-lg hover:bg-gray-100 dark:hover:bg-gray-800"
-          onClick={handleCreateNote}
-        >
-          <FiFilePlus />
-        </button>
       </SectionTitleBar>
 
       <nav className="space-y-px px-2">
         {notebooks.map((item) => (
           <NotebookLink key={item.id} notebook={item} depth={0} />
-        ))}
-        {notes.map((item) => (
-          <NoteLink key={item.id} note={item} depth={0} />
         ))}
       </nav>
     </section>
@@ -303,7 +280,7 @@ const NotebookLink = (props: NotebookLinkProps) => {
         <ContextMenu items={getItems(notebook)}>
           <Link
             to={`notebooks/${notebook.id}`}
-            className="group flex select-none items-center gap-3 rounded-md py-1.5 pl-8 pr-3"
+            className="group flex select-none items-center gap-3 rounded-md py-1 pl-8 pr-3"
             getActiveProps={() => ({
               className: "bg-gray-100 dark:bg-gray-800",
             })}
@@ -312,7 +289,7 @@ const NotebookLink = (props: NotebookLinkProps) => {
                 "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50 hover:bg-gray-100 dark:hover:bg-gray-800",
             })}
             style={{
-              paddingLeft: `${(depth + 1.5) * 1}rem`,
+              paddingLeft: `${depth + 1.875}rem`,
             }}
           >
             <span className="flex h-5 w-5 items-center justify-center text-lg">
@@ -328,10 +305,10 @@ const NotebookLink = (props: NotebookLinkProps) => {
         </ContextMenu>
         {childCount > 0 && (
           <button
-            className="absolute top-1/2 -translate-y-1/2"
+            className="absolute top-1/2 flex h-full w-5 -translate-y-1/2 items-center justify-center text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
             onClick={() => setExpand((value) => !value)}
             style={{
-              left: `${(depth + 0.375) * 1}rem`,
+              left: `${depth + 0.5}rem`,
             }}
           >
             {expand ? <FiChevronDown /> : <FiChevronRight />}
@@ -340,7 +317,7 @@ const NotebookLink = (props: NotebookLinkProps) => {
       </div>
 
       <nav
-        className={clsx("space-y-px", {
+        className={clsx("relative space-y-px", {
           block: expand,
           hidden: !expand,
         })}
@@ -351,6 +328,15 @@ const NotebookLink = (props: NotebookLinkProps) => {
         {notes.map((item) => (
           <NoteLink key={item.id} note={item} depth={depth + 1} />
         ))}
+        <div
+          className="group absolute top-0 bottom-0 z-10 flex w-2 cursor-pointer justify-center"
+          onClick={() => setExpand((value) => !value)}
+          style={{
+            left: `calc(${depth + 1.125}rem - 0.25rem)`,
+          }}
+        >
+          <div className="h-full w-px bg-gray-200 group-hover:bg-gray-900 dark:bg-gray-700 dark:group-hover:bg-gray-50"></div>
+        </div>
       </nav>
     </>
   );
@@ -369,7 +355,7 @@ const NoteLink = (props: NoteLinkProps) => {
     <ContextMenu items={getItems(note)}>
       <Link
         to={`notes/${note.id}`}
-        className="flex items-center gap-3 rounded-md py-1.5 pl-3 pr-3 "
+        className="flex items-center gap-3 rounded-md py-1 pl-3 pr-3 "
         getActiveProps={() => ({
           className: "bg-gray-100 dark:bg-gray-800",
         })}
@@ -379,9 +365,7 @@ const NoteLink = (props: NoteLinkProps) => {
         })}
         style={{
           paddingLeft:
-            typeof depth !== "undefined"
-              ? `${(depth + 1.6) * 1}rem`
-              : undefined,
+            typeof depth !== "undefined" ? `${depth + 1.875}rem` : undefined,
         }}
       >
         <span className="flex h-5 w-5 items-center justify-center text-lg">

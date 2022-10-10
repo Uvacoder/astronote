@@ -30,8 +30,16 @@ export const createNotebookAsync = async (body: CreateNotebookInputs) => {
 export const updateNotebookAsync = async (
   id: string,
   body: UpdateNotebookInputs
-): Promise<Notebook> => {
+) => {
   const { data } = await axiosClient.patch<Notebook>(`/notebooks/${id}`, body, {
+    headers: {
+      ...getDefaultHeaders(),
+    },
+  });
+  return data;
+};
+export const deleteNotebookAsync = async (id: string) => {
+  const { data } = await axiosClient.delete<Notebook>(`/notebooks/${id}`, {
     headers: {
       ...getDefaultHeaders(),
     },

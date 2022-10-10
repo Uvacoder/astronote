@@ -48,3 +48,12 @@ export const updateNoteAsync = async (id: string, body: UpdateNoteInputs) => {
 
   return data;
 };
+export const deleteNoteAsync = async (id: string) => {
+  const { data } = await axiosClient.delete<Note>(`/notes/${id}`, {
+    headers: {
+      ...getDefaultHeaders(),
+    },
+  });
+
+  return data;
+};

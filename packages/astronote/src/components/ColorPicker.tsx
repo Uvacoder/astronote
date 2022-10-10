@@ -14,7 +14,12 @@ const ColorPicker: FC<ColorPickerProps> = (props) => {
   return (
     <Popover.Root>
       <Popover.Trigger asChild>{children}</Popover.Trigger>
-      <Popover.Content sideOffset={4} side="bottom" align="start">
+      <Popover.Content
+        sideOffset={4}
+        side="bottom"
+        align="start"
+        className="z-40"
+      >
         <ChromePicker
           color={color}
           onChange={(value) => {

@@ -6,7 +6,7 @@ import PageHeader from "../../components/PageHeader";
 import useNotes from "../../store/useNotes";
 import { LocationGenerics } from "../../types/locationGenerics";
 
-export default function StarredScreen() {
+export default function UnsortedScreen() {
   const {
     params: { workspaceId },
   } = useMatch<LocationGenerics>();
@@ -14,7 +14,9 @@ export default function StarredScreen() {
     state.notes
       .filter(
         (note) =>
-          note.workspaceId === workspaceId && !note.isDeleted && note.isFavorite
+          note.workspaceId === workspaceId &&
+          !note.isDeleted &&
+          !note.notebookId
       )
       .sort((a, b) =>
         (a.title || "Untitled").localeCompare(b.title || "Untitled")
@@ -26,7 +28,6 @@ export default function StarredScreen() {
   const handleCreateNote = useCallback(async () => {
     const note = await createNote({
       workspaceId,
-      isFavorite: true,
     });
     navigate({
       to: `/${note.workspaceId}/notes/${note.id}`,
@@ -36,12 +37,12 @@ export default function StarredScreen() {
   return (
     <div className="h-full w-full">
       <PageHeader
-        activeId="starred"
+        activeId="unsorted"
         broadCrumbs={[
           {
-            id: "starred",
+            id: "unsorted",
             to: "",
-            label: "Starred",
+            label: "Unsorted",
           },
         ]}
       >

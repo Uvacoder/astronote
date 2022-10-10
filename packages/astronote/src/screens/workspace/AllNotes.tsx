@@ -3,8 +3,7 @@ import { FiFilePlus, FiFolderPlus, FiMoreHorizontal } from "react-icons/fi";
 import { LocationGenerics } from "../../types/locationGenerics";
 import NotesAndFoldersTable from "../../components/NotesAndFoldersTable";
 import PageHeader from "../../components/PageHeader";
-import { useCallback, useMemo } from "react";
-import newNoteDefaultContent from "../../data/newNoteDefaultContent";
+import { useCallback } from "react";
 import CreateNotebookDialog from "../../components/CreateNotebookDialog";
 import useNotes from "../../store/useNotes";
 
@@ -26,7 +25,6 @@ export default function AllNotesScreen() {
   const handleCreateNote = useCallback(async () => {
     const note = await createNote({
       workspaceId,
-      content: newNoteDefaultContent,
     });
     navigate({
       to: `/${note.workspaceId}/notes/${note.id}`,
