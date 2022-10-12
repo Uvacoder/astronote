@@ -32,6 +32,7 @@ import useNotes from "../../store/useNotes";
 import useNotebooks from "../../store/useNotebooks";
 import clsx from "clsx";
 import { useDialogs } from "../../contexts/dialogContext";
+import { useDrag, useDrop } from "react-dnd";
 
 const mainMenu = [
   {
@@ -189,6 +190,18 @@ const Notebooks = () => {
       ),
     });
   }, [dialog, workspaceId]);
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: ["note", "notebook"],
+    drop: () => ({
+      id: null,
+      name: "Unsorted",
+    }),
+    collect(monitor) {
+      return {
+        isOver: monitor.isOver(),
+      };
+    },
+  }));
 
   return (
     <section id="folders" className="my-8">
@@ -213,6 +226,13 @@ const Notebooks = () => {
             </p>
           </div>
         )}
+        <div
+          className={clsx("relative h-[2px] w-full", {
+            "bg-blue-500": isOver,
+          })}
+        >
+          <div ref={drop} className="absolute left-0 right-0 -top-2 h-4"></div>
+        </div>
       </nav>
     </section>
   );
@@ -236,6 +256,7 @@ const NotebookLink = (props: NotebookLinkProps) => {
   const selectedNote = useNotes((state) =>
     state.notes.find((item) => item.id === state.selectedId)
   );
+  const updateNotebook = useNotebooks((state) => state.updateNotebook);
   const notes = useNotes((state) =>
     state.notes
       .filter(
@@ -256,7 +277,6 @@ const NotebookLink = (props: NotebookLinkProps) => {
       )
       .sort((a, b) => a.name.localeCompare(b.name))
   );
-
   const childCount = useMemo(
     () => [...notebooks, ...notes].length,
     [notebooks, notes]
@@ -295,6 +315,36 @@ const NotebookLink = (props: NotebookLinkProps) => {
     [notebook, allNotebooks, getNotebookParentId]
   );
 
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: ["note", "notebook"],
+    drop: () => notebook,
+    collect(monitor) {
+      return {
+        isOver: monitor.isOver(),
+      };
+    },
+  }));
+
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "notebook",
+    item: notebook,
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult<Notebook>();
+      console.log({ item, dropResult });
+      if (dropResult) {
+        if (item.parentId === dropResult.id) return;
+        updateNotebook(item.id, {
+          parentId: dropResult.id,
+        });
+      }
+    },
+    collect(monitor) {
+      return {
+        isDragging: monitor.isDragging(),
+      };
+    },
+  }));
+
   useEffect(() => {
     if (selectedNote && isThisNoteMyChild(selectedNote)) {
       setExpand(true);
@@ -313,30 +363,46 @@ const NotebookLink = (props: NotebookLinkProps) => {
     <>
       <div className="relative">
         <ContextMenu items={getItems(notebook)}>
-          <Link
-            to={`notebooks/${notebook.id}`}
-            className="group flex select-none items-center gap-3 rounded-md py-1 pl-8 pr-3"
-            getActiveProps={() => ({
-              className: "bg-gray-100 dark:bg-gray-800",
+          <div
+            ref={drop}
+            className={clsx({
+              "pointer-events-none opacity-50": isDragging,
             })}
-            getInactiveProps={() => ({
-              className:
-                "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50 hover:bg-gray-100 dark:hover:bg-gray-800",
-            })}
-            style={{
-              paddingLeft: `${depth + 1.875}rem`,
-            }}
           >
-            <span className="flex h-5 w-5 items-center justify-center text-lg">
-              <NotebookIcon notebook={notebook} />
-            </span>
-            <p className="flex-1 truncate">{notebook.name}</p>
-            {childCount > 0 && (
-              <p className="text-sm text-gray-400 dark:text-gray-500">
-                {childCount}
-              </p>
-            )}
-          </Link>
+            <div
+              ref={drag}
+              className={clsx({
+                "pointer-events-none rounded-md ring-2 ring-indigo-500": isOver,
+              })}
+            >
+              <Link
+                to={`notebooks/${notebook.id}`}
+                className={clsx(
+                  "group flex select-none items-center gap-3 rounded-md py-1 pl-8 pr-3"
+                )}
+                getActiveProps={() => ({
+                  className: "bg-gray-100 dark:bg-gray-800",
+                })}
+                getInactiveProps={() => ({
+                  className:
+                    "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50 hover:bg-gray-100 dark:hover:bg-gray-800",
+                })}
+                style={{
+                  paddingLeft: `${depth + 1.875}rem`,
+                }}
+              >
+                <span className="flex h-5 w-5 items-center justify-center text-lg">
+                  <NotebookIcon notebook={notebook} />
+                </span>
+                <p className="flex-1 truncate">{notebook.name}</p>
+                {childCount > 0 && (
+                  <p className="text-sm text-gray-400 dark:text-gray-500">
+                    {childCount}
+                  </p>
+                )}
+              </Link>
+            </div>
+          </div>
         </ContextMenu>
         {childCount > 0 && (
           <button
@@ -355,6 +421,7 @@ const NotebookLink = (props: NotebookLinkProps) => {
         className={clsx("relative space-y-px", {
           block: expand,
           hidden: !expand,
+          "pointer-events-none": isDragging,
         })}
       >
         {notebooks.map((item) => (
@@ -385,29 +452,56 @@ export interface NoteLinkProps {
 const NoteLink = (props: NoteLinkProps) => {
   const { note, depth } = props;
   const { getMenuItems: getItems } = useNoteContextMenu();
+  const updateNote = useNotes((state) => state.updateNote);
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "note",
+    item: note,
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult<Notebook>();
+      console.log({ item, dropResult });
+      if (dropResult) {
+        if (item.notebookId === dropResult.id) return;
+        updateNote(item.id, {
+          notebookId: dropResult.id,
+        });
+      }
+    },
+    collect(monitor) {
+      return {
+        isDragging: monitor.isDragging(),
+      };
+    },
+  }));
 
   return (
     <ContextMenu items={getItems(note)}>
-      <Link
-        to={`notes/${note.id}`}
-        className="flex items-center gap-3 rounded-md py-1 pl-3 pr-3 "
-        getActiveProps={() => ({
-          className: "bg-gray-100 dark:bg-gray-800",
+      <div
+        ref={drag}
+        className={clsx({
+          "pointer-events-none opacity-50": isDragging,
         })}
-        getInactiveProps={() => ({
-          className:
-            "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50 hover:bg-gray-100 dark:hover:bg-gray-800",
-        })}
-        style={{
-          paddingLeft:
-            typeof depth !== "undefined" ? `${depth + 1.875}rem` : undefined,
-        }}
       >
-        <span className="flex h-5 w-5 items-center justify-center text-lg">
-          <NoteIcon note={note} />
-        </span>
-        <p className="flex-1 truncate">{note.title || "Untitled"}</p>
-      </Link>
+        <Link
+          to={`notes/${note.id}`}
+          className={clsx("flex items-center gap-3 rounded-md py-1 pl-3 pr-3")}
+          getActiveProps={() => ({
+            className: "bg-gray-100 dark:bg-gray-800",
+          })}
+          getInactiveProps={() => ({
+            className:
+              "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-50 hover:bg-gray-100 dark:hover:bg-gray-800",
+          })}
+          style={{
+            paddingLeft:
+              typeof depth !== "undefined" ? `${depth + 1.875}rem` : undefined,
+          }}
+        >
+          <span className="flex h-5 w-5 items-center justify-center text-lg">
+            <NoteIcon note={note} />
+          </span>
+          <p className="flex-1 truncate">{note.title || "Untitled"}</p>
+        </Link>
+      </div>
     </ContextMenu>
   );
 };

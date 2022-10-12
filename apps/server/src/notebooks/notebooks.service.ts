@@ -90,7 +90,6 @@ export class NotebooksService {
     dto: UpdateNotebookDto,
     user: User
   ): Promise<Notebook> {
-    const { name, parentId, emoji, workspaceId } = dto;
     const notebook = await this.prisma.notebook.findUnique({
       where: {
         id,
@@ -108,10 +107,7 @@ export class NotebooksService {
     return this.prisma.notebook.update({
       where: { id },
       data: {
-        workspace: workspaceId ? { connect: { id: workspaceId } } : undefined,
-        parent: parentId ? { connect: { id: parentId } } : undefined,
-        name,
-        emoji,
+        ...dto,
       },
     });
   }

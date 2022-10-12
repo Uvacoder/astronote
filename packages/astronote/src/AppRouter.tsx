@@ -21,7 +21,8 @@ import NotebookScreen from "./screens/Notebook";
 import UnsortedScreen from "./screens/workspace/Unsorted";
 import AlertProvider from "./contexts/alertContext";
 import DialogsProvider from "./contexts/dialogContext";
-
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 const history = createBrowserHistory();
 
 const location = new ReactLocation<LocationGenerics>({
@@ -105,11 +106,13 @@ const AppRouter = () => {
 
   return (
     <Router location={location} routes={routes}>
-      <AlertProvider>
-        <DialogsProvider>
-          <Outlet />
-        </DialogsProvider>
-      </AlertProvider>
+      <DndProvider backend={HTML5Backend}>
+        <AlertProvider>
+          <DialogsProvider>
+            <Outlet />
+          </DialogsProvider>
+        </AlertProvider>
+      </DndProvider>
     </Router>
   );
 };

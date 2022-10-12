@@ -9,9 +9,9 @@ export class CreateNotebookDto {
 
   @IsString()
   @IsOptional()
-  parentId?: string;
+  parentId?: string | null;
 
   @IsOptional()
   @IsString()
-  emoji?: string;
+  emoji?: string | null;
 }
