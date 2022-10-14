@@ -23,6 +23,7 @@ import AlertProvider from "./contexts/alertContext";
 import DialogsProvider from "./contexts/dialogContext";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import NoWorkspaceSelected from "./screens/NoWorkspaceSelected";
 const history = createBrowserHistory();
 
 const location = new ReactLocation<LocationGenerics>({
@@ -54,8 +55,16 @@ const AppRouter = () => {
       },
       {
         path: "/",
+        element: <Navigate to="workspaces" replace />,
+      },
+      {
+        path: "workspaces",
         element: <AppLayout />,
         children: [
+          {
+            path: "/",
+            element: <NoWorkspaceSelected />,
+          },
           {
             path: ":workspaceId",
             element: <WorkspaceLayout />,

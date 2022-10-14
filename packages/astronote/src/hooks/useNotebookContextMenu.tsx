@@ -23,7 +23,7 @@ export default function useNotebookContextMenu() {
         notebookId: parent.id,
       });
       navigate({
-        to: `/${parent.workspaceId}/notes/${note.id}`,
+        to: `/workspaces/${parent.workspaceId}/notes/${note.id}`,
       });
     },
     [createNote, navigate]
@@ -37,7 +37,7 @@ export default function useNotebookContextMenu() {
         name: "Untitled",
       });
       navigate({
-        to: `/${notebook.workspaceId}/notebooks/${notebook.id}`,
+        to: `/workspaces/${notebook.workspaceId}/notebooks/${notebook.id}`,
       });
     },
     [createNotebook, navigate]

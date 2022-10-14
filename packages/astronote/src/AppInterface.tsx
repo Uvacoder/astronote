@@ -7,6 +7,7 @@ const AppInterface = () => {
   return (
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
+        <div className="draggable fixed left-0 right-0 top-0 -z-50 h-12"></div>
         <AppRouter />
       </QueryClientProvider>
     </ThemeProvider>

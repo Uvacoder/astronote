@@ -96,7 +96,7 @@ const NotebookItem = (props: { notebook: Notebook }) => {
   return (
     <ContextMenu items={getNotebookMenuItems(notebook)} key={notebook.id}>
       <Link
-        to={`/${notebook.workspaceId}/notebooks/${notebook.id}`}
+        to={`/workspaces/${notebook.workspaceId}/notebooks/${notebook.id}`}
         className="grid grid-cols-5 items-center gap-4 rounded-md px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
       >
         <div className="col-span-3 flex items-center gap-4">
@@ -161,7 +161,7 @@ const NoteItem = ({ note }: { note: Note }) => {
         })}
       >
         <Link
-          to={`/${note.workspaceId}/notes/${note.id}`}
+          to={`/workspaces/${note.workspaceId}/notes/${note.id}`}
           className="grid grid-cols-5 items-center gap-4 rounded-md px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
         >
           <div className="col-span-3 flex items-center gap-4">

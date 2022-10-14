@@ -1,0 +1,20 @@
+{
+  "name": "electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "electron:dev": "tsc index.ts --target esnext --outfile dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.8.4",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "electron": "^21.1.0"
+  }
+}

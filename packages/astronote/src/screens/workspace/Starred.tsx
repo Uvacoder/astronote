@@ -29,7 +29,7 @@ export default function StarredScreen() {
       isFavorite: true,
     });
     navigate({
-      to: `/${note.workspaceId}/notes/${note.id}`,
+      to: `/workspaces/${note.workspaceId}/notes/${note.id}`,
     });
   }, [createNote, workspaceId, navigate]);
 

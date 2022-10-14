@@ -1,4 +1,4 @@
-import axios, { AxiosHeaders } from "axios";
+import axios from "axios";
 import { API_URL } from "../constants";
 
 export const axiosClient = axios.create({

@@ -51,7 +51,7 @@ const CreateOrUpdateNotebookDialog: FC<
           parentId,
         });
         navigate({
-          to: `/${workspaceId}/notebooks/${notebook.id}`,
+          to: `/workspaces/${workspaceId}/notebooks/${notebook.id}`,
         });
       } else {
         const { notebook } = props;

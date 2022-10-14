@@ -76,7 +76,7 @@ export default function WorkspaceSidebar() {
       workspaceId,
     });
     navigate({
-      to: `/${workspaceId}/notes/${note.id}`,
+      to: `/workspaces/${workspaceId}/notes/${note.id}`,
     });
   }, [createNote, workspaceId]);
 
@@ -84,10 +84,10 @@ export default function WorkspaceSidebar() {
     <aside className="workspace-sidebar h-full w-72 overflow-y-auto border-r border-gray-100 dark:border-gray-800">
       <header className="sticky top-0 z-20 flex h-12 w-full items-center gap-2 bg-white px-4 dark:bg-gray-900">
         <div className="flex flex-1 items-center">
-          {worksapce.emoji && (
+          {/* {worksapce.emoji && (
             <span className="mr-2 text-xl">{worksapce.emoji}</span>
           )}
-          <p className="flex-1">{worksapce.name}</p>
+          <p className="flex-1">{worksapce.name}</p> */}
         </div>
         <button className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
           <FiSettings />

@@ -78,7 +78,7 @@ const NoteEditorHeader = ({ note }: { note: Note }) => {
     const noteBroadCrumbItem = {
       id: note.id,
       label: `${note.title || "Untitled"}`,
-      to: `/${note.workspaceId}/notes/${note.id}`,
+      to: `/workspaces/${note.workspaceId}/notes/${note.id}`,
     };
 
     if (note.isDeleted) {
@@ -86,7 +86,7 @@ const NoteEditorHeader = ({ note }: { note: Note }) => {
         {
           id: "trash",
           label: "Trash",
-          to: `/${note.workspaceId}/trash`,
+          to: `/workspaces/${note.workspaceId}/trash`,
         },
         noteBroadCrumbItem,
       ];
@@ -97,7 +97,7 @@ const NoteEditorHeader = ({ note }: { note: Note }) => {
         {
           id: file.id,
           label: `${file.emoji ? `${file.emoji} ` : ""}${file.name}`,
-          to: `/${file.workspaceId}/notebooks/${file.id}`,
+          to: `/workspaces/${file.workspaceId}/notebooks/${file.id}`,
         },
         ...(!parent
           ? []
@@ -109,7 +109,7 @@ const NoteEditorHeader = ({ note }: { note: Note }) => {
                 label: `${parent.emoji ? `${parent.emoji} ` : ""}${
                   parent.name
                 }`,
-                to: `/${parent.workspaceId}/notebooks/${parent.id}`,
+                to: `/workspaces/${parent.workspaceId}/notebooks/${parent.id}`,
               },
             ]),
       ];

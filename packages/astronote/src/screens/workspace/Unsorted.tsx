@@ -30,7 +30,7 @@ export default function UnsortedScreen() {
       workspaceId,
     });
     navigate({
-      to: `/${note.workspaceId}/notes/${note.id}`,
+      to: `/workspaces/${note.workspaceId}/notes/${note.id}`,
     });
   }, [createNote, workspaceId, navigate]);
 

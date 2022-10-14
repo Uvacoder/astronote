@@ -51,7 +51,7 @@ export default function NotebookScreen() {
         {
           id: file.id,
           label: `${file.emoji ? `${file.emoji} ` : ""}${file.name}`,
-          to: `/${file.workspaceId}/notebooks/${file.id}`,
+          to: `/workspaces/${file.workspaceId}/notebooks/${file.id}`,
         },
         ...(!parent
           ? []
@@ -63,7 +63,7 @@ export default function NotebookScreen() {
                 label: `${parent.emoji ? `${parent.emoji} ` : ""}${
                   parent.name
                 }`,
-                to: `/${parent.workspaceId}/notebooks/${parent.id}`,
+                to: `/workspaces/${parent.workspaceId}/notebooks/${parent.id}`,
               },
             ]),
       ];
@@ -79,7 +79,7 @@ export default function NotebookScreen() {
       notebookId: notebook.id,
     });
     navigate({
-      to: `/${note.workspaceId}/notes/${note.id}`,
+      to: `/workspaces/${note.workspaceId}/notes/${note.id}`,
     });
   }, [createNote, notebook, navigate]);
 

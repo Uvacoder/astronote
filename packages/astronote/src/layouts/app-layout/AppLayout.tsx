@@ -48,7 +48,7 @@ const AppLayout = () => {
 
   return (
     <div className="flex h-screen w-screen overflow-hidden">
-      <AppSidebar />
+      {/* <AppSidebar /> */}
       <div className="flex-1 overflow-hidden">
         <Outlet />
       </div>

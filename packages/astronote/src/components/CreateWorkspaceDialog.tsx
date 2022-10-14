@@ -45,7 +45,7 @@ const CreateWorkspaceDialog: FC<CreateWorkspaceDialogProps> = (props) => {
       setOpen(false);
       form.reset();
       navigate({
-        to: `/${worksapce.id}`,
+        to: `/workspaces/${worksapce.id}`,
       });
     },
     [addWorkspace, navigate]

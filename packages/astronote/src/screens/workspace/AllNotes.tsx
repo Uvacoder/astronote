@@ -26,7 +26,7 @@ export default function AllNotesScreen() {
       workspaceId,
     });
     navigate({
-      to: `/${note.workspaceId}/notes/${note.id}`,
+      to: `/workspaces/${note.workspaceId}/notes/${note.id}`,
     });
   }, [createNote, workspaceId, navigate]);
 

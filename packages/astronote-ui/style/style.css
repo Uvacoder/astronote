@@ -6,8 +6,14 @@
   color-scheme: dark;
 }
 
+.draggable {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-app-region: drag;
+}
+
 body {
-  @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-50 overflow-hidden h-screen w-screen;
+  @apply h-screen w-screen overflow-hidden bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-50;
 }
 
 /* Chrome Pciekr */
@@ -32,5 +38,5 @@ body {
 .EmojiPickerReact .epr-preview {
 }
 .EmojiPickerReact .epr-preview .epr-emoji-img {
-  @apply w-8 h-8 !important;
+  @apply h-8 w-8 !important;
 }
