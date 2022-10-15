@@ -1,3 +1,2 @@
-import queryClient from "./queryClient";
-
-export { queryClient };
+export * from "./react-query";
+export * from "./platform";
