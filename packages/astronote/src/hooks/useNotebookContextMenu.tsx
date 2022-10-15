@@ -7,6 +7,8 @@ import { useDialogs } from "../contexts/dialogContext";
 import useNotebooks from "../store/useNotebooks";
 import useNotes from "../store/useNotes";
 import Notebook from "../types/notebook";
+import getNotebookPath from "../utils/getNotebookPath";
+import getNotePath from "../utils/getNotePath";
 
 export default function useNotebookContextMenu() {
   const createNote = useNotes((state) => state.createNote);
@@ -23,7 +25,7 @@ export default function useNotebookContextMenu() {
         notebookId: parent.id,
       });
       navigate({
-        to: `/workspaces/${parent.workspaceId}/notes/${note.id}`,
+        to: getNotePath(note),
       });
     },
     [createNote, navigate]
@@ -37,7 +39,7 @@ export default function useNotebookContextMenu() {
         name: "Untitled",
       });
       navigate({
-        to: `/workspaces/${notebook.workspaceId}/notebooks/${notebook.id}`,
+        to: getNotebookPath(notebook),
       });
     },
     [createNotebook, navigate]

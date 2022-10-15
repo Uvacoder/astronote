@@ -1,5 +1,6 @@
 import {
   createBrowserHistory,
+  Link,
   Navigate,
   Outlet,
   ReactLocation,
@@ -8,22 +9,23 @@ import {
 } from "@tanstack/react-location";
 import { useMemo } from "react";
 import AuthLayout from "./layouts/auth-layout";
-import WorkspaceLayout from "./layouts/workspace-layout";
 import AppLayout from "./layouts/app-layout";
 import { LocationGenerics } from "./types/locationGenerics";
-import AllNotesScreen from "./screens/workspace/AllNotes";
-import StarredScreen from "./screens/workspace/Starred";
 import SignUpScreen from "./screens/auth/SignUp";
 import LogInScreen from "./screens/auth/LogIn";
-import TrashScreen from "./screens/workspace/Trash";
-import NoteScreen from "./screens/Note";
-import NotebookScreen from "./screens/Notebook";
-import UnsortedScreen from "./screens/workspace/Unsorted";
 import AlertProvider from "./contexts/alertContext";
 import DialogsProvider from "./contexts/dialogContext";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import NoWorkspaceSelected from "./screens/NoWorkspaceSelected";
+import Workspace from "./routes/workspace";
+import AllNotes from "./routes/all-notes";
+import UnsortedNotes from "./routes/unsorted-notes";
+import Trash from "./routes/trashed-notes";
+import StarredNotes from "./routes/starred-notes";
+import Notebook from "./routes/notebook";
+import Note from "./routes/note";
+
 const history = createBrowserHistory();
 
 const location = new ReactLocation<LocationGenerics>({
@@ -67,7 +69,7 @@ const AppRouter = () => {
           },
           {
             path: ":workspaceId",
-            element: <WorkspaceLayout />,
+            element: <Workspace />,
             children: [
               {
                 path: "/",
@@ -75,27 +77,27 @@ const AppRouter = () => {
               },
               {
                 path: "all",
-                element: <AllNotesScreen />,
+                element: <AllNotes />,
               },
               {
                 path: "unsorted",
-                element: <UnsortedScreen />,
+                element: <UnsortedNotes />,
               },
               {
                 path: "starred",
-                element: <StarredScreen />,
+                element: <StarredNotes />,
               },
               {
                 path: "trash",
-                element: <TrashScreen />,
+                element: <Trash />,
               },
               {
                 path: "notebooks/:notebookId",
-                element: <NotebookScreen />,
+                element: <Notebook />,
               },
               {
                 path: "notes/:noteId",
-                element: <NoteScreen />,
+                element: <Note />,
               },
               {
                 path: "*",
@@ -107,7 +109,12 @@ const AppRouter = () => {
       },
       {
         path: "*",
-        element: "Page Not Found",
+        element: (
+          <div>
+            <p>Page Not Found</p>
+            <Link to="/">go home</Link>
+          </div>
+        ),
       },
     ],
     []

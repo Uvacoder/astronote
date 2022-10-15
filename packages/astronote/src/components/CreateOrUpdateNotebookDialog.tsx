@@ -11,6 +11,7 @@ import { useNavigate } from "@tanstack/react-location";
 import useNotebooks from "../store/useNotebooks";
 import { useDialogs } from "../contexts/dialogContext";
 import Notebook from "../types/notebook";
+import getNotebookPath from "../utils/getNotebookPath";
 
 export interface CreateNotebookDialogProps {
   type: "create";
@@ -51,7 +52,7 @@ const CreateOrUpdateNotebookDialog: FC<
           parentId,
         });
         navigate({
-          to: `/workspaces/${workspaceId}/notebooks/${notebook.id}`,
+          to: getNotebookPath(notebook),
         });
       } else {
         const { notebook } = props;

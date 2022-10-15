@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-location";
 import { formatDistanceToNow } from "date-fns";
-import { FC, useCallback, useMemo } from "react";
+import { FC, useMemo } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import Note from "../types/note";
 import Notebook from "../types/notebook";
@@ -13,6 +13,8 @@ import useNotebooks from "../store/useNotebooks";
 import useNotes from "../store/useNotes";
 import { useDrag } from "react-dnd";
 import clsx from "clsx";
+import getNotebookPath from "../utils/getNotebookPath";
+import getNotePath from "../utils/getNotePath";
 
 export interface NotesAndFoldersTableProps {
   notes?: Note[];
@@ -96,7 +98,7 @@ const NotebookItem = (props: { notebook: Notebook }) => {
   return (
     <ContextMenu items={getNotebookMenuItems(notebook)} key={notebook.id}>
       <Link
-        to={`/workspaces/${notebook.workspaceId}/notebooks/${notebook.id}`}
+        to={getNotebookPath(notebook)}
         className="grid grid-cols-5 items-center gap-4 rounded-md px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
       >
         <div className="col-span-3 flex items-center gap-4">
@@ -161,7 +163,7 @@ const NoteItem = ({ note }: { note: Note }) => {
         })}
       >
         <Link
-          to={`/workspaces/${note.workspaceId}/notes/${note.id}`}
+          to={getNotePath(note)}
           className="grid grid-cols-5 items-center gap-4 rounded-md px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
         >
           <div className="col-span-3 flex items-center gap-4">

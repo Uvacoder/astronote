@@ -35,8 +35,23 @@ body {
 .EmojiPickerReact .epr-body {
   @apply overflow-y-auto !important;
 }
-.EmojiPickerReact .epr-preview {
-}
 .EmojiPickerReact .epr-preview .epr-emoji-img {
   @apply h-8 w-8 !important;
+}
+@layer base {
+  ::-webkit-scrollbar {
+    @apply w-3 bg-white dark:bg-gray-900;
+  }
+
+  ::-webkit-scrollbar-track {
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600;
+    box-shadow: inset 0 0 0 2px #fff;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 0 2px #171a1d;
+  }
 }
