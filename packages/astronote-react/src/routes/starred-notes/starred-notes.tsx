@@ -2,9 +2,9 @@ import { Outlet, useMatch } from "@tanstack/react-location";
 import FilesList from "../../components/files-list";
 import useNotes from "../../store/useNotes";
 import { LocationGenerics } from "../../types/locationGenerics";
-import UnsortedNotesHeader from "./UnsortedNotesHeader";
+import StarredNotesHeader from "./starred-notes-header";
 
-export default function UnsortedNotes() {
+export default function StarredNotes() {
   const {
     params: { workspaceId },
   } = useMatch<LocationGenerics>();
@@ -12,9 +12,7 @@ export default function UnsortedNotes() {
     state.notes
       .filter(
         (note) =>
-          note.workspaceId === workspaceId &&
-          !note.isDeleted &&
-          !note.notebookId
+          note.workspaceId === workspaceId && !note.isDeleted && note.isFavorite
       )
       .sort((a, b) =>
         (a.title || "Untitled").localeCompare(b.title || "Untitled")
@@ -26,10 +24,10 @@ export default function UnsortedNotes() {
   return (
     <>
       <div className="flex flex-1 flex-col overflow-hidden">
-        <UnsortedNotesHeader workspaceId={workspaceId} />
+        <StarredNotesHeader workspaceId={workspaceId} />
         <div className="flex-1 overflow-y-auto">
           <div className="mx-auto max-w-4xl p-4">
-            <FilesList notes={notes} />
+            <FilesList notes={notes} showParentNotebook />
           </div>
         </div>
       </div>

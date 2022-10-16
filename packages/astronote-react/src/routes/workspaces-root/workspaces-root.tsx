@@ -1,7 +1,7 @@
 import { Navigate } from "@tanstack/react-location";
-import useWroksapces from "../store/useWorkspaces";
+import useWroksapces from "../../store/useWorkspaces";
 
-const NoWorkspaceSelected = () => {
+const WorkspacesRoot = () => {
   const workspace = useWroksapces((state) => state.workspaces[0]);
 
   if (workspace) {
@@ -10,4 +10,4 @@ const NoWorkspaceSelected = () => {
   return <div>NoWorkspaceSelected</div>;
 };
 
-export default NoWorkspaceSelected;
+export default WorkspacesRoot;

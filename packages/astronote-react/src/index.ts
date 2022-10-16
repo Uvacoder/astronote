@@ -1,1 +1,1 @@
-export { default } from "./AppInterface";
+export { default } from "./app-interface";

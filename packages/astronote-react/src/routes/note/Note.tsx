@@ -2,8 +2,8 @@ import { Outlet, useMatch } from "@tanstack/react-location";
 import { useEffect } from "react";
 import useNotes from "../../store/useNotes";
 import { LocationGenerics } from "../../types/locationGenerics";
-import NoteEditor from "./NoteEditor";
-import NoteHeader from "./NoteHeader";
+import NoteEditor from "./note-editor";
+import NoteHeader from "./note-header";
 
 export default function NoteScreen() {
   const {

@@ -1,2 +1,2 @@
-export { default } from "./AllNotes";
-export * from "./AllNotes";
+export { default } from "./all-notes";
+export * from "./all-notes";

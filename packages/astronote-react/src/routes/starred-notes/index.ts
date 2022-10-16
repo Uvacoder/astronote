@@ -1,1 +1,1 @@
-export { default } from "./StarredNotes";
+export { default } from "./starred-notes";

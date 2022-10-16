@@ -7,7 +7,7 @@ import IconButton from "../../components/common/button/icon-button";
 import SectionTitleBar from "../../components/section-title-bar";
 import { useDialogs } from "../../contexts/dialogContext";
 import useNotebooks from "../../store/useNotebooks";
-import { NotebookLink } from "./NotebookLink";
+import { NotebookLink } from "./notebook-link";
 
 interface NotebooksProps {
   workspaceId: string;

@@ -13,7 +13,6 @@ import AlertProvider from "./contexts/alertContext";
 import DialogsProvider from "./contexts/dialogContext";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import NoWorkspaceSelected from "./screens/NoWorkspaceSelected";
 import Workspace from "./routes/workspace";
 import AllNotes from "./routes/all-notes";
 import UnsortedNotes from "./routes/unsorted-notes";
@@ -24,6 +23,7 @@ import Note from "./routes/note";
 import LogIn from "./routes/log-in";
 import SignUp from "./routes/sign-up";
 import Workspaces from "./routes/workspaces";
+import WorkspacesRoot from "./routes/workspaces-root/workspaces-root";
 
 const history = createBrowserHistory();
 
@@ -44,7 +44,7 @@ const AppRouter = () => {
         children: [
           {
             path: "/",
-            element: <NoWorkspaceSelected />,
+            element: <WorkspacesRoot />,
           },
           {
             path: ":workspaceId",

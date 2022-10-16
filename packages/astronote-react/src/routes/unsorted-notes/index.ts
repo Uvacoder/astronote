@@ -1,1 +1,1 @@
-export { default } from "./UnsortedNotes";
+export { default } from "./unsorted-notes";

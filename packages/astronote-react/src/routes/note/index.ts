@@ -1,2 +1,2 @@
-export { default } from "./Note";
-export * from "./Note";
+export { default } from "./note";
+export * from "./note";

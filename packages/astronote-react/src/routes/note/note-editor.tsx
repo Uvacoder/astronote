@@ -6,11 +6,19 @@ import {
   useRemirrorContext,
 } from "@remirror/react";
 import { FC, useCallback, useEffect } from "react";
-import { KeyBindingProps } from "remirror";
-import newNoteDefaultContent from "../../data/newNoteDefaultContent";
+import { KeyBindingProps, RemirrorContentType } from "remirror";
 import useNotes from "../../store/useNotes";
 import Note from "../../types/note";
 
+const DEFAULT_CONTENT: RemirrorContentType = {
+  type: "doc",
+  content: [
+    {
+      type: "heading",
+      attrs: { dir: null, ignoreBidiAutoUpdate: null, level: 1 },
+    },
+  ],
+};
 export interface NoteEditorProps {
   note: Note;
 }
@@ -37,8 +45,7 @@ export default NoteEditor;
 
 const EditorActions = ({ note }: { note: Note }) => {
   const helpers = useHelpers();
-  const { setContent } = useRemirrorContext();
-  const { toggleCode } = useCommands();
+  const { setContent, view, manager } = useRemirrorContext();
   const updateNote = useNotes((state) => state.updateNote);
 
   const handleSave = useCallback(
@@ -55,14 +62,17 @@ const EditorActions = ({ note }: { note: Note }) => {
       });
       return true;
     },
-    [helpers, updateNote, note]
+    [helpers, updateNote, note.id]
   );
 
   useKeymap("Mod-s", handleSave);
-  useKeymap("Mod-/", toggleCode.original());
 
   useEffect(() => {
-    setContent(note.content || newNoteDefaultContent);
-  }, [note.id, setContent]);
+    manager.view.updateState(
+      manager.createState(note.content || DEFAULT_CONTENT)
+    );
+
+    return () => {};
+  }, [note.id, manager]);
   return null;
 };

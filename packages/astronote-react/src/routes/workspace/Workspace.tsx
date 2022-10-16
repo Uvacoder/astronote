@@ -1,7 +1,7 @@
 import { Outlet, useMatch } from "@tanstack/react-location";
 import useWroksapces from "../../store/useWorkspaces";
 import { LocationGenerics } from "../../types/locationGenerics";
-import WorkspaceSidebar from "./WorkspaceSidebar";
+import WorkspaceSidebar from "./workspace-sidebar";
 
 const Workspace = () => {
   const {

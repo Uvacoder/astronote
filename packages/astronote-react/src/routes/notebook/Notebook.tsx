@@ -4,7 +4,7 @@ import FilesList from "../../components/files-list";
 import useNotebooks from "../../store/useNotebooks";
 import useNotes from "../../store/useNotes";
 import { LocationGenerics } from "../../types/locationGenerics";
-import NotebookHeader from "./NotebookHeader";
+import NotebookHeader from "./notebook-header";
 
 export default function NotebookScreen() {
   const {

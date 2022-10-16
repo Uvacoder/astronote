@@ -6,10 +6,10 @@ import IconButton from "../../components/common/button/icon-button";
 import useNotes from "../../store/useNotes";
 import Workspcae from "../../types/workspace";
 import getNotePath from "../../utils/getNotePath";
-import MainMenu from "./MainMenu";
-import Notebooks from "./Notebooks";
-import PinnedNotes from "./PinnedNotes";
-import WorkspaceSidebarHeader from "./WorkspaceSidebarHeader";
+import MainMenu from "./main-menu";
+import Notebooks from "./notebooks";
+import PinnedNotes from "./pinned-notes";
+import WorkspaceSidebarHeader from "./workspace-sidebar-header";
 
 interface WorkspaceSidebarProps {
   workspace: Workspcae;
@@ -43,7 +43,7 @@ const WorkspaceSidebar: FC<WorkspaceSidebarProps> = ({ workspace }) => {
             <FiSearch />
           </IconButton>
         </div>
-        <MainMenu />
+        <MainMenu workspaceId={workspace.id} />
         <PinnedNotes workspaceId={workspace.id} />
         <Notebooks workspaceId={workspace.id} />
       </div>

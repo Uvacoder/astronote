@@ -1,2 +1,2 @@
-export { default } from "./Notebook";
-export * from "./Notebook";
+export { default } from "./notebook";
+export * from "./notebook";

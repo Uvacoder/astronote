@@ -11,7 +11,7 @@ import useNotes from "../../store/useNotes";
 import { LocationGenerics } from "../../types/locationGenerics";
 import Note from "../../types/note";
 import Notebook from "../../types/notebook";
-import { NoteLink } from "./NoteLink";
+import { NoteLink } from "./note-link";
 
 export interface NotebookLinkProps {
   notebook: Notebook;

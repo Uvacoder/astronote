@@ -1,1 +1,1 @@
-export { default } from "./TrashedNotes";
+export { default } from "./trashed-notes";
