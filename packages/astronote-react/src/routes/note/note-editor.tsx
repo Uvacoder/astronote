@@ -1,10 +1,5 @@
 import AstronoteEditor from "@an/editor";
-import {
-  useCommands,
-  useHelpers,
-  useKeymap,
-  useRemirrorContext,
-} from "@remirror/react";
+import { useHelpers, useKeymap, useRemirrorContext } from "@remirror/react";
 import { FC, useCallback, useEffect } from "react";
 import { KeyBindingProps, RemirrorContentType } from "remirror";
 import useNotes from "../../store/useNotes";
@@ -45,7 +40,7 @@ export default NoteEditor;
 
 const EditorActions = ({ note }: { note: Note }) => {
   const helpers = useHelpers();
-  const { setContent, view, manager } = useRemirrorContext();
+  const { setContent } = useRemirrorContext();
   const updateNote = useNotes((state) => state.updateNote);
 
   const handleSave = useCallback(
@@ -68,11 +63,8 @@ const EditorActions = ({ note }: { note: Note }) => {
   useKeymap("Mod-s", handleSave);
 
   useEffect(() => {
-    manager.view.updateState(
-      manager.createState(note.content || DEFAULT_CONTENT)
-    );
-
+    setContent(note.content || DEFAULT_CONTENT);
     return () => {};
-  }, [note.id, manager]);
+  }, [note.id]);
   return null;
 };

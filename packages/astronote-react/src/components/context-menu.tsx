@@ -104,7 +104,7 @@ export const ContextMenuGroup: FC<MenuGroup> = (props) => {
 };
 
 export const ContextMenuSeparator: FC<MenuSeparator> = (props) => (
-  <CM.Separator className="my-2 h-px w-full bg-gray-200 dark:bg-gray-700" />
+  <CM.Separator className="my-1 h-px w-full bg-gray-200 dark:bg-gray-700" />
 );
 
 export const ContextMenuButton: FC<MenuButtonItem> = (props) => {
@@ -134,7 +134,7 @@ export const ItemButton = forwardRef<HTMLButtonElement, ItemButtonProps>(
     return (
       <button
         className={clsx(
-          "hover:bg-primary-500 focus:bg-primary-500 dark:hover:bg-primary-400 dark:focus:bg-primary-400 flex h-8 w-full cursor-default items-center rounded px-3 text-left text-gray-600 outline-none hover:text-white focus:text-white dark:text-gray-300 dark:hover:text-black dark:focus:text-black",
+          "hover:bg-primary-500 focus:bg-primary-500 flex h-8 w-full cursor-default items-center rounded px-3 text-left text-gray-600 outline-none hover:text-white focus:text-white dark:text-gray-300 dark:hover:text-white dark:focus:text-white",
           className
         )}
         {...rest}

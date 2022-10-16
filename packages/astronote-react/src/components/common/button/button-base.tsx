@@ -41,11 +41,10 @@ const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>(
           {
             "text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-50":
               colorScheme === "default",
-            "bg-primary-500 dark:bg-primary-400 text-gray-50 active:opacity-80 dark:text-gray-900":
+            "bg-primary-500 hover:bg-primary-600 text-white":
               colorScheme === "primary",
-            "bg-red-500 text-gray-50 active:opacity-80 dark:bg-red-400 dark:text-gray-900":
-              colorScheme === "danger",
-            "bg-gray-100 active:opacity-80 dark:bg-gray-800":
+            "bg-red-500 text-white hover:bg-red-600": colorScheme === "danger",
+            "bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700":
               colorScheme === "secondary",
           },
           className

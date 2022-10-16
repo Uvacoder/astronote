@@ -43,6 +43,7 @@ const NoteHeader: FC<NoteHeaderProps> = ({ note }) => {
         noteBroadCrumbItem,
       ];
     }
+      
     const getParenNotebook = (file: Notebook): iBroadCrumb[] => {
       const parent = allNotebooks.find((item) => item.id === file.parentId);
       return [

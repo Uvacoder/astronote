@@ -32,6 +32,7 @@ const NoteRow = ({
       item: note,
       end: (item, monitor) => {
         const dropResult = monitor.getDropResult<Notebook>();
+        console.log({ item, dropResult });
         if (dropResult && item.notebookId !== dropResult.id) {
           updateNote(item.id, {
             notebookId: dropResult.id,
