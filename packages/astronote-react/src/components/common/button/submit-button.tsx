@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { DetailedHTMLProps, ButtonHTMLAttributes, forwardRef } from "react";
+import ButtonBase from "./button-base";
 
 export interface SubmitButtonProps
   extends DetailedHTMLProps<
@@ -14,7 +15,7 @@ const SubmitButton = forwardRef<HTMLButtonElement, SubmitButtonProps>(
     const { children, className, loading, disabled, ...rest } = props;
 
     return (
-      <button
+      <ButtonBase
         {...rest}
         ref={ref}
         type="submit"
@@ -31,7 +32,7 @@ const SubmitButton = forwardRef<HTMLButtonElement, SubmitButtonProps>(
         disabled={loading || disabled}
       >
         {loading ? "Loading..." : children}
-      </button>
+      </ButtonBase>
     );
   }
 );

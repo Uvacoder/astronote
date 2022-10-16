@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { FiMoreHorizontal } from "react-icons/fi";
-import IconButton from "../../components/icon-button";
-import PageHeader from "../../components/PageHeader";
+import IconButton from "../../components/common/button/icon-button";
+import PageHeader from "../../components/page-header";
 
 export interface TrashedNotesHeaderProps {
   workspaceId: string;

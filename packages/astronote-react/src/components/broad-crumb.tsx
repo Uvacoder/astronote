@@ -11,7 +11,7 @@ export interface BroadCrumb {
 const BroadCrumb: FC<BroadCrumb> = (props) => {
   const { items, activeId } = props;
   return (
-    <div className="flex w-full items-center">
+    <div className="flex flex-1 items-center overflow-hidden">
       {items.map((item, i) => (
         <Fragment key={item.to}>
           {i !== 0 && (
@@ -22,14 +22,7 @@ const BroadCrumb: FC<BroadCrumb> = (props) => {
           ) : (
             <Link
               to={item.to}
-              className="flex truncate rounded px-2 py-0.5"
-              getActiveProps={() => ({
-                className: "text-gray-900 dark:text-gray-50",
-              })}
-              getInactiveProps={() => ({
-                className:
-                  "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-50 hover:bg-gray-100 dark:hover:bg-gray-800",
-              })}
+              className="flex truncate rounded px-2 py-0.5 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-50"
             >
               {item.label}
             </Link>

@@ -6,10 +6,10 @@ import * as yup from "yup";
 import { AxiosError } from "axios";
 import { LogInInputs } from "../../types/forms";
 import { logInAsync } from "../../api/authApi";
-import InputField from "../../components/common/InputField";
-import SubmitButton from "../../components/common/SubmitButton";
+import InputField from "../../components/common/input-field/input-field";
+import SubmitButton from "../../components/common/button/submit-button";
 import { useAuth } from "../../contexts/authContext";
-import AuthHeader from "../../components/AuthHeader";
+import AuthHeader from "../../components/auth-header";
 
 const logInSchema = yup
   .object()

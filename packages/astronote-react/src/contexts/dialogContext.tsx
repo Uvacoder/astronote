@@ -9,6 +9,7 @@ import {
 } from "react";
 import * as DialogPremitives from "@radix-ui/react-dialog";
 import { FiX } from "react-icons/fi";
+import IconButton from "../components/common/button/icon-button";
 
 export interface Dialog {
   title: string;
@@ -57,13 +58,15 @@ const DialogsProvider: FC<PropsWithChildren> = (props) => {
         >
           <DialogPremitives.Portal>
             <DialogPremitives.Overlay className="fixed inset-0 z-30 bg-black/50" />
-            <DialogPremitives.Content className="fixed left-1/2 top-20 z-40 -translate-x-1/2 rounded-lg border border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-900">
-              <div className="flex items-center gap-2 border-b border-gray-100 px-4 py-2 dark:border-gray-800">
+            <DialogPremitives.Content className="fixed left-1/2 top-24 z-40 -translate-x-1/2 rounded-xl border border-gray-200 bg-white shadow-2xl shadow-black/50 dark:border-gray-700 dark:bg-gray-900">
+              <div className="flex items-center gap-2 border-b border-gray-200 py-2 pl-4 pr-2 dark:border-gray-700">
                 <DialogPremitives.Title className="flex-1 text-xl font-medium">
                   {dialog.title}
                 </DialogPremitives.Title>
-                <DialogPremitives.Close className="flex h-8 w-8 items-center justify-center rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-800">
-                  <FiX />
+                <DialogPremitives.Close asChild>
+                  <IconButton>
+                    <FiX />
+                  </IconButton>
                 </DialogPremitives.Close>
               </div>
               {dialog.content}

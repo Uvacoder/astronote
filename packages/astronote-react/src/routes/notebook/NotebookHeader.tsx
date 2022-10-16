@@ -1,9 +1,9 @@
 import { useNavigate } from "@tanstack/react-location";
 import { FC, useCallback, useMemo } from "react";
 import { FiFilePlus, FiFolderPlus, FiMoreHorizontal } from "react-icons/fi";
-import CreateOrUpdateNotebookDialog from "../../components/CreateOrUpdateNotebookDialog";
-import IconButton from "../../components/icon-button";
-import PageHeader from "../../components/PageHeader";
+import CreateOrUpdateNotebookDialog from "../../components/dialogs/create-or-update-notebook-dialog";
+import IconButton from "../../components/common/button/icon-button";
+import PageHeader from "../../components/page-header";
 import { useDialogs } from "../../contexts/dialogContext";
 import useNotebooks from "../../store/useNotebooks";
 import useNotes from "../../store/useNotes";

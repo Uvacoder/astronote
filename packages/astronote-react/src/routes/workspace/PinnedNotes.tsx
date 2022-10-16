@@ -1,5 +1,5 @@
 import { FC } from "react";
-import SectionTitleBar from "../../components/SectionTitleBar";
+import SectionTitleBar from "../../components/section-title-bar";
 import useNotes from "../../store/useNotes";
 import Workspcae from "../../types/workspace";
 import { NoteLink } from "./NoteLink";

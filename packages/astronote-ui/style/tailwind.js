@@ -25,7 +25,7 @@ module.exports = function (app, options) {
       extend: {
         colors: {
           gray: colors.zinc,
-          primary: colors.purple,
+          primary: colors.indigo,
         },
       },
     },

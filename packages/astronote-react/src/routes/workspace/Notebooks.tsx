@@ -2,9 +2,9 @@ import clsx from "clsx";
 import { FC, Fragment, useCallback } from "react";
 import { useDrop } from "react-dnd";
 import { FiPlus } from "react-icons/fi";
-import CreateOrUpdateNotebookDialog from "../../components/CreateOrUpdateNotebookDialog";
-import IconButton from "../../components/icon-button";
-import SectionTitleBar from "../../components/SectionTitleBar";
+import CreateOrUpdateNotebookDialog from "../../components/dialogs/create-or-update-notebook-dialog";
+import IconButton from "../../components/common/button/icon-button";
+import SectionTitleBar from "../../components/section-title-bar";
 import { useDialogs } from "../../contexts/dialogContext";
 import useNotebooks from "../../store/useNotebooks";
 import { NotebookLink } from "./NotebookLink";
@@ -38,7 +38,7 @@ const Notebooks: FC<NotebooksProps> = (props) => {
         </IconButton>
       </SectionTitleBar>
 
-      <nav className="space-y-px px-2">
+      <nav className="px-2">
         <RootDropZone />
         {notebooks.length ? (
           notebooks.map((item) => (
@@ -76,12 +76,19 @@ const RootDropZone = () => {
   }));
 
   return (
-    <div
-      className={clsx("relative h-[2px] w-full", {
-        "bg-primary-500": isOver,
-      })}
-    >
-      <div ref={drop} className="absolute left-0 right-0 -top-2 h-4"></div>
+    <div className={clsx("relative h-px w-full")}>
+      <div
+        className={clsx(
+          "absolute left-0 right-0 -top-1 -z-10 h-1 rounded-full",
+          {
+            "bg-primary-500": isOver,
+          }
+        )}
+      ></div>
+      <div
+        ref={drop}
+        className={clsx("absolute left-0 right-0 -top-2 h-4")}
+      ></div>
     </div>
   );
 };

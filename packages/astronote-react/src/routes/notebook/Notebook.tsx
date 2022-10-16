@@ -1,6 +1,6 @@
 import { Outlet, useMatch } from "@tanstack/react-location";
 import { useEffect } from "react";
-import NotesAndFoldersTable from "../../components/NotesAndFoldersTable";
+import FilesList from "../../components/files-list";
 import useNotebooks from "../../store/useNotebooks";
 import useNotes from "../../store/useNotes";
 import { LocationGenerics } from "../../types/locationGenerics";
@@ -49,10 +49,12 @@ export default function NotebookScreen() {
 
   return (
     <>
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col overflow-hidden">
         <NotebookHeader notebook={notebook} />
         <div className="flex-1 overflow-y-auto">
-          <NotesAndFoldersTable notes={childNotes} notebooks={childNotebooks} />
+          <div className="mx-auto max-w-4xl p-4">
+            <FilesList notes={childNotes} notebooks={childNotebooks} />
+          </div>
         </div>
       </div>
       <Outlet />

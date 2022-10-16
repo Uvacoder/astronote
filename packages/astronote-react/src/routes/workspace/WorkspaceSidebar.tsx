@@ -1,8 +1,8 @@
 import { useNavigate } from "@tanstack/react-location";
 import { FC, useCallback } from "react";
 import { FiEdit, FiSearch } from "react-icons/fi";
-import ButtonBase from "../../components/button-base";
-import IconButton from "../../components/icon-button";
+import ButtonBase from "../../components/common/button/button-base";
+import IconButton from "../../components/common/button/icon-button";
 import useNotes from "../../store/useNotes";
 import Workspcae from "../../types/workspace";
 import getNotePath from "../../utils/getNotePath";
@@ -33,13 +33,13 @@ const WorkspaceSidebar: FC<WorkspaceSidebarProps> = ({ workspace }) => {
       <div className="flex-1 space-y-6 overflow-y-auto py-6">
         <div className="flex items-center gap-2 px-2">
           <ButtonBase
-            className="flex h-9 flex-1 items-center justify-center gap-4 rounded-md border border-gray-100 px-4 dark:border-gray-800"
+            className="flex h-8 flex-1 items-center justify-center gap-4 rounded-md border border-gray-100 px-4 dark:border-gray-800"
             onClick={handleCreateQucikNote}
           >
             <FiEdit className="text-xl" />
             <p>Quick Note</p>
           </ButtonBase>
-          <IconButton className="h-9 w-9 border border-gray-100 dark:border-gray-800">
+          <IconButton className="border border-gray-100 dark:border-gray-800">
             <FiSearch />
           </IconButton>
         </div>

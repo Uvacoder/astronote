@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
+import Button from "../components/common/button/button";
 
 export interface Alert {
   title: string;
@@ -53,8 +54,8 @@ const AlertProvider: FC<PropsWithChildren> = (props) => {
       >
         <AlertDialog.Portal>
           <AlertDialog.Overlay className="fixed inset-0 z-30 bg-black/50" />
-          <AlertDialog.Content className="fixed left-1/2 top-20 z-40 w-full max-w-sm -translate-x-1/2 rounded-lg border border-gray-100 bg-white p-4 dark:border-gray-800 dark:bg-gray-900">
-            <AlertDialog.Title className="mb-2 w-full truncate border-b border-gray-100 pb-2 text-xl font-medium dark:border-gray-800">
+          <AlertDialog.Content className="fixed left-1/2 top-20 z-40 w-full max-w-md -translate-x-1/2 rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
+            <AlertDialog.Title className="w-full pb-2 text-xl font-medium">
               {alert?.title}
             </AlertDialog.Title>
             <AlertDialog.Description className="mb-4 text-gray-600 dark:text-gray-300">
@@ -66,29 +67,32 @@ const AlertProvider: FC<PropsWithChildren> = (props) => {
                   switch (action.style) {
                     case "cancel":
                       return (
-                        <AlertDialog.Cancel
-                          className="rounded-md bg-gray-100 px-4 py-1.5 font-medium hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700"
-                          onClick={action.onClick}
-                        >
-                          {action.label || "Cancel"}
+                        <AlertDialog.Cancel asChild>
+                          <Button
+                            colorScheme="secondary"
+                            onClick={action.onClick}
+                          >
+                            {action.label || "Cancel"}
+                          </Button>
                         </AlertDialog.Cancel>
                       );
                     case "default":
                       return (
-                        <AlertDialog.Action
-                          className="bg-primary-500 hover:bg-primary-600 rounded-md px-4 py-1.5 font-medium text-white"
-                          onClick={action.onClick}
-                        >
-                          {action.label}
+                        <AlertDialog.Action asChild>
+                          <Button
+                            colorScheme="primary"
+                            onClick={action.onClick}
+                          >
+                            {action.label}
+                          </Button>
                         </AlertDialog.Action>
                       );
                     case "destructive":
                       return (
-                        <AlertDialog.Action
-                          className="rounded-md bg-red-500 px-4 py-1.5 font-medium text-white hover:bg-red-600"
-                          onClick={action.onClick}
-                        >
-                          {action.label}
+                        <AlertDialog.Action asChild>
+                          <Button colorScheme="danger" onClick={action.onClick}>
+                            {action.label}
+                          </Button>
                         </AlertDialog.Action>
                       );
                   }

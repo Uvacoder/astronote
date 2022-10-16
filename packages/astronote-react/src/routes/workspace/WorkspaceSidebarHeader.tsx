@@ -1,9 +1,9 @@
 import Color from "color";
 import { FC } from "react";
 import { Platform, usePlatform } from "@an/core";
-import { FiChevronDown, FiSettings } from "react-icons/fi";
-import ButtonBase from "../../components/button-base";
-import IconButton from "../../components/icon-button";
+import { FiChevronDown, FiSettings, FiSidebar } from "react-icons/fi";
+import ButtonBase from "../../components/common/button/button-base";
+import IconButton from "../../components/common/button/icon-button";
 import Workspcae from "../../types/workspace";
 import getSortName from "../../utils/getSortName";
 export interface WorkspaceSidebarHeaderProps {
@@ -40,7 +40,7 @@ const WorkspaceSidebarHeader: FC<WorkspaceSidebarHeaderProps> = (props) => {
           <FiChevronDown />
         </ButtonBase>
         <IconButton className="cursor-default">
-          <FiSettings />
+          <FiSidebar />
         </IconButton>
       </div>
     </header>

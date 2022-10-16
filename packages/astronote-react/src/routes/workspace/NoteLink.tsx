@@ -1,8 +1,8 @@
 import { Link } from "@tanstack/react-location";
 import clsx from "clsx";
 import { useDrag } from "react-dnd";
-import ContextMenu from "../../components/ContextMenu";
-import NoteIcon from "../../components/NoteIcon";
+import ContextMenu from "../../components/context-menu";
+import NoteIcon from "../../components/note-icon";
 import useNoteContextMenu from "../../hooks/useNoteContextMenu";
 import useNotes from "../../store/useNotes";
 import Note from "../../types/note";
@@ -17,25 +17,26 @@ export const NoteLink = (props: NoteLinkProps) => {
   const { note, depth } = props;
   const { getMenuItems: getItems } = useNoteContextMenu();
   const updateNote = useNotes((state) => state.updateNote);
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: "note",
-    item: note,
-    end: (item, monitor) => {
-      const dropResult = monitor.getDropResult<Notebook>();
-      console.log({ item, dropResult });
-      if (dropResult) {
-        if (item.notebookId === dropResult.id) return;
-        updateNote(item.id, {
-          notebookId: dropResult.id,
-        });
-      }
-    },
-    collect(monitor) {
-      return {
-        isDragging: monitor.isDragging(),
-      };
-    },
-  }));
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: "note",
+      item: note,
+      end: (item, monitor) => {
+        const dropResult = monitor.getDropResult<Notebook>();
+        if (dropResult && item.notebookId !== dropResult.id) {
+          updateNote(item.id, {
+            notebookId: dropResult.id,
+          });
+        }
+      },
+      collect(monitor) {
+        return {
+          isDragging: monitor.isDragging(),
+        };
+      },
+    }),
+    [note, updateNote]
+  );
 
   return (
     <ContextMenu items={getItems(note)}>
@@ -47,7 +48,9 @@ export const NoteLink = (props: NoteLinkProps) => {
       >
         <Link
           to={`notes/${note.id}`}
-          className={clsx("flex items-center gap-3 rounded-md py-1 pl-3 pr-3")}
+          className={clsx(
+            "flex cursor-default items-center gap-3 rounded-md py-1 pl-3 pr-3"
+          )}
           getActiveProps={() => ({
             className: "bg-gray-100 dark:bg-gray-800",
           })}

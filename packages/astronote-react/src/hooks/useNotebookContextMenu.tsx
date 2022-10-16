@@ -1,7 +1,7 @@
 import { useNavigate } from "@tanstack/react-location";
 import { useCallback } from "react";
-import { MenuItem } from "../components/ContextMenu";
-import CreateOrUpdateNotebookDialog from "../components/CreateOrUpdateNotebookDialog";
+import { MenuItem } from "../components/context-menu";
+import CreateOrUpdateNotebookDialog from "../components/dialogs/create-or-update-notebook-dialog";
 import { useAlert } from "../contexts/alertContext";
 import { useDialogs } from "../contexts/dialogContext";
 import useNotebooks from "../store/useNotebooks";

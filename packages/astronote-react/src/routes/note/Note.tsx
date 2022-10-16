@@ -30,7 +30,7 @@ export default function NoteScreen() {
 
   return (
     <>
-      <div className="flex-1">
+      <div className="flex-1 overflow-hidden">
         <NoteHeader note={note} />
         <NoteEditor note={note} />
       </div>

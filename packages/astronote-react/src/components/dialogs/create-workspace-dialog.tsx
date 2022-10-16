@@ -1,15 +1,15 @@
 import { FC, ReactNode, useCallback, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import InputField from "./common/InputField";
-import SubmitButton from "./common/SubmitButton";
+import InputField from "../common/input-field/input-field";
+import SubmitButton from "../common/button/submit-button";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { CreateWorkspaceInputs } from "../types/forms";
+import { CreateWorkspaceInputs } from "../../types/forms";
 import { FiSmile, FiX } from "react-icons/fi";
-import EmojiPicker from "./EmojiPicker";
-import ColorPicker from "./ColorPicker";
-import useWroksapces from "../store/useWorkspaces";
+import EmojiPicker from "../EmojiPicker";
+import ColorPicker from "../ColorPicker";
+import useWroksapces from "../../store/useWorkspaces";
 import { useNavigate } from "@tanstack/react-location";
 
 interface CreateWorkspaceDialogProps {
@@ -62,8 +62,8 @@ const CreateWorkspaceDialog: FC<CreateWorkspaceDialogProps> = (props) => {
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-30 bg-black/50" />
-        <Dialog.Content className="fixed left-1/2 top-20 z-40 w-screen max-w-[380px] -translate-x-1/2 rounded-xl border border-gray-100 bg-white shadow-2xl dark:border-gray-800 dark:bg-gray-900">
-          <header className="flex h-14 w-full items-center gap-2 border-b border-gray-100 px-4 dark:border-gray-800">
+        <Dialog.Content className="fixed left-1/2 top-20 z-40 w-screen max-w-[380px] -translate-x-1/2 rounded-xl border border-gray-200 bg-white shadow-2xl dark:border-gray-700 dark:bg-gray-900">
+          <header className="flex h-14 w-full items-center gap-2 border-b border-gray-200 px-4 dark:border-gray-700">
             <Dialog.Title className="flex-1 truncate text-lg font-medium">
               Create Workspace
             </Dialog.Title>
@@ -88,7 +88,7 @@ const CreateWorkspaceDialog: FC<CreateWorkspaceDialogProps> = (props) => {
                   color={color}
                   onChange={(c) => form.setValue("color", c)}
                 >
-                  <button className="flex h-10 w-full items-center gap-2 rounded-md border border-gray-100 bg-gray-50 px-2 text-left dark:border-gray-700 dark:bg-gray-800">
+                  <button className="flex h-10 w-full items-center gap-2 rounded-md border border-gray-200 bg-gray-50 px-2 text-left dark:border-gray-700 dark:bg-gray-800">
                     <div
                       className="h-6 w-6 rounded-md"
                       style={{
@@ -109,7 +109,7 @@ const CreateWorkspaceDialog: FC<CreateWorkspaceDialogProps> = (props) => {
                       if (emoji) form.setValue("emoji", emoji.emoji);
                     }}
                   >
-                    <button className="h-10 w-full rounded-md border border-gray-100 bg-gray-50 px-2 text-left text-2xl dark:border-gray-700 dark:bg-gray-800">
+                    <button className="h-10 w-full rounded-md border border-gray-200 bg-gray-50 px-2 text-left text-2xl dark:border-gray-700 dark:bg-gray-800">
                       {form.watch("emoji") || <FiSmile />}
                     </button>
                   </EmojiPicker>

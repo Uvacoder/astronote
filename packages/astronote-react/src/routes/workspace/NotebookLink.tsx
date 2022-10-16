@@ -3,8 +3,8 @@ import clsx from "clsx";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { useDrop, useDrag } from "react-dnd";
 import { FiChevronDown, FiChevronRight } from "react-icons/fi";
-import ContextMenu from "../../components/ContextMenu";
-import NotebookIcon from "../../components/NotebookIcon";
+import ContextMenu from "../../components/context-menu";
+import NotebookIcon from "../../components/notebook-icon";
 import useNotebookContextMenu from "../../hooks/useNotebookContextMenu";
 import useNotebooks from "../../store/useNotebooks";
 import useNotes from "../../store/useNotes";
@@ -90,35 +90,39 @@ export const NotebookLink = (props: NotebookLinkProps) => {
     [notebook, allNotebooks, getNotebookParentId]
   );
 
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: ["note", "notebook"],
-    drop: () => notebook,
-    collect(monitor) {
-      return {
-        isOver: monitor.isOver(),
-      };
-    },
-  }));
+  const [{ isOver }, drop] = useDrop(
+    () => ({
+      accept: ["note", "notebook"],
+      drop: () => notebook,
+      collect(monitor) {
+        return {
+          isOver: monitor.isOver(),
+        };
+      },
+    }),
+    [notebook]
+  );
 
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: "notebook",
-    item: notebook,
-    end: (item, monitor) => {
-      const dropResult = monitor.getDropResult<Notebook>();
-      console.log({ item, dropResult });
-      if (dropResult) {
-        if (item.parentId === dropResult.id) return;
-        updateNotebook(item.id, {
-          parentId: dropResult.id,
-        });
-      }
-    },
-    collect(monitor) {
-      return {
-        isDragging: monitor.isDragging(),
-      };
-    },
-  }));
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: "notebook",
+      item: notebook,
+      end: (item, monitor) => {
+        const dropResult = monitor.getDropResult<Notebook>();
+        if (dropResult && item.parentId !== dropResult.id) {
+          updateNotebook(item.id, {
+            parentId: dropResult.id,
+          });
+        }
+      },
+      collect(monitor) {
+        return {
+          isDragging: monitor.isDragging(),
+        };
+      },
+    }),
+    [notebook, updateNotebook]
+  );
 
   useEffect(() => {
     if (selectedNote && isThisNoteMyChild(selectedNote)) {
@@ -154,7 +158,7 @@ export const NotebookLink = (props: NotebookLinkProps) => {
               <Link
                 to={`notebooks/${notebook.id}`}
                 className={clsx(
-                  "group flex select-none items-center gap-3 rounded-md py-1 pl-8 pr-3"
+                  "group flex cursor-default select-none items-center gap-3 rounded-md py-1 pl-8 pr-3"
                 )}
                 getActiveProps={() => ({
                   className: "bg-gray-100 dark:bg-gray-800",
@@ -182,7 +186,7 @@ export const NotebookLink = (props: NotebookLinkProps) => {
         </ContextMenu>
         {childCount > 0 && (
           <button
-            className="absolute top-1/2 flex h-full w-5 -translate-y-1/2 items-center justify-center text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+            className="absolute top-1/2 flex h-full w-5 -translate-y-1/2 cursor-default items-center justify-center text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
             onClick={() => setExpand((value) => !value)}
             style={{
               left: `${depth + 0.5}rem`,
@@ -194,7 +198,7 @@ export const NotebookLink = (props: NotebookLinkProps) => {
       </div>
 
       <nav
-        className={clsx("relative space-y-px", {
+        className={clsx("relative space-y-px pt-px", {
           block: expand,
           hidden: !expand,
           "pointer-events-none": isDragging,

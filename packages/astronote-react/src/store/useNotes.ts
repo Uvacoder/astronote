@@ -72,6 +72,7 @@ const useNotes = create<NotesStore>((set, get) => ({
         ...state,
         notes: state.notes.map((item) => (item.id === id ? updatedNote : item)),
       }));
+      console.log("NOTE UPDATE SUCCESS");
       return updatedNote;
     } catch (e) {
       console.log("FAILED TO UPDATE NOTE", e);

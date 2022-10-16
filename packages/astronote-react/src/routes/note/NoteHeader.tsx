@@ -6,8 +6,8 @@ import {
   MdStar,
   MdStarOutline,
 } from "react-icons/md";
-import IconButton from "../../components/icon-button";
-import PageHeader from "../../components/PageHeader";
+import IconButton from "../../components/common/button/icon-button";
+import PageHeader from "../../components/page-header";
 import useNotebooks from "../../store/useNotebooks";
 import useNotes from "../../store/useNotes";
 import iBroadCrumb from "../../types/broadCrumb";

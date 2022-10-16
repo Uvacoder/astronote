@@ -1,8 +1,8 @@
 import { useNavigate } from "@tanstack/react-location";
 import { FC, useCallback } from "react";
 import { FiPlus, FiMoreHorizontal } from "react-icons/fi";
-import IconButton from "../../components/icon-button";
-import PageHeader from "../../components/PageHeader";
+import IconButton from "../../components/common/button/icon-button";
+import PageHeader from "../../components/page-header";
 import useNotes from "../../store/useNotes";
 import getNotePath from "../../utils/getNotePath";
 

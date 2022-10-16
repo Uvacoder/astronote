@@ -1,6 +1,6 @@
 import { Outlet, useMatch } from "@tanstack/react-location";
 import { LocationGenerics } from "../../types/locationGenerics";
-import NotesAndFoldersTable from "../../components/NotesAndFoldersTable";
+import FilesList from "../../components/files-list";
 import useNotes from "../../store/useNotes";
 import AllNotesHeader from "./AllNotesHeader";
 
@@ -24,7 +24,9 @@ export default function AllNotes() {
       <div className="flex flex-1 flex-col">
         <AllNotesHeader workspaceId={workspaceId} />
         <div className="flex-1 overflow-y-auto">
-          <NotesAndFoldersTable notes={notes} showParentNotebook />
+          <div className="mx-auto max-w-4xl p-4">
+            <FilesList notes={notes} showParentNotebook />
+          </div>
         </div>
       </div>
       <Outlet />

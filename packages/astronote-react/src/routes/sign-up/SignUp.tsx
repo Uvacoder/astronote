@@ -5,9 +5,9 @@ import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { signUpAsync } from "../../api/authApi";
-import AuthHeader from "../../components/AuthHeader";
-import InputField from "../../components/common/InputField";
-import SubmitButton from "../../components/common/SubmitButton";
+import AuthHeader from "../../components/auth-header";
+import InputField from "../../components/common/input-field/input-field";
+import SubmitButton from "../../components/common/button/submit-button";
 import { useAuth } from "../../contexts/authContext";
 import { SignUpInputs } from "../../types/forms";
 

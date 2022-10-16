@@ -23,7 +23,7 @@ const AuthLayout = () => {
 
   return (
     <>
-      <header className="flex h-14 items-center gap-8 border-b border-gray-200 px-6 dark:border-gray-700">
+      <header className="flex h-14 items-center gap-8 border-b border-gray-100 px-6 dark:border-gray-800">
         <Link to="/">
           <a className="text-xl font-semibold">Astronote</a>
         </Link>
@@ -36,7 +36,7 @@ const AuthLayout = () => {
           </Link>
           <Link
             to="/signup"
-            className="flex h-10 items-center rounded-md border border-gray-200 px-4 font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-50"
+            className="flex h-10 items-center rounded-md border border-gray-100 px-4 font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-50"
           >
             Sign Up
           </Link>

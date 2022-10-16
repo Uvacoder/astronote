@@ -1,5 +1,5 @@
 import { Outlet, useMatch } from "@tanstack/react-location";
-import NotesAndFoldersTable from "../../components/NotesAndFoldersTable";
+import FilesList from "../../components/files-list";
 import useNotes from "../../store/useNotes";
 import { LocationGenerics } from "../../types/locationGenerics";
 import StarredNotesHeader from "./StarredNotesHeader";
@@ -23,10 +23,12 @@ export default function StarredNotes() {
 
   return (
     <>
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col overflow-hidden">
         <StarredNotesHeader workspaceId={workspaceId} />
         <div className="flex-1 overflow-y-auto">
-          <NotesAndFoldersTable notes={notes} showParentNotebook />
+          <div className="mx-auto max-w-4xl p-4">
+            <FilesList notes={notes} showParentNotebook />
+          </div>
         </div>
       </div>
       <Outlet />

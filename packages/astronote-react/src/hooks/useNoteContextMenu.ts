@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { MenuItem } from "../components/ContextMenu";
+import { MenuItem } from "../components/context-menu";
 import { useAlert } from "../contexts/alertContext";
 import useNotes from "../store/useNotes";
 import Note from "../types/note";
