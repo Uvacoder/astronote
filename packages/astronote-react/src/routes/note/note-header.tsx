@@ -43,7 +43,7 @@ const NoteHeader: FC<NoteHeaderProps> = ({ note }) => {
         noteBroadCrumbItem,
       ];
     }
-      
+
     const getParenNotebook = (file: Notebook): iBroadCrumb[] => {
       const parent = allNotebooks.find((item) => item.id === file.parentId);
       return [
@@ -88,13 +88,13 @@ const NoteHeader: FC<NoteHeaderProps> = ({ note }) => {
 
   return (
     <PageHeader broadCrumbs={broadCrumbs} activeId={note.id}>
-      <IconButton className="cursor-default" onClick={handleTogglePinned}>
+      <IconButton onClick={handleTogglePinned}>
         {note.isPinned ? <MdPushPin /> : <MdOutlinePushPin />}
       </IconButton>
-      <IconButton className="cursor-default" onClick={handleToggleFavorite}>
+      <IconButton onClick={handleToggleFavorite}>
         {note.isFavorite ? <MdStar /> : <MdStarOutline />}
       </IconButton>
-      <IconButton className="cursor-default">
+      <IconButton>
         <MdMoreVert />
       </IconButton>
     </PageHeader>

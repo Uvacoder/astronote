@@ -58,9 +58,9 @@ const DialogsProvider: FC<PropsWithChildren> = (props) => {
         >
           <DialogPremitives.Portal>
             <DialogPremitives.Overlay className="fixed inset-0 z-30 bg-black/50" />
-            <DialogPremitives.Content className="fixed left-1/2 top-24 z-40 -translate-x-1/2 rounded-xl border border-gray-200 bg-white shadow-2xl shadow-black/50 dark:border-gray-700 dark:bg-gray-900">
-              <div className="flex items-center gap-2 border-b border-gray-200 py-2 pl-4 pr-2 dark:border-gray-700">
-                <DialogPremitives.Title className="flex-1 text-xl font-medium">
+            <DialogPremitives.Content className="fixed left-1/2 top-24 z-40 min-w-fit max-w-full -translate-x-1/2 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-2xl  shadow-black/50 dark:border-gray-700 dark:bg-gray-900">
+              <div className="flex w-full items-center gap-2 overflow-hidden border-b border-gray-200 py-2 pl-4 pr-2 dark:border-gray-700">
+                <DialogPremitives.Title className="flex-1 truncate text-xl font-medium">
                   {dialog.title}
                 </DialogPremitives.Title>
                 <DialogPremitives.Close asChild>

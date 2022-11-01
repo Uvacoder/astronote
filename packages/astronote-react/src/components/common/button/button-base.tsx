@@ -37,7 +37,7 @@ const ButtonBase = forwardRef<HTMLButtonElement, ButtonBaseProps>(
         {...rest}
         disabled={isDisabled}
         className={clsx(
-          "cursor-default disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-600 dark:disabled:bg-gray-700 dark:disabled:text-gray-400",
+          "disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-600 dark:disabled:bg-gray-700 dark:disabled:text-gray-400",
           {
             "text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-50":
               colorScheme === "default",

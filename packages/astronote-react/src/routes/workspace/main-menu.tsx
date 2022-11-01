@@ -57,7 +57,7 @@ const MainMenu: FC<MainMenuProps> = ({ workspaceId }) => {
         <Link
           key={i}
           to={item.to}
-          className="flex cursor-default items-center gap-3 rounded-md px-3 py-1.5"
+          className="flex items-center gap-3 rounded-md px-3 py-1.5"
           getActiveProps={() => ({
             className: "bg-gray-100 dark:bg-gray-800",
           })}

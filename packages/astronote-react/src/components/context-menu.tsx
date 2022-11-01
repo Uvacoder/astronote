@@ -43,7 +43,10 @@ export const ContextMenu: FC<ContextMenuWrapperProps> = (props) => {
     <CM.Root>
       <CM.Trigger asChild>{children}</CM.Trigger>
       <CM.Portal>
-        <CM.Content className="min-w-[120px] max-w-xs rounded-lg border border-gray-200 bg-white p-1.5 shadow-2xl shadow-black/50 dark:border-gray-700 dark:bg-gray-900">
+        <CM.Content
+          collisionPadding={16}
+          className="z-50 min-w-[160px] max-w-xs rounded-lg bg-white py-2 shadow-2xl shadow-black/50 ring-1 ring-gray-200 dark:bg-gray-900 dark:ring-gray-700"
+        >
           <ContextMenuItems items={items} />
         </CM.Content>
       </CM.Portal>
@@ -87,7 +90,11 @@ export const ContextMenuSub: FC<MenuSub> = (props) => {
           <FiChevronRight className="text-lg" />
         </ItemButton>
       </CM.SubTrigger>
-      <CM.SubContent className="min-w-[120px] max-w-xs rounded-lg border border-gray-200 bg-white p-1.5 shadow-2xl shadow-black/50 dark:border-gray-700 dark:bg-gray-900">
+      <CM.SubContent
+        alignOffset={-8}
+        collisionPadding={16}
+        className="min-w-[140px] max-w-xs rounded-lg bg-white py-2 shadow-2xl shadow-black/50 ring-1 ring-gray-200 dark:bg-gray-900 dark:ring-gray-700"
+      >
         <ContextMenuItems items={items} />
       </CM.SubContent>
     </CM.Sub>
@@ -134,7 +141,7 @@ export const ItemButton = forwardRef<HTMLButtonElement, ItemButtonProps>(
     return (
       <button
         className={clsx(
-          "hover:bg-primary-500 focus:bg-primary-500 flex h-8 w-full cursor-default items-center rounded px-3 text-left text-gray-600 outline-none hover:text-white focus:text-white dark:text-gray-300 dark:hover:text-white dark:focus:text-white",
+          "hover:bg-primary-500 focus:bg-primary-500 flex h-8 w-full items-center px-3 text-left text-gray-600 outline-none hover:text-white focus:text-white dark:text-gray-300 dark:hover:text-white dark:focus:text-white",
           className
         )}
         {...rest}

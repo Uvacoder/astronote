@@ -75,14 +75,6 @@ export default function useNotebookContextMenu() {
       },
       {
         type: "button",
-        label: "Copy Link",
-        onClick: () => copyLink(notebook),
-      },
-      {
-        type: "separator",
-      },
-      {
-        type: "button",
         label: "Edit",
         onClick: () => {
           dialog.showDialog({
@@ -93,6 +85,12 @@ export default function useNotebookContextMenu() {
           });
         },
       },
+      {
+        type: "button",
+        label: "Move to",
+        onClick: () => {},
+      },
+      { type: "separator" },
       {
         type: "button",
         label: "Delete",
@@ -129,8 +127,8 @@ export default function useNotebookContextMenu() {
 
   return {
     getItems,
-    createNote: handleCreateNote,
-    createNotebook: handleCreateNotebook,
+    handleCreateNote,
+    handleCreateNotebook,
     deleteNotebook,
     editNotebook,
     copyLink,

@@ -78,13 +78,13 @@ const NotebookHeader: FC<NotebookHeaderProps> = ({ notebook }) => {
 
   return (
     <PageHeader broadCrumbs={broadCrumbs} activeId={notebook.id}>
-      <IconButton className="cursor-default" onClick={handleCreateNotebook}>
+      <IconButton onClick={handleCreateNotebook}>
         <FiFolderPlus />
       </IconButton>
-      <IconButton className="cursor-default" onClick={handleCreateNote}>
+      <IconButton onClick={handleCreateNote}>
         <FiFilePlus />
       </IconButton>
-      <IconButton className="cursor-default">
+      <IconButton>
         <FiMoreHorizontal />
       </IconButton>
     </PageHeader>

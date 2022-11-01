@@ -48,9 +48,7 @@ export const NoteLink = (props: NoteLinkProps) => {
       >
         <Link
           to={`notes/${note.id}`}
-          className={clsx(
-            "flex cursor-default items-center gap-3 rounded-md py-1 pl-3 pr-3"
-          )}
+          className={clsx("flex items-center gap-3 rounded-md py-1 pl-3 pr-3")}
           getActiveProps={() => ({
             className: "bg-gray-100 dark:bg-gray-800",
           })}

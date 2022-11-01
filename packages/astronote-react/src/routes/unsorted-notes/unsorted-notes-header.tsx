@@ -34,10 +34,10 @@ const UnsortedNotesHeader: FC<UnsortedNotesHeaderProps> = ({ workspaceId }) => {
         },
       ]}
     >
-      <IconButton className="cursor-default" onClick={handleCreateNote}>
+      <IconButton onClick={handleCreateNote}>
         <FiPlus />
       </IconButton>
-      <IconButton className="cursor-default">
+      <IconButton>
         <FiMoreHorizontal />
       </IconButton>
     </PageHeader>

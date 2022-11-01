@@ -58,17 +58,14 @@ const NoteRow = ({
       >
         <Link
           to={getNotePath(note)}
-          className="grid cursor-default grid-cols-5 items-center gap-4 rounded-md px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+          className="grid grid-cols-5 items-center gap-4 rounded-md px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800"
         >
           <div className="col-span-3 flex items-center gap-4">
             <span className="text-2xl">
               <NoteIcon note={note} />
             </span>
             <div className="flex-1 overflow-hidden">
-              <p className="truncate">
-                {note.title || "Untitled"}
-                {note.notebookId}
-              </p>
+              <p className="truncate">{note.title || "Untitled"}</p>
               <div className="flex flex-wrap items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
                 {!!parentNotebook && (
                   <span className="flex items-center gap-1">

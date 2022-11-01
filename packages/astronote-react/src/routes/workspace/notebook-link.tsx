@@ -158,7 +158,7 @@ export const NotebookLink = (props: NotebookLinkProps) => {
               <Link
                 to={`notebooks/${notebook.id}`}
                 className={clsx(
-                  "group flex cursor-default select-none items-center gap-3 rounded-md py-1 pl-8 pr-3"
+                  "group flex select-none items-center gap-3 rounded-md py-1 pl-8 pr-3"
                 )}
                 getActiveProps={() => ({
                   className: "bg-gray-100 dark:bg-gray-800",
@@ -186,7 +186,7 @@ export const NotebookLink = (props: NotebookLinkProps) => {
         </ContextMenu>
         {childCount > 0 && (
           <button
-            className="absolute top-1/2 flex h-full w-5 -translate-y-1/2 cursor-default items-center justify-center text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+            className="absolute top-1/2 flex h-full w-5 -translate-y-1/2 items-center justify-center text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
             onClick={() => setExpand((value) => !value)}
             style={{
               left: `${depth + 0.5}rem`,

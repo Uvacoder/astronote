@@ -61,7 +61,7 @@ const AlertProvider: FC<PropsWithChildren> = (props) => {
             <AlertDialog.Description className="mb-4 text-gray-600 dark:text-gray-300">
               {alert?.message}
             </AlertDialog.Description>
-            <div className="flex w-full items-center justify-end gap-2">
+            <div className="flex w-full flex-wrap items-center justify-end gap-2">
               {alert?.actions ? (
                 alert.actions.map((action) => {
                   switch (action.style) {

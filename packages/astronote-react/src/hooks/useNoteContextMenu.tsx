@@ -49,7 +49,7 @@ export default function useNoteContextMenu() {
         : [
             {
               type: "button",
-              label: note.isPinned ? "Remove from Sidebar" : "Pin to sidebar",
+              label: note.isPinned ? "Unpin" : "Pin",
               onClick: () => {
                 updateNote(note.id, {
                   isPinned: !note.isPinned,
@@ -58,9 +58,7 @@ export default function useNoteContextMenu() {
             },
             {
               type: "button",
-              label: note.isFavorite
-                ? "Remove from favorites"
-                : "Add to favorites",
+              label: note.isFavorite ? "Unstar" : "Star",
               onClick: () => {
                 updateNote(note.id, {
                   isFavorite: !note.isFavorite,
@@ -68,22 +66,6 @@ export default function useNoteContextMenu() {
               },
             },
             { type: "separator" },
-            {
-              type: "button",
-              label: "Duplicate",
-              onClick: () => {
-                createNote({
-                  workspaceId: note.workspaceId,
-                  notebookId: note.notebookId || undefined,
-                  content: note.content || undefined,
-                  isPinned: note.isPinned || undefined,
-                  isFavorite: note.isFavorite || undefined,
-                  description: note.description,
-                  meta: note.meta || undefined,
-                  title: note.title || undefined,
-                });
-              },
-            },
             {
               type: "button",
               label: "Copy Link",
@@ -116,6 +98,27 @@ export default function useNoteContextMenu() {
             },
             { type: "separator" },
             {
+              type: "button",
+              label: "Duplicate",
+              onClick: () => {
+                createNote({
+                  workspaceId: note.workspaceId,
+                  notebookId: note.notebookId || undefined,
+                  content: note.content || undefined,
+                  isPinned: note.isPinned || undefined,
+                  isFavorite: note.isFavorite || undefined,
+                  description: note.description,
+                  meta: note.meta || undefined,
+                  title: note.title || undefined,
+                });
+              },
+            },
+            {
+              type: "button",
+              label: "Move to",
+              onClick: () => {},
+            },
+            {
               type: "sub",
               label: "Export as",
               items: [
@@ -141,9 +144,10 @@ export default function useNoteContextMenu() {
                 },
               ],
             },
+            { type: "separator" },
             {
               type: "button",
-              label: "Move to Trash",
+              label: "Delete",
               onClick: () => {
                 updateNote(note.id, {
                   isDeleted: true,

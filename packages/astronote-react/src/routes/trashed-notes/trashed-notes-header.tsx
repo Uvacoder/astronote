@@ -19,7 +19,7 @@ const TrashedNotesHeader: FC<TrashedNotesHeaderProps> = ({ workspaceId }) => {
         },
       ]}
     >
-      <IconButton className="cursor-default">
+      <IconButton>
         <FiMoreHorizontal />
       </IconButton>
     </PageHeader>
